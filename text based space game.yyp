@@ -2,11 +2,8 @@
   "resources": [
     {"id":{"name":"test_fuck","path":"objects/test_fuck/test_fuck.yy",},"order":4,},
     {"id":{"name":"__macros","path":"scripts/__macros/__macros.yy",},"order":0,},
-    {"id":{"name":"s_playerhead","path":"sprites/s_playerhead/s_playerhead.yy",},"order":1,},
-    {"id":{"name":"o_cumguzzling_slut","path":"objects/o_cumguzzling_slut/o_cumguzzling_slut.yy",},"order":3,},
     {"id":{"name":"rm_global_init","path":"rooms/rm_global_init/rm_global_init.yy",},"order":0,},
     {"id":{"name":"o_controller","path":"objects/o_controller/o_controller.yy",},"order":2,},
-    {"id":{"name":"s_playerbody_idle","path":"sprites/s_playerbody_idle/s_playerbody_idle.yy",},"order":0,},
     {"id":{"name":"o_global_init","path":"objects/o_global_init/o_global_init.yy",},"order":0,},
     {"id":{"name":"__sector_gen","path":"scripts/__sector_gen/__sector_gen.yy",},"order":1,},
     {"id":{"name":"o_local_init","path":"objects/o_local_init/o_local_init.yy",},"order":1,},
@@ -62,7 +59,7 @@
   ],
   "IncludedFiles": [],
   "MetaData": {
-    "IDEVersion": "2.3.2.560",
+    "IDEVersion": "23.1.1.266",
   },
   "resourceVersion": "1.4",
   "name": "text based space game",
