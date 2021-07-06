@@ -1,6 +1,5 @@
 {
   "resources": [
-    {"id":{"name":"test_fuck","path":"objects/test_fuck/test_fuck.yy",},"order":4,},
     {"id":{"name":"__macros","path":"scripts/__macros/__macros.yy",},"order":0,},
     {"id":{"name":"rm_global_init","path":"rooms/rm_global_init/rm_global_init.yy",},"order":0,},
     {"id":{"name":"o_controller","path":"objects/o_controller/o_controller.yy",},"order":2,},
