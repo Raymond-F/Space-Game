@@ -1,5 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
+draw_set_font(fnt_dialogue);
 draw_set_color(c_yellow);
 //draw lines
 for(var i = 0; i < ds_list_size(sector); i++){

@@ -7,13 +7,15 @@ draw_sprite(s_dialogue_pane, 0, x, y);
 
 var border_size = 3;
 var lborder = border_size;
-var rborder = sprite_width-border_size;
+var rborder = width-border_size;
 var tborder = border_size;
-var bborder = sprite_height-border_size;
+var bborder = height-border_size;
 var avatar_width = 295;
 var avatar_height = 346;
 var speaker_box_height = 40;
 var text_padding = 20;
+var offset = 0;
+var text_maxwidth = width-border_size*2 - avatar_width - text_padding*2;
 
 
 if(avatar != noone){
@@ -26,5 +28,9 @@ draw_set_color(C_DIALOGUE);
 draw_set_alpha(1);
 draw_align_center();
 draw_text(x + (border_size*2+avatar_width)/2, y + (border_size*2+avatar_height*2-speaker_box_height)/2, speaker);
+if(cost_string != ""){
+	draw_text_special(x + border_size*2 + avatar_width + text_padding + text_maxwidth/2, y + border_size + text_padding, cost_string, fa_center, fa_middle, fnt_dialogue);
+	offset += text_padding;
+}
 draw_align_reset();
-draw_text_ext(x + border_size*2 + avatar_width + text_padding, y + border_size + text_padding, text, -1, sprite_width-border_size*2 - avatar_width - text_padding*2);
+draw_text_ext(x + border_size*2 + avatar_width + text_padding, y + border_size + text_padding + offset, text, -1, text_maxwidth);

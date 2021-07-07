@@ -34,3 +34,9 @@ function draw_align_reset() {
 }
 
 #macro C_DIALOGUE $F8F8F8
+#macro C_COST $4444AA
+#macro C_GAIN $44AA44
+#macro C_WARNING $FFFF44
+
+#macro ICON_WIDTH 16
+#macro ICON_HEIGHT 16

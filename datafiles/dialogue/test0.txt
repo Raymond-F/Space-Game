@@ -10,6 +10,10 @@ OPTION
 Ask a different question. This gives the same node as the previous.
 $ASK2
 OPTION
+Here's 200 PIX.
+SHOWLOSS pix 200
+$PAY
+OPTION
 Goodbye.
 $END
 
@@ -23,6 +27,13 @@ ASK2
 This is another answer to your question!
 OPTION
 Neato.
+$START
+
+PAY
+Thanks!
+LOSE pix 200
+OPTION
+I love getting findommed.
 $START
 
 END

@@ -3,18 +3,22 @@
 
 //option for the player to select. Contains text and a link to another node.
 //if the link is empty, it closes the dialogue instead.
-function dsys_option(_text, _link) constructor {
+function dsys_option(_text, _link, _costs, _gains) constructor {
 	text = _text;
 	link = _link;
+	costs = _costs;
+	gains = _gains;
 }
 
 //a node of dialogue, including main text and all option objects
 //options is generally going to be an array.
-function dsys_node(_name, _text, _options) constructor {
+function dsys_node(_name, _text, _options, _costs, _gains) constructor {
 	name = _name; //used to hash the node into a map
 	text = _text;
 	options = [];
 	speaker = "Person";
+	costs = _costs;
+	gains = _gains;
 	if(is_array(_options)){
 		options = array_create(array_length(_options));
 		for(var i = 0; i < array_length(_options); i++){
@@ -25,7 +29,7 @@ function dsys_node(_name, _text, _options) constructor {
 		options = [_options];
 	}
 	else {
-		options = [dsys_option("<UNDEFINED OPTION ARRAY>", "")];
+		options = [dsys_option("<UNDEFINED OPTION ARRAY>", "", [], [])];
 	}
 }
 
@@ -80,6 +84,8 @@ function dsys_parse_node_from_array(arr){
 	var text = arr[1]; //the first two lines are always the node name and the text
 	var line = 2;
 	var options = [];
+	var costs = [];
+	var gains = []
 	while(line < array_length(arr)){
 		var s = arr[line];
 		if(state == GET_TYPE){
@@ -89,35 +95,67 @@ function dsys_parse_node_from_array(arr){
 		}
 		else {
 			if (string_get_first_word(INPUT_TYPE) == "GAIN") {
-				
+				var command = "GAIN";
+				var post_command = string_copy(INPUT_TYPE, string_length(command)+2, string_length(INPUT_TYPE)-string_length(command));
+				var res = string_get_first_word(post_command);
+				var gain = array_create(2);
+				gain[0] = res;
+				var amt = string_copy(post_command, string_length(res)+2, string_length(post_command)-string_length(res));
+				gain[1] = int64(amt);
+				gains[array_length(gains)] = gain;
 			}
 			else if (string_get_first_word(INPUT_TYPE) == "LOSE") {
-				
+				var command = "LOSE";
+				var post_command = string_copy(INPUT_TYPE, string_length(command)+2, string_length(INPUT_TYPE)-string_length(command));
+				var res = string_get_first_word(post_command);
+				var cost = array_create(2);
+				cost[0] = res;
+				var amt = string_copy(post_command, string_length(res)+2, string_length(post_command)-string_length(res));
+				cost[1] = int64(amt);
+				costs[array_length(costs)] = cost;
 			}
 			else if (INPUT_TYPE == "OPTION"){
 				var opt_text = s;
 				var opt_link = "";
+				var opt_costs = [];
+				var opt_gains = [];
 				do {
 					line++;
 					s = arr[line];
 					var command = string_get_first_word(s);
 					switch (command) {
-						case "SHOWGAIN" : break;
-						case "SHOWLOSS" : break;
+						case "SHOWGAIN" : {
+							var post_command = string_copy(s, string_length(command)+1, string_length(s)-string_length(command));
+							var res = string_get_first_word(post_command);
+							var gain = array_create(2);
+							gain[0] = res;
+							var amt = string_copy(post_command, string_length(res)+2, string_length(post_command)-string_length(res));
+							gain[1] = int64(amt);
+							opt_gains[array_length(opt_gains)] = gain;
+						} break;
+						case "SHOWLOSS" : {
+							var post_command = string_copy(s, string_length(command)+2, string_length(s)-string_length(command));
+							var res = string_get_first_word(post_command);
+							var cost = array_create(2);
+							cost[0] = res;
+							var amt = string_copy(post_command, string_length(res)+2, string_length(post_command)-string_length(res));
+							cost[1] = int64(amt);
+							opt_costs[array_length(opt_costs)] = cost;
+						} break;
 						case "EXIT" : break;
 						default : {
 							if (string_char_at(command, 1) == "$") {
 								opt_link = string_copy(command, 2, string_length(command)-1);
 							}
-						}
+						} break;
 					}
 				} until (s == "" || s == "OPTION" || line >= array_length(arr)-1);
-				options[array_length(options)] = new dsys_option(opt_text, opt_link);
+				options[array_length(options)] = new dsys_option(opt_text, opt_link, opt_costs, opt_gains);
 			}
 			state = GET_TYPE;
 		}
 	}
-	var n = new dsys_node(name, text, options);
+	var n = new dsys_node(name, text, options, costs, gains);
 	return n;
 }
 
@@ -145,14 +183,49 @@ function dsys_set_node(window, node_name) {
 	window.text = node.text;
 	window.speaker = node.speaker;
 	window.options = node.options;
+	window.gains = node.gains;
+	window.costs = node.costs;
+	window.cost_string = format_costs_window(window.costs);
 	for(var i = 0; i < array_length(window.options); i++){
 		var opt = window.options[i];
-		var button = instance_create(0,0,o_dialogue_optionbutton);
-		button.text = opt.text;
-		button.link = opt.link;
-		button.parent = window;
-		button.index = i;
+		var button = format_optionbutton(opt, i, window);
 	}
+}
+
+function dsys_option_modify_resources(_costs, _gains){
+	for(var i = 0; i < array_length(_costs); i++){
+		modify_resource(_costs[i][0], -1 * _costs[i][1]);
+	}
+	for(var i = 0; i < array_length(_gains); i++){
+		modify_resource(_gains[i][0], _gains[i][1]);
+	}
+}
+
+function format_optionbutton(_opt, _index, _window){
+	var button = instance_create(0,0,o_dialogue_optionbutton);
+	button.text = _opt.text;
+	button.link = _opt.link;
+	button.gains = _opt.gains;
+	button.costs = _opt.costs;
+	button.cost_string = format_costs(button.costs);
+	button.gain_string = format_gains(button.gains);
+	button.parent = _window;
+	button.index = _index;
+	//check whether the button will be pressable
+	button.active = true;
+	for(var i = 0; i < array_length(button.costs); i++){
+		var cost = button.costs[i];
+		var res = cost[0];
+		var amt = cost[1];
+		if (query_resource(res) < amt){
+			button.active = false;
+		}
+	}
+	button.activity_string = "";
+	if(!button.active){
+		button.activity_string = ts_colour(C_WARNING) + "(Not enough resources)";
+	}
+	return button;
 }
 
 // helper function to get first word of a string
@@ -162,4 +235,59 @@ function string_get_first_word(str) {
 		return str;
 	}
 	else return string_copy(str, 1, space_index-1);
+}
+
+//takes a cost array and formats a string for the relevant option button to print
+function format_costs(cost_array) {
+	if(array_length(cost_array) == 0){
+		return "";
+	}
+	var text = ts_colour(C_COST);
+	for(var i = 0; i < array_length(cost_array); i++) {
+		if(i > 0){
+			text += ts_colour(C_DIALOGUE) + "," + ts_colour(C_COST);
+		}
+		var cost = cost_array[i];
+		var res = cost[0];
+		var amt = cost[1];
+		text += fetch_sprite_atex(res) + string(amt);
+	}
+	return text;
+}
+
+//takes a gains array and formats a string for the relevant option button to print
+function format_gains(gains_array) {
+	if(array_length(gains_array) == 0){
+		return "";
+	}
+	var text = ts_colour(C_DIALOGUE) + "You will get:" + ts_colour(C_GAIN);
+	for(var i = 0; i < array_length(gains_array); i++) {
+		if(i > 0){
+			text += ","
+		}
+		var gain = gains_array[i];
+		var res = gain[0];
+		var amt = gain[1];
+		text += fetch_sprite_atex(res) + string(amt);
+	}
+	return text;
+}
+
+//takes a cost array and formats a string for the relevant dialogue window to print
+function format_costs_window(cost_array) {
+	if(array_length(cost_array) == 0){
+		return "";
+	}
+	var text = ts_colour(C_COST) + "You lost:" + ts_colour(C_DIALOGUE);
+	for(var i = 0; i < array_length(cost_array); i++) {
+		if(i > 0){
+			text += ",";
+		}
+		text += " ";
+		var cost = cost_array[i];
+		var res = cost[0];
+		var amt = cost[1];
+		text += string(amt) + "x" + fetch_sprite_atex(res);
+	}
+	return text;
 }
