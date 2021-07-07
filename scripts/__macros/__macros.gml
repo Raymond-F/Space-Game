@@ -11,9 +11,9 @@
 #macro XVIEW camera_get_view_x(view_camera[0])
 #macro YVIEW camera_get_view_y(view_camera[0])
 #macro VIEW_LEFT camera_get_view_x(view_camera[0])
-#macro VIEW_RIGHT camera_get_view_x(view_camera[0]) + camera_get_view_width(view_camera[0])
+#macro VIEW_RIGHT (camera_get_view_x(view_camera[0]) + camera_get_view_width(view_camera[0]))
 #macro VIEW_TOP camera_get_view_y(view_camera[0])
-#macro VIEW_BOTTOM camera_get_view_y(view_camera[0]) + camera_get_view_height(view_camera[0])
+#macro VIEW_BOTTOM (camera_get_view_y(view_camera[0]) + camera_get_view_height(view_camera[0]))
 #macro VIEW_WIDTH camera_get_view_width(view_camera[0])
 #macro VIEW_HEIGHT camera_get_view_height(view_camera[0])
 #macro MOUSE_GUIX device_mouse_x_to_gui(0)
@@ -32,3 +32,5 @@ function draw_align_reset() {
 	draw_set_halign(fa_left);
 	draw_set_valign(fa_top);
 }
+
+#macro C_DIALOGUE $F8F8F8

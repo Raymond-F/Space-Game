@@ -1,0 +1,32 @@
+START
+Hello. This is the initial text page for testing a dialogue tree.
+OPTION
+Ask a question.
+$ASK
+OPTION
+Ask a different question.
+$ASK2
+OPTION
+Ask a different question. This gives the same node as the previous.
+$ASK2
+OPTION
+Goodbye.
+$END
+
+ASK
+This is an answer to your question.
+OPTION
+Ok.
+$START
+
+ASK2
+This is another answer to your question!
+OPTION
+Neato.
+$START
+
+END
+Be seeing you.
+OPTION
+[END DIALOGUE]
+EXIT
