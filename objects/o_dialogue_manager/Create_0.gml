@@ -9,3 +9,4 @@ depth = -10;
 width = sprite_get_width(s_dialogue_pane);
 height = sprite_get_height(s_dialogue_pane);
 cost_string = "";
+local_flags = ds_list_create();

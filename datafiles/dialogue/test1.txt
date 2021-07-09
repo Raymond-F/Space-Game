@@ -1,0 +1,53 @@
+START
+What's up my dude. We're gonna test some more keywords now.
+OPTION
+I just want you to know that I have at least 200 PIX.
+REQUIRE pix 200
+$FLASHPIX
+OPTION
+This option only shows up if you're poor!
+SHOWIF pix LTE 100
+$POOR
+OPTION
+This is testing flag setting.
+SHOWIFFLAG flag_test EQ 0
+$FLAG
+OPTION
+This is testing local flag setting.
+SHOWIFFLAG flag_test_local EQ 0
+$LOCALFLAG
+OPTION
+Goodbye.
+$END
+
+FLASHPIX
+Good for you.
+OPTION
+I know, right?
+$START
+
+POOR
+Poor ass.
+OPTION
+>:(
+$START
+
+FLAG
+I just set the flag to 1. Now you shouldn't be able to choose this option again.
+SETFLAG flag_test 1
+OPTION
+I didn't wanna select it again anyway.
+$START
+
+LOCALFLAG
+I just set the localflag to 1. You shouldn't be able to see it, but if you exit the dialogue and restart it should appear.
+SETFLAGLOCAL flag_test_local 1
+OPTION
+I'll back out and we'll see about that.
+$START
+
+END
+Be seeing you.
+OPTION
+[END DIALOGUE]
+EXIT

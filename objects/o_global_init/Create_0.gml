@@ -7,3 +7,4 @@ room_goto(room_next(room));
 randomize();
 global.sprite_map = initialize_sprite_map();
 global.pix = 0;
+global.flags = ds_map_create();

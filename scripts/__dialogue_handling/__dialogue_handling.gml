@@ -3,22 +3,26 @@
 
 //option for the player to select. Contains text and a link to another node.
 //if the link is empty, it closes the dialogue instead.
-function dsys_option(_text, _link, _costs, _gains) constructor {
+function dsys_option(_text, _link, _costs, _gains, _conds, _reqs) constructor {
 	text = _text;
 	link = _link;
 	costs = _costs;
 	gains = _gains;
+	conds = _conds; //conditions have the format [TYPE_MACRO, val1, comparator, val2]
+	reqs = _reqs;
 }
 
 //a node of dialogue, including main text and all option objects
 //options is generally going to be an array.
-function dsys_node(_name, _text, _options, _costs, _gains) constructor {
+function dsys_node(_name, _text, _options, _costs, _gains, _flags, _localflags) constructor {
 	name = _name; //used to hash the node into a map
 	text = _text;
 	options = [];
 	speaker = "Person";
 	costs = _costs;
 	gains = _gains;
+	flags = _flags;
+	localflags = _localflags;
 	if(is_array(_options)){
 		options = array_create(array_length(_options));
 		for(var i = 0; i < array_length(_options); i++){
@@ -49,6 +53,10 @@ function dsys_dialogue(_node_array) constructor {
 
 function dsys_parse_nodes_from_file(fname){
 	fname = "dialogue\\" + fname; //set to correct directory
+	if(!file_exists(fname)){
+		show_debug_message("ERROR: could not open file with filename: " + fname);
+		return noone;
+	}
 	var file = file_text_open_read(fname);
 	if(file < 0){
 		return noone;
@@ -85,7 +93,9 @@ function dsys_parse_node_from_array(arr){
 	var line = 2;
 	var options = [];
 	var costs = [];
-	var gains = []
+	var gains = [];
+	var flags = [];
+	var localflags = [];
 	while(line < array_length(arr)){
 		var s = arr[line];
 		if(state == GET_TYPE){
@@ -95,52 +105,57 @@ function dsys_parse_node_from_array(arr){
 		}
 		else {
 			if (string_get_first_word(INPUT_TYPE) == "GAIN") {
-				var command = "GAIN";
-				var post_command = string_copy(INPUT_TYPE, string_length(command)+2, string_length(INPUT_TYPE)-string_length(command));
-				var res = string_get_first_word(post_command);
-				var gain = array_create(2);
-				gain[0] = res;
-				var amt = string_copy(post_command, string_length(res)+2, string_length(post_command)-string_length(res));
-				gain[1] = int64(amt);
+				var tokens = string_tokenize(INPUT_TYPE);
+				var gain = [tokens[1], int64(tokens[2])];
 				gains[array_length(gains)] = gain;
 			}
 			else if (string_get_first_word(INPUT_TYPE) == "LOSE") {
-				var command = "LOSE";
-				var post_command = string_copy(INPUT_TYPE, string_length(command)+2, string_length(INPUT_TYPE)-string_length(command));
-				var res = string_get_first_word(post_command);
-				var cost = array_create(2);
-				cost[0] = res;
-				var amt = string_copy(post_command, string_length(res)+2, string_length(post_command)-string_length(res));
-				cost[1] = int64(amt);
+				var tokens = string_tokenize(INPUT_TYPE);
+				var cost = [tokens[1], int64(tokens[2])];
 				costs[array_length(costs)] = cost;
+			}
+			else if (string_get_first_word(INPUT_TYPE) == "SETFLAG") {
+				var tokens = string_tokenize(INPUT_TYPE);
+				var flag = [tokens[1], int64(tokens[2])];
+				flags[array_length(flags)] = flag;
+			}
+			else if (string_get_first_word(INPUT_TYPE) == "SETFLAGLOCAL") {
+				var tokens = string_tokenize(INPUT_TYPE);
+				var flag = [tokens[1], int64(tokens[2])];
+				localflags[array_length(flags)] = flag;
 			}
 			else if (INPUT_TYPE == "OPTION"){
 				var opt_text = s;
 				var opt_link = "";
 				var opt_costs = [];
 				var opt_gains = [];
+				var opt_conds = [];
+				var opt_reqs = [];
 				do {
 					line++;
 					s = arr[line];
-					var command = string_get_first_word(s);
-					switch (command) {
+					var tokens = string_tokenize(s);
+					var command = tokens[0];
+					switch (tokens[0]) {
+						case "REQUIRE" : {
+							var req = [tokens[1], int64(tokens[2])];
+							opt_reqs[array_length(opt_reqs)] = req;
+						}
 						case "SHOWGAIN" : {
-							var post_command = string_copy(s, string_length(command)+1, string_length(s)-string_length(command));
-							var res = string_get_first_word(post_command);
-							var gain = array_create(2);
-							gain[0] = res;
-							var amt = string_copy(post_command, string_length(res)+2, string_length(post_command)-string_length(res));
-							gain[1] = int64(amt);
+							var gain = [tokens[1], int64(tokens[2])];
 							opt_gains[array_length(opt_gains)] = gain;
 						} break;
 						case "SHOWLOSS" : {
-							var post_command = string_copy(s, string_length(command)+2, string_length(s)-string_length(command));
-							var res = string_get_first_word(post_command);
-							var cost = array_create(2);
-							cost[0] = res;
-							var amt = string_copy(post_command, string_length(res)+2, string_length(post_command)-string_length(res));
-							cost[1] = int64(amt);
+							var cost = [tokens[1], int64(tokens[2])];
 							opt_costs[array_length(opt_costs)] = cost;
+						} break;
+						case "SHOWIF" : {
+							var cond = [CONDTYPE_RESOURCE, tokens[1], tokens[2], int64(tokens[3])];
+							opt_conds[array_length(opt_conds)] = cond;
+						} break;
+						case "SHOWIFFLAG" : {
+							var cond = [CONDTYPE_FLAG, tokens[1], tokens[2], int64(tokens[3])];
+							opt_conds[array_length(opt_conds)] = cond;
 						} break;
 						case "EXIT" : break;
 						default : {
@@ -150,12 +165,13 @@ function dsys_parse_node_from_array(arr){
 						} break;
 					}
 				} until (s == "" || s == "OPTION" || line >= array_length(arr)-1);
-				options[array_length(options)] = new dsys_option(opt_text, opt_link, opt_costs, opt_gains);
+				options[array_length(options)] = 
+						new dsys_option(opt_text, opt_link, opt_costs, opt_gains, opt_conds, opt_reqs);
 			}
 			state = GET_TYPE;
 		}
 	}
-	var n = new dsys_node(name, text, options, costs, gains);
+	var n = new dsys_node(name, text, options, costs, gains, flags, localflags);
 	return n;
 }
 
@@ -169,6 +185,10 @@ function dsys_create_dialogue(filename) {
 }
 
 function dsys_initialize_window(filename) {
+	if(instance_exists(o_dialogue_manager)) {
+		show_debug_message("WARNING: Attempted to open second dialogue window.");
+		return; //don't open more than one dialogue window. Show debug since this shouldnt happen
+	}
 	var dialogue = dsys_create_dialogue(filename);
 	var manager = instance_create(0, 0, o_dialogue_manager);
 	manager.dialogue = dialogue;
@@ -185,19 +205,40 @@ function dsys_set_node(window, node_name) {
 	window.options = node.options;
 	window.gains = node.gains;
 	window.costs = node.costs;
+	window.flags = node.flags;
+	window.localflags = node.localflags;
 	window.cost_string = format_costs_window(window.costs);
+	dsys_modify_resources(window.costs, window.gains);
+	dsys_set_flags(window, window.flags, window.localflags);
+	var hidden_buttons = 0;
 	for(var i = 0; i < array_length(window.options); i++){
 		var opt = window.options[i];
-		var button = format_optionbutton(opt, i, window);
+		var button = format_optionbutton(opt, i-hidden_buttons, window);
+		if(!button.show) {
+			instance_destroy(button);
+			hidden_buttons++;
+		}
 	}
 }
 
-function dsys_option_modify_resources(_costs, _gains){
+function dsys_modify_resources(_costs, _gains){
 	for(var i = 0; i < array_length(_costs); i++){
 		modify_resource(_costs[i][0], -1 * _costs[i][1]);
 	}
 	for(var i = 0; i < array_length(_gains); i++){
 		modify_resource(_gains[i][0], _gains[i][1]);
+	}
+}
+
+function dsys_set_flags(_window, _flags, _localflags){
+	for(var i = 0; i < array_length(_flags); i++){
+		var flag = _flags[i];
+		flag_set(flag[0], flag[1]);
+	}
+	for(var i = 0; i < array_length(_localflags); i++){
+		var flag = _localflags[i];
+		flag_set(flag[0], flag[1]);
+		ds_list_add(_window.local_flags, flag[0]);
 	}
 }
 
@@ -207,6 +248,8 @@ function format_optionbutton(_opt, _index, _window){
 	button.link = _opt.link;
 	button.gains = _opt.gains;
 	button.costs = _opt.costs;
+	button.conds = _opt.conds;
+	button.reqs = _opt.reqs;
 	button.cost_string = format_costs(button.costs);
 	button.gain_string = format_gains(button.gains);
 	button.parent = _window;
@@ -221,11 +264,65 @@ function format_optionbutton(_opt, _index, _window){
 			button.active = false;
 		}
 	}
+	for(var i = 0; i < array_length(button.reqs); i++){
+		var req = button.reqs[i];
+		var res = req[0];
+		var amt = req[1];
+		if (query_resource(res) < amt){
+			button.active = false;
+		}
+	}
+	button.show = true;
+	for(var i = 0; i < array_length(button.conds); i++){
+		var cond = button.conds[i];
+		if(cond[0] == CONDTYPE_RESOURCE){
+			button.show = button.show && compare(query_resource(cond[1]), cond[2], cond[3]);
+		}
+		else if(cond[0] == CONDTYPE_FLAG){
+			button.show = button.show && compare(flag_get(cond[1]), cond[2], cond[3]);
+		}
+	}
 	button.activity_string = "";
 	if(!button.active){
 		button.activity_string = ts_colour(C_WARNING) + "(Not enough resources)";
 	}
 	return button;
+}
+
+// helper function that tokenizes a command string into an array of words
+function string_tokenize(str) {
+	var arr = [];
+	while(true){
+		var word = string_get_first_word(str);
+		str = string_copy(str, string_length(word)+2, string_length(str)-string_length(word));
+		arr[array_length(arr)] = word;
+		// When we've reached the last word, string_get_first_word will return the given string
+		if(word == str){
+			return arr;
+		}
+	}
+}
+
+//helper function to validate input typing and yell at you if you did it wrong
+function dsys_validate(tokens, validation) {
+	if(!is_array(tokens) || !is_array(validation)){
+		show_error("ArgumentError: Expected tokenized array for function dsys_validate", true);
+	}
+	else if(array_length(tokens) != array_length(validation)) {
+		show_error("ArgumentError: Length mismatch in function dsys_validate", true);
+	}
+	for(var i = 0; i < array_length(tokens); i++){
+		if(validation[i] == INT) {
+			if(!is_int64(tokens[i])) {
+				show_error("TypeError: Expected type INTEGER for argument " + string(i), true);
+			}
+		}
+		else if(validation[i] == STR) {
+			if(!is_string(tokens[i])) {
+				show_error("TypeError: Expected type STRING for argument " + string(i), true);
+			}
+		}
+	}
 }
 
 // helper function to get first word of a string
@@ -290,4 +387,17 @@ function format_costs_window(cost_array) {
 		text += string(amt) + "x" + fetch_sprite_atex(res);
 	}
 	return text;
+}
+
+//compare values based on 3 items: the two things to compare on the outer values and the comparator string inside
+function compare(val1, comparator, val2) {
+	switch(comparator) {
+		case "EQ": return val1 == val2; break;
+		case "GT": return val1 > val2; break;
+		case "GTE": return val1 >= val2; break;
+		case "LT": return val1 < val2; break;
+		case "LTE": return val1 <= val2; break;
+		case "NOT": return val1 != val2; break;
+		default: return false;
+	}
 }

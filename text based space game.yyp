@@ -29,6 +29,7 @@
     {"id":{"name":"s_testavatar","path":"sprites/s_testavatar/s_testavatar.yy",},"order":3,},
     {"id":{"name":"ts_outline","path":"scripts/ts_outline/ts_outline.yy",},"order":11,},
     {"id":{"name":"text_render","path":"scripts/text_render/text_render.yy",},"order":5,},
+    {"id":{"name":"__game_init","path":"scripts/__game_init/__game_init.yy",},"order":6,},
     {"id":{"name":"ts_shake","path":"scripts/ts_shake/ts_shake.yy",},"order":1,},
     {"id":{"name":"text_create_sprite","path":"scripts/text_create_sprite/text_create_sprite.yy",},"order":0,},
     {"id":{"name":"ts_effects","path":"scripts/ts_effects/ts_effects.yy",},"order":9,},
@@ -126,10 +127,11 @@
     {"isScaled":true,"autocrop":true,"border":2,"mipsToGenerate":0,"groupParent":null,"targets":-1,"resourceVersion":"1.3","name":"Default","resourceType":"GMTextureGroup",},
   ],
   "IncludedFiles": [
-    {"CopyToMask":153157610357391598,"filePath":"datafiles/dialogue","resourceVersion":"1.0","name":"test0.txt","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles/dialogue","resourceVersion":"1.0","name":"test0.txt","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles/dialogue","resourceVersion":"1.0","name":"test1.txt","resourceType":"GMIncludedFile",},
   ],
   "MetaData": {
-    "IDEVersion": "23.1.1.266",
+    "IDEVersion": "23.1.1.315",
   },
   "resourceVersion": "1.4",
   "name": "text based space game",

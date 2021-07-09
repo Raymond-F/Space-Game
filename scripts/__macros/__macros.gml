@@ -33,6 +33,12 @@ function draw_align_reset() {
 	draw_set_valign(fa_top);
 }
 
+#macro INT 1
+#macro STR 2
+
+#macro CONDTYPE_RESOURCE 1
+#macro CONDTYPE_FLAG 2
+
 #macro C_DIALOGUE $F8F8F8
 #macro C_COST $4444AA
 #macro C_GAIN $44AA44

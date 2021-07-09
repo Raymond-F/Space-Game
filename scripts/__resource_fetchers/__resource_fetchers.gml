@@ -27,3 +27,28 @@ function modify_resource(str, amount) {
 		default : break;
 	}
 }
+
+function flag_get(flag_name) {
+	if(!ds_map_exists(global.flags, flag_name)){
+		show_debug_message("WARNING: Attempted to access nonexistent flag: " + flag_name);
+		return 0;
+	}
+	else {
+		return ds_map_find_value(global.flags, flag_name);
+	}
+}
+
+function flag_set(flag_name, new_value) {
+	if(!ds_map_exists(global.flags, flag_name)){
+		ds_map_add(global.flags, flag_name, new_value);
+	}
+	else {
+		ds_map_replace(global.flags, flag_name, new_value);
+	}
+}
+
+function flag_remove(flag_name) {
+	if(ds_map_exists(global.flags, flag_name)){
+		ds_map_delete(global.flags, flag_name);
+	}
+}

@@ -8,7 +8,6 @@ if(active && MPRESSED(mb_left)){
 			}
 		}
 		else {
-			dsys_option_modify_resources(costs, gains);
 			dsys_set_node(parent, link);
 		}
 	}
