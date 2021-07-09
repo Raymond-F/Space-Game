@@ -174,18 +174,18 @@ function try_generate_map() {
 	//scatter zones across the map
 	for (var i = 0; i < num_zones; i++){
 		var xcheck, ycheck;
-		var zone = noone;
+		var z = noone;
 		do {
 			xcheck = irandom_range(_boundary, _map_width - _boundary);
 			ycheck = irandom_range(_boundary, _map_height - _boundary);
-			zone = get_nearest_zone(zone_list, xcheck, ycheck);
-		} until (zone == noone || point_distance(xcheck, ycheck, zone.xpos, zone.ypos) > _minimum_distance);
+			z = get_nearest_zone(zone_list, xcheck, ycheck);
+		} until (z == noone || point_distance(xcheck, ycheck, z.xpos, z.ypos) > _minimum_distance);
 		ds_list_add(zone_list, new zone(i, zone_list, xcheck, ycheck));
 	}
 	//generate "easy" connections
 	for (var i = 0; i < num_zones; i++){
-		var zone = zone_list[|i];
-		while(zone.connect_to_nearest(_maximum_connection_distance)){};
+		var z = zone_list[|i];
+		while(z.connect_to_nearest(_maximum_connection_distance)){};
 	}
 	return zone_list;
 }
