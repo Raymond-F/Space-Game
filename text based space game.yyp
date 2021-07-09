@@ -131,7 +131,7 @@
     {"CopyToMask":-1,"filePath":"datafiles/dialogue","resourceVersion":"1.0","name":"test1.txt","resourceType":"GMIncludedFile",},
   ],
   "MetaData": {
-    "IDEVersion": "23.1.1.315",
+    "IDEVersion": "2.3.2.560",
   },
   "resourceVersion": "1.4",
   "name": "text based space game",
