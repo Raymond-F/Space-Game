@@ -6,3 +6,6 @@ if(PRESSED(ord("1"))){
 else if(PRESSED(ord("2"))){
 	dsys_initialize_window("test1.txt");
 }
+else if(PRESSED(ord("3"))){
+	dsys_initialize_window("test2.txt");
+}

@@ -11,6 +11,7 @@ Ask a different question. This gives the same node as the previous.
 $ASK2
 OPTION
 Here's 200 PIX.
+SHOWLOSS crew 10
 SHOWLOSS pix 200
 $PAY
 OPTION

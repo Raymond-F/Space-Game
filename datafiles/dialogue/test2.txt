@@ -1,0 +1,59 @@
+START
+Hey gurllll, today we're gonna be testing out RANDOMNESS!
+OPTION
+Lose some random money and gain some random supplies.
+SHOWRANDOMLOSS pix 30 50
+SHOWRANDOMGAIN supplies 2 3
+SHOWIFFLAG visited_suppliespurchase EQ 0
+$LOSEPIXGAINSUPP
+OPTION
+Lose some random supplies and fuel, gain some random money.
+REQUIRE supplies 5
+REQUIRE fuel 10
+SHOWIFFLAG visited_gainloss_party EQ 0
+$LOSSGAINPARTY
+OPTION
+Flip a coin!
+SHOWIFFLAG flipped_coin EQ 0
+%COINHEADS 1
+%COINTAILS 1
+OPTION
+Goodbye.
+$END
+
+LOSEPIXGAINSUPP
+You should see some random losses and gains.
+SETFLAGLOCAL visited_suppliespurchase 1
+OPTION
+I hope I do.
+$START
+
+LOSSGAINPARTY
+You gained and lost a bunch of stuff!
+GAINRANDOM pix 100 200
+LOSERANDOM supplies 1 5
+LOSERANDOM fuel 5 10
+SETFLAGLOCAL visited_gainloss_party 1
+OPTION
+Wow, what a fiesta. Not a good deal.
+$START
+
+COINHEADS
+Heads!
+SETFLAGLOCAL flipped_coin 1
+OPTION
+Heads so it's said.
+$START
+
+COINTAILS
+Tails!
+SETFLAGLOCAL flipped_coin 1
+OPTION
+Tails never fails.
+$START
+
+END
+Be seeing you.
+OPTION
+[END DIALOGUE]
+EXIT

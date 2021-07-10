@@ -39,10 +39,18 @@ function draw_align_reset() {
 #macro CONDTYPE_RESOURCE 1
 #macro CONDTYPE_FLAG 2
 
+#macro RAND_GAIN0 0
+#macro RAND_GAIN1 1
+#macro RAND_GAIN2 2
+#macro RAND_LOSS0 3
+#macro RAND_LOSS1 4
+#macro RAND_LOSS2 5
+
 #macro C_DIALOGUE $F8F8F8
 #macro C_COST $4444AA
 #macro C_GAIN $44AA44
-#macro C_WARNING $FFFF44
+#macro C_WARNING $44FFFF
+#macro C_DIALOGUE_TOOLTIP $888888
 
 #macro ICON_WIDTH 16
 #macro ICON_HEIGHT 16

@@ -8,7 +8,7 @@ if(active && MPRESSED(mb_left)){
 			}
 		}
 		else {
-			dsys_set_node(parent, link);
+			dsys_set_node(parent, link, id);
 		}
 	}
 }

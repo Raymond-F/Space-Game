@@ -32,5 +32,9 @@ if(cost_string != ""){
 	draw_text_special(x + border_size*2 + avatar_width + text_padding + text_maxwidth/2, y + border_size + text_padding, cost_string, fa_center, fa_middle, fnt_dialogue);
 	offset += text_padding;
 }
+if(gain_string != ""){
+	draw_text_special(x + border_size*2 + avatar_width + text_padding + text_maxwidth/2, y + border_size + text_padding + offset, gain_string, fa_center, fa_middle, fnt_dialogue);
+	offset += text_padding;
+}
 draw_align_reset();
 draw_text_ext(x + border_size*2 + avatar_width + text_padding, y + border_size + text_padding + offset, text, -1, text_maxwidth);

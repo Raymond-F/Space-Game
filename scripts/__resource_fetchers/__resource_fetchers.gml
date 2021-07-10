@@ -3,6 +3,9 @@
 function initialize_sprite_map(){
 	var sm = ds_map_create();
 	ds_map_add(sm, "pix", s_icon_pix);
+	ds_map_add(sm, "crew", s_icon_crew);
+	ds_map_add(sm, "supplies", s_icon_supplies);
+	ds_map_add(sm, "fuel", s_icon_fuel);
 	return sm;
 }
 
@@ -17,6 +20,9 @@ function fetch_sprite_atex(str) {
 function query_resource(str) {
 	switch (str) {
 		case "pix" : return global.pix; break;
+		case "crew" : return global.crew; break;
+		case "supplies" : return global.supplies; break;
+		case "fuel" : return global.fuel; break;
 		default: return -1;
 	}
 }
@@ -24,6 +30,9 @@ function query_resource(str) {
 function modify_resource(str, amount) {
 	switch (str) {
 		case "pix" : global.pix += amount; break;
+		case "crew" : global.crew += amount; break;
+		case "supplies" : global.supplies += amount; break;
+		case "fuel" : global.fuel += amount; break;
 		default : break;
 	}
 }
