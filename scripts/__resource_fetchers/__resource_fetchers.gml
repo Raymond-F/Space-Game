@@ -6,6 +6,14 @@ function initialize_sprite_map(){
 	ds_map_add(sm, "crew", s_icon_crew);
 	ds_map_add(sm, "supplies", s_icon_supplies);
 	ds_map_add(sm, "fuel", s_icon_fuel);
+	ds_map_add(sm, "gunnery", s_icon_gunnery);
+	ds_map_add(sm, "maneuvering", s_icon_maneuvering);
+	ds_map_add(sm, "leadership", s_icon_leadership);
+	ds_map_add(sm, "tech", s_icon_tech);
+	ds_map_add(sm, "guts", s_icon_guts);
+	ds_map_add(sm, "wits", s_icon_wits);
+	ds_map_add(sm, "will", s_icon_will);
+	ds_map_add(sm, "charm", s_icon_charm);
 	return sm;
 }
 
@@ -15,6 +23,29 @@ function fetch_sprite(str) {
 
 function fetch_sprite_atex(str) {
 	return ts_image(fetch_sprite(str), ICON_WIDTH, ICON_HEIGHT);
+}
+
+function query_attribute(str) {
+	switch (str) {
+		case "gunnery" : return global.gunnery; break;
+		case "maneuvering" : return global.maneuvering; break;
+		case "leadership" : return global.leadership; break;
+		case "tech" : return global.tech; break;
+		case "guts" : return global.guts; break;
+		case "wits" : return global.wits; break;
+		case "will" : return global.will; break;
+		case "charm" : return global.charm; break;
+		default: return 0;
+	}
+}
+
+function skilltest_get_percentage(attribute, target) {
+	if(target <= 0){
+		return 1;
+	}
+	var player_att = query_attribute(attribute);
+	var normalized_att = player_att/target;
+	return logn(3, normalized_att+1);
 }
 
 function query_resource(str) {
@@ -39,7 +70,7 @@ function modify_resource(str, amount) {
 
 function flag_get(flag_name) {
 	if(!ds_map_exists(global.flags, flag_name)){
-		show_debug_message("WARNING: Attempted to access nonexistent flag: " + flag_name);
+		show_debug_message("WARNING: Attempted to access nonexistent flag: " + flag_name + " [This can be ignored if this flag is local]");
 		return 0;
 	}
 	else {

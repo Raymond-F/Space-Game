@@ -3,7 +3,7 @@
 
 //option for the player to select. Contains text and a link to another node.
 //if the link is empty, it closes the dialogue instead.
-function dsys_option(_text, _link, _costs, _gains, _conds, _reqs, _rand_costs, _rand_gains) constructor {
+function dsys_option(_text, _link, _costs, _gains, _conds, _reqs, _rand_costs, _rand_gains, _skilltest_info) constructor {
 	text = _text;
 	link = _link;
 	costs = _costs;
@@ -12,6 +12,7 @@ function dsys_option(_text, _link, _costs, _gains, _conds, _reqs, _rand_costs, _
 	reqs = _reqs;
 	rand_costs = _rand_costs;
 	rand_gains = _rand_gains;
+	skilltest_info = _skilltest_info; //format [attribute, success_chance]
 }
 
 //a node of dialogue, including main text and all option objects
@@ -37,7 +38,7 @@ function dsys_node(_name, _text, _options, _costs, _gains, _flags, _localflags, 
 		options = [_options];
 	}
 	else {
-		options = [dsys_option("<UNDEFINED OPTION ARRAY>", "", [], [], [], [], [], [])];
+		options = [dsys_option("<UNDEFINED OPTION ARRAY>", "", [], [], [], [], [], [], [])];
 	}
 }
 
@@ -144,7 +145,7 @@ function dsys_parse_node_from_array(arr){
 			else if (string_get_first_word(INPUT_TYPE) == "SETFLAGLOCAL") {
 				var tokens = string_tokenize(INPUT_TYPE);
 				var flag = [tokens[1], int64(tokens[2])];
-				localflags[array_length(flags)] = flag;
+				localflags[array_length(localflags)] = flag;
 			}
 			else if (INPUT_TYPE == "OPTION"){
 				var opt_text = s;
@@ -156,6 +157,10 @@ function dsys_parse_node_from_array(arr){
 				var opt_rcosts = [];
 				var opt_rgains = [];
 				var opt_rand_links = [];
+				var opt_skilltest = [];
+				var opt_skilltest_info = [];
+				var opt_success_link = "";
+				var opt_failure_link = "";
 				do {
 					line++;
 					s = arr[line];
@@ -199,6 +204,10 @@ function dsys_parse_node_from_array(arr){
 							var cond = [CONDTYPE_FLAG, tokens[1], tokens[2], int64(tokens[3])];
 							opt_conds[array_length(opt_conds)] = cond;
 						} break;
+						case "KEYATTRIBUTE" : {
+							var skilltest = [tokens[1], int64(tokens[2])];
+							opt_skilltest = skilltest;
+						}
 						case "EXIT" : break;
 						default : {
 							switch (string_char_at(command, 1)){
@@ -209,13 +218,20 @@ function dsys_parse_node_from_array(arr){
 									var link_choice = string_copy(command, 2, string_length(command)-1);
 									var weight = tokens[1];
 									array_push_back(opt_rand_links, [link_choice, int64(weight)]);
-								}
+								} break;
+								case "+" : {
+									opt_success_link = string_copy(command, 2, string_length(command)-1);
+								} break;
+								case "-" : {
+									opt_failure_link = string_copy(command, 2, string_length(command)-1);
+								} break;
 							}
 						} break;
 					}
 				} until (s == "" || s == "OPTION" || line >= array_length(arr)-1);
 				//choose a random link from available, if this is a randomized outcome
 				if(opt_link == "") {
+					//select a random link from the list to go to
 					if(array_length(opt_rand_links) > 0){
 						// normalize weights
 						var total_weight = 0;
@@ -243,9 +259,26 @@ function dsys_parse_node_from_array(arr){
 							show_debug_message("WARNING: Random selection did not evaluate to anything.");
 						}
 					}
+					//select a random success or failure
+					else if(opt_success_link != "" || opt_failure_link != ""){
+						if(opt_success_link == "" || opt_failure_link == ""){
+							show_debug_message("WARNING: Both success link and failure links must be supplied to option template.");
+							opt_link = (opt_success_link == "" ? opt_failure_link : opt_success_link);
+						}
+						else if (array_length(opt_skilltest) != 2) {
+							show_debug_message("WARNING: Skilltest array must be array of length 2 in format [attribute, target]");
+							opt_link = opt_success_link;
+						}
+						else {
+							var roll = random(1);
+							var perc = skilltest_get_percentage(opt_skilltest[0], opt_skilltest[1]);
+							opt_skilltest_info = [opt_skilltest[0], perc];
+							opt_link = (roll < perc ? opt_success_link : opt_failure_link);
+						}
+					}
 				}
 				options[array_length(options)] = 
-						new dsys_option(opt_text, opt_link, opt_costs, opt_gains, opt_conds, opt_reqs, opt_rcosts, opt_rgains);
+						new dsys_option(opt_text, opt_link, opt_costs, opt_gains, opt_conds, opt_reqs, opt_rcosts, opt_rgains, opt_skilltest_info);
 			}
 			state = GET_TYPE;
 		}
@@ -256,6 +289,9 @@ function dsys_parse_node_from_array(arr){
 
 function dsys_create_dialogue(filename) {
 	var nodes = dsys_parse_nodes_from_file(filename);
+	if(nodes == noone){
+		return noone;
+	}
 	var parsed_arr = array_create(array_length(nodes));
 	for(var i = 0; i < array_length(parsed_arr); i++){
 		parsed_arr[i] = dsys_parse_node_from_array(nodes[i]);
@@ -269,6 +305,9 @@ function dsys_initialize_window(filename) {
 		return; //don't open more than one dialogue window. Show debug since this shouldnt happen
 	}
 	var dialogue = dsys_create_dialogue(filename);
+	if (dialogue == noone){
+		return;
+	}
 	var manager = instance_create(0, 0, o_dialogue_manager);
 	manager.dialogue = dialogue;
 	dsys_set_node(manager, "START", noone);
@@ -379,6 +418,12 @@ function format_optionbutton(_opt, _index, _window){
 		if(button.fails_requirement){
 			button.activity_string += ts_colour(C_WARNING) + " (Not enough resources)";
 		}
+	}
+	button.skilltest_string = "";
+	if(array_length(_opt.skilltest_info) == 2){
+		var successchance = _opt.skilltest_info[1];
+		var dcolor = color_interpolate(C_SKILLTEST_FAILURE, C_SKILLTEST_SUCCESS, successchance); //change later with color interpolation
+		button.skilltest_string = ts_colour(C_DIALOGUE_TOOLTIP) + "[" + fetch_sprite_atex(_opt.skilltest_info[0]) + ts_colour(dcolor) + string(floor(successchance * 100)) + "%" + ts_colour(C_DIALOGUE_TOOLTIP) + "] ";
 	}
 	return button;
 }

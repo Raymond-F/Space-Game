@@ -1,0 +1,91 @@
+START
+This is a test window for checking how skill percentages at various values pan out. You can also see if luck favors you and you get successes on some of the harder ones. Good luck, Captain!
+OPTION
+Test your shooting!
+KEYATTRIBUTE gunnery 10
+SHOWIFFLAG flag_local_test0 EQ 0
++SHOOTWIN
+-SHOOTFAIL
+OPTION
+Test your leadership!
+KEYATTRIBUTE leadership 20
+SHOWIFFLAG flag_local_test1 EQ 0
++LEADWIN
+-LEADFAIL
+OPTION
+Test your wit! [ROUGH]
+KEYATTRIBUTE wits 35
+SHOWIFFLAG flag_local_test2 EQ 0
++WITWIN
+-WITFAIL
+OPTION
+Test your willpower! [HARD]
+KEYATTRIBUTE will 50
+SHOWIFFLAG flag_local_test3 EQ 0
++WILLWIN
+-WILLFAIL
+OPTION
+Leave.
+$END
+
+SHOOTWIN
+You won shooting.
+SETFLAGLOCAL flag_local_test0 1
+OPTION
+Go back.
+$START
+
+SHOOTFAIL
+You lost shooting.
+SETFLAGLOCAL flag_local_test0 1
+OPTION
+Go back.
+$START
+
+LEADWIN
+You won leadership.
+SETFLAGLOCAL flag_local_test1 1
+OPTION
+Go back.
+$START
+
+LEADFAIL
+You lost leadership.
+SETFLAGLOCAL flag_local_test1 1
+OPTION
+Go back.
+$START
+
+WITWIN
+You won wit.
+SETFLAGLOCAL flag_local_test2 1
+OPTION
+Go back.
+$START
+
+WITFAIL
+You lost wit.
+SETFLAGLOCAL flag_local_test2 1
+OPTION
+Go back.
+$START
+
+WILLWIN
+You won will.
+SETFLAGLOCAL flag_local_test3 1
+OPTION
+Go back.
+$START
+
+WILLFAIL
+You lost will.
+SETFLAGLOCAL flag_local_test3 1
+OPTION
+Go back.
+$START
+
+END
+Goodbye.
+OPTION
+[END CONVERSATION]
+EXIT

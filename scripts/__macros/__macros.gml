@@ -51,6 +51,8 @@ function draw_align_reset() {
 #macro C_GAIN $44AA44
 #macro C_WARNING $44FFFF
 #macro C_DIALOGUE_TOOLTIP $888888
+#macro C_SKILLTEST_SUCCESS $66CC66
+#macro C_SKILLTEST_FAILURE $6666FF
 
 #macro ICON_WIDTH 16
 #macro ICON_HEIGHT 16

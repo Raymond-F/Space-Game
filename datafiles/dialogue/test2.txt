@@ -18,6 +18,12 @@ SHOWIFFLAG flipped_coin EQ 0
 %COINHEADS 1
 %COINTAILS 1
 OPTION
+I'm gonna do a skilltest.
+KEYATTRIBUTE guts 15
+SHOWIFFLAG skilltest EQ 0
++SKILLTEST_SUCCESS
+-SKILLTEST_FAIL
+OPTION
 Goodbye.
 $END
 
@@ -50,6 +56,20 @@ Tails!
 SETFLAGLOCAL flipped_coin 1
 OPTION
 Tails never fails.
+$START
+
+SKILLTEST_SUCCESS
+You did it!
+SETFLAGLOCAL skilltest 1
+OPTION
+I'm the best!
+$START
+
+SKILLTEST_FAIL
+You didn't do it...
+SETFLAGLOCAL skilltest 1
+OPTION
+Boo, I suck.
 $START
 
 END

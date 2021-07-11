@@ -10,6 +10,7 @@ reqs = [];
 active = true;
 width = sprite_get_width(s_dialogue_optionbutton);
 height = sprite_get_height(s_dialogue_optionbutton);
+skilltest_string = "";
 cost_string = "";
 gain_string = "";
 reqs_string = "";
