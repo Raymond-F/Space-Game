@@ -74,12 +74,14 @@ function dsys_parse_nodes_from_file(fname){
 		var count = 0;
 		do {
 			line = file_text_readln(file);
-			if(line != "\r\n"){
-				line = string_delete(line, string_length(line)-1, 2);
+			if(line != "\r\n" && line != "\n"){
+				while(string_char_at(line, string_length(line)) == "\r" || string_char_at(line, string_length(line)) == "\n"){
+					line = string_delete(line, string_length(line), 1);
+				}
 				node[count] = line;
 				count++;
 			}
-		} until (line == "\r\n" || file_text_eof(file));
+		} until (line == "\r\n" || line == "\n" || file_text_eof(file));
 		nodes[ncount] = node;
 		ncount++;
 	}
@@ -577,6 +579,28 @@ function order_costs_or_gains(arr) {
 	}
 }
 
+//specific function to recursively evaluate conditionals with OR and AND support
+//example string "SHOWIFFLAG ((flag1 GTE 1 OR flag2 LTE 5) AND flag3 EQ 6) AND (flag4 NOT 4 OR flag5 NOT 1)"
+//can split this into something like: 
+/*
+[
+ [
+  [
+   [flag1, gte, 1],
+   [flag2, lte, 5]
+  ],
+  [flag3, eq, 6]
+ ],
+ [
+  [flag4, not, 4],
+  [flag5, not, 1]
+ ]
+]
+*/
+function evaluate_conditional(arr) {
+	
+}
+
 // helper function that tokenizes a command string into an array of words
 function string_tokenize(str) {
 	var arr = [];
@@ -633,4 +657,24 @@ function compare(val1, comparator, val2) {
 		case "NOT": return val1 != val2; break;
 		default: return false;
 	}
+}
+
+//get the string between the first instance of two different substrings
+function string_get_between(str, sub1, sub2) {
+	var sub1pos = string_pos(sub1, str);
+	var sub2pos = string_pos(sub2, str);
+	if(sub1pos == sub2pos || sub1pos < 0 || sub2pos < 0){
+		return "";
+	}
+	else if(sub1pos > sub2pos){
+		var temp = sub1pos;
+		var temp2 = sub1;
+		sub1pos = sub2pos;
+		sub2pos = temp;
+		sub1 = sub2;
+		sub2 = temp2;
+	}
+	var sub1end = sub1pos+string_length(sub1);
+	var between = string_copy(str, sub1end, sub2pos - sub1end);
+	return between;
 }
