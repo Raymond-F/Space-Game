@@ -147,7 +147,7 @@
     {"CopyToMask":153157610357391598,"filePath":"datafiles/dialogue","resourceVersion":"1.0","name":"testskills.txt","resourceType":"GMIncludedFile",},
   ],
   "MetaData": {
-    "IDEVersion": "2.3.2.560",
+    "IDEVersion": "2.3.3.570",
   },
   "resourceVersion": "1.4",
   "name": "text based space game",

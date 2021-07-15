@@ -597,7 +597,7 @@ function order_costs_or_gains(arr) {
  ]
 ]
 */
-function evaluate_conditional(arr) {
+function evaluate_conditional(str) {
 	
 }
 
