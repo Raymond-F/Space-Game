@@ -22,3 +22,6 @@ global.will = 0;
 global.charm = 0;
 global.flags = ds_map_create();
 initialize_flags();
+
+//var test_text = "flag LTE val OR ((flag2 EQ val2 AND flag3 NOT val3) OR (flag4 EQ val4 AND flag5 EQ val5) OR flag6 NOT val6)"
+//var output = evaluate_conditional(string_tokenize(test_text));

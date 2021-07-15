@@ -596,9 +596,99 @@ function order_costs_or_gains(arr) {
   [flag5, not, 1]
  ]
 ]
+IMPORTANT: takes in tokens MINUS the keyword, e.g. SHOWIF
 */
-function evaluate_conditional(str) {
+function evaluate_conditional(arr) {
+	var tokens = ds_list_create();
+	for(var i = 0; i < array_length(arr); i++){
+		var val = arr[i];
+		var parenstart = [];
+		while(string_char_at(val, 1) == "(" || string_char_at(val, 1) == ")") {
+			parenstart[array_length(parenstart)] = string_char_at(val, 1);
+			val = string_delete(val, 1, 1);
+		}
+		var parenend = [];
+		while(string_char_at(val, string_length(val)) == "(" || string_char_at(val, string_length(val)) == ")") {
+			parenend[array_length(parenend)] = string_char_at(val, string_length(val));
+			val = string_delete(val, string_length(val), 1);
+		}
+		for(var j = 0; j < array_length(parenstart); j++) {
+			ds_list_add(tokens, parenstart[j]);
+		}
+		ds_list_add(tokens, val);
+		for(var j = 0; j < array_length(parenend); j++) {
+			ds_list_add(tokens, parenend[j]);
+		}
+	}
+	//now "(flag, gt, val, OR, flag2, lt, val2)" will become "(, flag, ...., lt, val2, )"
+	var open = ds_list_create();
+	var sets = ds_list_create();
+	var last_open = -1;
+	//if we're not starting with parentheses, make a set that contains everything
+	if(tokens[|0] != "(") {
+		var fullset = array_create(ds_list_size(tokens));
+		for(var i = 0; i < ds_list_size(tokens); i++){
+			fullset[i] = tokens[|i]; 
+		}
+		ds_list_add(sets, fullset);
+	}
+	for(var i = 0; i < ds_list_size(tokens); i++) {
+		var token = tokens[|i];
+		if (token == "(") {
+			if(last_open >= 0){
+				ds_list_add(open, last_open);
+				last_open = i;
+			}
+			else {
+				last_open = i;
+			}
+		}
+		else if (token == ")") {
+			if(last_open == -1) {
+				show_error("ERROR: Expected '(' in evaluate_conditional.", true);
+				return false;
+			}
+			else {
+				var set = array_create(i - last_open - 1);
+				for(var j = last_open+1; j < i; j++) {
+					set[j - last_open - 1] = tokens[|j];
+				}
+				ds_list_add(sets, set);
+				if(ds_list_empty(open)){
+					last_open = -1;
+				}
+				else {
+					last_open = open[|ds_list_size(open)-1];
+					ds_list_delete(open, ds_list_size(open)-1);
+				}
+			}
+		}
+	}
+	if(last_open != -1) {
+		show_error("ERROR: Unclosed parentheses in evaluate_conditional.", true);
+		return false;
+	}
+	// now we have some sets, but some sets contain other sets
+	// since we validated our parentheses, we can say that any set with a '(' subsets there
+	// we also have to go on the outside
+	for(var i = 0; i < ds_list_size(sets); i ++){
+		var set = sets[|i];
+		for(var j = 0; j < array_length(set); j++){
+			if(set[j] == "(") {
+				var newset = array_create(j-1);
+				for(var a = 0; a < j; a++){
+					newset[a] = set[j];
+				}
+				set = newset;
+				break;
+			}
+		}
+		sets[|i] = set;
+	}
 	
+	ds_list_destroy(tokens);
+	ds_list_destroy(open);
+	ds_list_destroy(sets);
 }
 
 // helper function that tokenizes a command string into an array of words
@@ -607,11 +697,11 @@ function string_tokenize(str) {
 	while(true){
 		var word = string_get_first_word(str);
 		str = string_copy(str, string_length(word)+2, string_length(str)-string_length(word));
-		arr[array_length(arr)] = word;
 		// When we've reached the last word, string_get_first_word will return the given string
 		if(word == str){
 			return arr;
 		}
+		arr[array_length(arr)] = word;
 	}
 }
 
