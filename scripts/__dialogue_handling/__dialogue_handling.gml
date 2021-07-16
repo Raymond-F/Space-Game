@@ -199,11 +199,11 @@ function dsys_parse_node_from_array(arr){
 							opt_costs[array_length(opt_costs)] = rcost;
 						} break;
 						case "SHOWIF" : {
-							var cond = [CONDTYPE_RESOURCE, tokens[1], tokens[2], int64(tokens[3])];
+							var cond = [CONDTYPE_RESOURCE, array_subset(tokens, 1, array_length(tokens)-1)];
 							opt_conds[array_length(opt_conds)] = cond;
 						} break;
 						case "SHOWIFFLAG" : {
-							var cond = [CONDTYPE_FLAG, tokens[1], tokens[2], int64(tokens[3])];
+							var cond = [CONDTYPE_FLAG, array_subset(tokens, 1, array_length(tokens)-1)];
 							opt_conds[array_length(opt_conds)] = cond;
 						} break;
 						case "KEYATTRIBUTE" : {
@@ -406,12 +406,7 @@ function format_optionbutton(_opt, _index, _window){
 	button.show = true;
 	for(var i = 0; i < array_length(button.conds); i++){
 		var cond = button.conds[i];
-		if(cond[0] == CONDTYPE_RESOURCE){
-			button.show = button.show && compare(query_resource(cond[1]), cond[2], cond[3]);
-		}
-		else if(cond[0] == CONDTYPE_FLAG){
-			button.show = button.show && compare(flag_get(cond[1]), cond[2], cond[3]);
-		}
+		button.show = button.show && evaluate_conditional(cond[1], cond[0]);
 	}
 	button.reqs_string = "";
 	button.reqs_string += format_reqs(button.reqs);
@@ -579,26 +574,45 @@ function order_costs_or_gains(arr) {
 	}
 }
 
-//specific function to recursively evaluate conditionals with OR and AND support
-//example string "SHOWIFFLAG ((flag1 GTE 1 OR flag2 LTE 5) AND flag3 EQ 6) AND (flag4 NOT 4 OR flag5 NOT 1)"
-//can split this into something like: 
-/*
-[
- [
-  [
-   [flag1, gte, 1],
-   [flag2, lte, 5]
-  ],
-  [flag3, eq, 6]
- ],
- [
-  [flag4, not, 4],
-  [flag5, not, 1]
- ]
-]
-IMPORTANT: takes in tokens MINUS the keyword, e.g. SHOWIF
-*/
-function evaluate_conditional(arr) {
+//determine if something is a conditional tuple, defined as exactly [checked_val, comparator, comparison_value]
+function is_tuple(set) {
+	if (array_length(set) == 3) {
+		return true;
+	}
+	return false;
+}
+
+//get all tokens inside a parenthesized set, including the parentheses
+function get_tokens_in_scope(set) {
+	if(set[0] != "(") {
+		return set;
+	}
+	else {
+		var open_count = 0;
+		var lastpos = -1;
+		for(var i = 0; i < array_length(set); i++){
+			var token = set[i];
+			if (token == "(") {
+				open_count++;
+			}
+			else if (token == ")") {
+				//we are at the end of the scope if this nulls the last open paren in the stack
+				open_count--;
+				if(open_count == 0) {
+					lastpos = i;
+					break;
+				}
+			}
+		}
+		if(open_count > 0 || lastpos = -1) {
+			show_debug_message("ERROR: Unclosed parentheses in set " + string(set));
+		}
+		return array_subset(set, 0, lastpos);
+	}
+}
+
+//take an array of tokens and convert it into an array of those same tokens, but with parentheses made into their own tokens
+function tokenize_parentheses(arr) {
 	var tokens = ds_list_create();
 	for(var i = 0; i < array_length(arr); i++){
 		var val = arr[i];
@@ -621,74 +635,83 @@ function evaluate_conditional(arr) {
 		}
 	}
 	//now "(flag, gt, val, OR, flag2, lt, val2)" will become "(, flag, ...., lt, val2, )"
-	var open = ds_list_create();
-	var sets = ds_list_create();
-	var last_open = -1;
-	//if we're not starting with parentheses, make a set that contains everything
-	if(tokens[|0] != "(") {
-		var fullset = array_create(ds_list_size(tokens));
-		for(var i = 0; i < ds_list_size(tokens); i++){
-			fullset[i] = tokens[|i]; 
-		}
-		ds_list_add(sets, fullset);
+	var ret = array_create(ds_list_size(tokens));
+	for(var i = 0; i < ds_list_size(tokens); i++){
+		ret[i] = tokens[|i];
 	}
-	for(var i = 0; i < ds_list_size(tokens); i++) {
-		var token = tokens[|i];
-		if (token == "(") {
-			if(last_open >= 0){
-				ds_list_add(open, last_open);
-				last_open = i;
+	return ret;
+}
+
+//specific function to recursively evaluate conditionals with OR and AND support
+//example string "SHOWIFFLAG ((flag1 GTE 1 OR flag2 LTE 5) AND flag3 EQ 6) AND (flag4 NOT 4 OR flag5 NOT 1)"
+//can split this into something like: 
+//IMPORTANT: takes in tokens MINUS the keyword, e.g. SHOWIF
+//type refers to the type of evaluation - CONDTYPE_FLAG or CONDTYPE_RESOURCE
+function recursively_evaluate(set, type) {
+	if(array_length(set) < 3) {
+		show_debug_message("WARNING: Malformed conditional - expected at least 3 arguments in [sub]set.");
+	}
+	if(is_tuple(set)){
+		if(type == CONDTYPE_FLAG){
+			return compare(flag_get(set[0]), set[1], int64(set[2]));
+		}
+		else if(type == CONDTYPE_RESOURCE){
+			return compare(query_resource(set[0]), set[1], int64(set[2]));
+		}
+		else {
+			show_debug_message("WARNING: Malformed type in recursive evaluation - expected CONDTYPE_FLAG or CONDTYPE_RESOURCE");
+		}
+	}
+	//if this starts with a parentheses, it could be separate scoped sets
+	else if (set[0] == "(") {
+		var scoped_tokens = get_tokens_in_scope(set);
+		if(array_length(scoped_tokens) == array_length(set)){
+			//the set is surrounded in (now) erroneous parentheses, which can be removed and the function called again
+			var array_less_paren = array_subset(set, 1, array_length(set)-2);
+			return recursively_evaluate(array_less_paren, type);
+		}
+		else {
+			//conjoiner should come immediately after a set
+			var conj = set[array_length(scoped_tokens)];
+			//copy the rest of the set then recur
+			var other_set = array_subset(set, array_length(scoped_tokens)+1, array_length(set)-1);
+			if (conj == "OR") {
+				return recursively_evaluate(scoped_tokens, type) || recursively_evaluate(other_set, type);
+			}
+			else if (conj == "AND") {
+				return recursively_evaluate(scoped_tokens, type) && recursively_evaluate(other_set, type);
 			}
 			else {
-				last_open = i;
-			}
-		}
-		else if (token == ")") {
-			if(last_open == -1) {
-				show_error("ERROR: Expected '(' in evaluate_conditional.", true);
+				show_debug_message("ERROR: Expected valid conjoiner but got " + conj + ".");
 				return false;
 			}
-			else {
-				var set = array_create(i - last_open - 1);
-				for(var j = last_open+1; j < i; j++) {
-					set[j - last_open - 1] = tokens[|j];
-				}
-				ds_list_add(sets, set);
-				if(ds_list_empty(open)){
-					last_open = -1;
-				}
-				else {
-					last_open = open[|ds_list_size(open)-1];
-					ds_list_delete(open, ds_list_size(open)-1);
-				}
-			}
 		}
 	}
-	if(last_open != -1) {
-		show_error("ERROR: Unclosed parentheses in evaluate_conditional.", true);
-		return false;
-	}
-	// now we have some sets, but some sets contain other sets
-	// since we validated our parentheses, we can say that any set with a '(' subsets there
-	// we also have to go on the outside
-	for(var i = 0; i < ds_list_size(sets); i ++){
-		var set = sets[|i];
-		for(var j = 0; j < array_length(set); j++){
-			if(set[j] == "(") {
-				var newset = array_create(j-1);
-				for(var a = 0; a < j; a++){
-					newset[a] = set[j];
-				}
-				set = newset;
-				break;
-			}
+	//since it is longer than 3 items, and doesn't start with parentheses we can assume the start is an unenclosed tuple
+	else {
+		if(array_length(set) < 5) {
+			show_debug_message("ERROR: Expected at least one token after tuple splitting.");
+			return false;
 		}
-		sets[|i] = set;
+		var first_set = array_subset(set, 0, 2);
+		var conj = set[3];
+		var second_set = array_subset(set, 4, array_length(set)-1);
+		if (conj == "OR") {
+			return recursively_evaluate(first_set, type) || recursively_evaluate(second_set, type);
+		}
+		else if (conj == "AND") {
+			return recursively_evaluate(first_set, type) && recursively_evaluate(second_set, type);
+		}
+		else {
+			show_debug_message("ERROR: Expected valid conjoiner but got " + conj + ".");
+			return false;
+		}
 	}
-	
-	ds_list_destroy(tokens);
-	ds_list_destroy(open);
-	ds_list_destroy(sets);
+}
+
+function evaluate_conditional(set, type) {
+	set = tokenize_parentheses(set);
+	return recursively_evaluate(set, type);
 }
 
 // helper function that tokenizes a command string into an array of words
@@ -745,7 +768,7 @@ function compare(val1, comparator, val2) {
 		case "LT": return val1 < val2; break;
 		case "LTE": return val1 <= val2; break;
 		case "NOT": return val1 != val2; break;
-		default: return false;
+		default: show_debug_message("WARNING: Malformed comparator - expected comparison token (e.g. EQ)"); return false;
 	}
 }
 

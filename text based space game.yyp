@@ -50,6 +50,7 @@
     {"id":{"name":"__sector_gen","path":"scripts/__sector_gen/__sector_gen.yy",},"order":3,},
     {"id":{"name":"ts_argument","path":"scripts/ts_argument/ts_argument.yy",},"order":1,},
     {"id":{"name":"s_icon_fuel","path":"sprites/s_icon_fuel/s_icon_fuel.yy",},"order":11,},
+    {"id":{"name":"__combat_handling","path":"scripts/__combat_handling/__combat_handling.yy",},"order":7,},
     {"id":{"name":"o_local_init","path":"objects/o_local_init/o_local_init.yy",},"order":1,},
     {"id":{"name":"ts_valign","path":"scripts/ts_valign/ts_valign.yy",},"order":16,},
     {"id":{"name":"ts_smoothspace","path":"scripts/ts_smoothspace/ts_smoothspace.yy",},"order":3,},

@@ -14,6 +14,23 @@ function array_push_back(arr, val) {
 	arr[@ array_length(arr)] = val;
 }
 
+//copy the members of an array from position start to position end, inclusive
+function array_subset(arr, start, last) {
+	if(start < 0 || last > array_length(arr)-1) {
+		show_debug_message("ERROR: in array_copy - out of range");
+	}
+	if(start > last) {
+		var t = start;
+		start = last;
+		last = t;
+	}
+	var newarr = array_create(last-start);
+	for(var i = start; i <= last; i++) {
+		newarr[i - start] = arr[i];
+	}
+	return newarr;
+}
+
 function color_interpolate(c1, c2, amount) {
 	var r1 = (c1 & c_red);
 	var r2 = (c2 & c_red);
