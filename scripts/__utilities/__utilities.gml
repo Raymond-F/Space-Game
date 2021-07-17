@@ -44,3 +44,11 @@ function color_interpolate(c1, c2, amount) {
 	var red = round(lerp(r1,r2,amount));
 	return (blue << 16) + (green << 8) + red;
 }
+
+function ds_map_add_unique(_id, key, value) {
+	if(ds_map_exists(_id, key)) {
+		show_debug_message("WARNING: ds_map_add_unique tried to add non unique key: {key=" + string(key) + "} " + string(value));
+		return;
+	}
+	ds_map_add(_id, key, value);
+}
