@@ -1,6 +1,7 @@
 {
   "resources": [
     {"id":{"name":"s_icon_wits","path":"sprites/s_icon_wits/s_icon_wits.yy",},"order":18,},
+    {"id":{"name":"__ship_structs","path":"scripts/__ship_structs/__ship_structs.yy",},"order":8,},
     {"id":{"name":"o_dialogue_manager","path":"objects/o_dialogue_manager/o_dialogue_manager.yy",},"order":4,},
     {"id":{"name":"ts_space","path":"scripts/ts_space/ts_space.yy",},"order":14,},
     {"id":{"name":"s_dialogue_optionbutton_inactive","path":"sprites/s_dialogue_optionbutton_inactive/s_dialogue_optionbutton_inactive.yy",},"order":2,},

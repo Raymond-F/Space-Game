@@ -22,6 +22,7 @@ global.will = 0;
 global.charm = 0;
 global.flags = ds_map_create();
 initialize_flags();
+initialize_itemlist_modules();
 
 /*
 //code for testing the recursive evaluation function
