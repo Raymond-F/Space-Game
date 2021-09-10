@@ -16,3 +16,4 @@ setup = false;
 instance_create(0,0,o_controller);
 instance_create(0,0,o_gui);
 sector = -1;
+// instance_create(VIEW_WIDTH/2, VIEW_HEIGHT/2, o_testshield);

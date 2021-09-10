@@ -22,3 +22,8 @@ else if(PRESSED(vk_f3)){
 	var input = get_string("FLAG CHECKER: Enter the name of a flag and the value of that flag will be printed to the debug window.", "");
 	show_debug_message("Value of flag '" + input + "': " + string(flag_get(input)));
 }
+else if(PRESSED(vk_f9)){
+	if(!instance_exists(o_combat_manager)) {
+		instance_create(0,0, o_combat_manager);
+	}
+}

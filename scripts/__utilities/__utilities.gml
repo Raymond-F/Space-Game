@@ -52,3 +52,46 @@ function ds_map_add_unique(_id, key, value) {
 	}
 	ds_map_add(_id, key, value);
 }
+
+function draw_progress_bar(x1, y1, x2, y2, border_width, fill_color, border_color, current_val, target_val, inverted = false) {
+	var pcolor = draw_get_color();
+	if(abs(y2 - y1) <= (border_width+1)*2 + 1 || abs(x2 - x1) <= (border_width+1)*2 + 1) {
+		return;
+	}
+	if(border_width < 0) border_width = 0;
+	if(x1 > x2) {
+		var t = x1;
+		x1 = x2;
+		x2 = t;
+	}
+	if(y1 > y2) {
+		var t = y1;
+		y1 = y2;
+		y2 = t;
+	}
+	var pct = clamp(current_val/target_val, 0, 1);
+	draw_set_color(border_color);
+	var xs = x1, xe = x2, ys = y1, ye = y2;
+	repeat(border_width) {
+		draw_rectangle(xs, ys, xe, ye, true);
+		xs++;
+		xe--;
+		ys++;
+		ye--;
+	}
+	xs++;
+	xe--;
+	ys++;
+	ye--;
+	var bar_width = xe - xs;
+	var filled_length = round(bar_width * pct);
+	if (pct > 0) {
+		draw_set_color(fill_color);
+		if (inverted) {
+			draw_rectangle(xe, ys, xe - filled_length, ye, false);
+		} else {
+			draw_rectangle(xs, ys, xs + filled_length, ye, false);
+		}
+	}
+	draw_set_color(pcolor);
+}

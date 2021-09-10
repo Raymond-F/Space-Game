@@ -69,8 +69,8 @@
   ],
   "nineSlice": null,
   "parent": {
-    "name": "Sprites",
-    "path": "folders/Sprites.yy",
+    "name": "icons",
+    "path": "folders/Sprites/icons.yy",
   },
   "resourceVersion": "1.0",
   "name": "s_icon_will",

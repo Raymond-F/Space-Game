@@ -720,8 +720,8 @@ function string_tokenize(str) {
 	while(true){
 		var word = string_get_first_word(str);
 		str = string_copy(str, string_length(word)+2, string_length(str)-string_length(word));
-		// When we've reached the last word, string_get_first_word will return the given string
-		if(word == str){
+		// When we've reached the last word, string_get_first_word will be empty
+		if(word == ""){
 			return arr;
 		}
 		arr[array_length(arr)] = word;

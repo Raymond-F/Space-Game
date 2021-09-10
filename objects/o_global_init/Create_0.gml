@@ -22,7 +22,20 @@ global.will = 0;
 global.charm = 0;
 global.flags = ds_map_create();
 initialize_flags();
-initialize_itemlist_modules();
+global.shiplist = initialize_shipinfo();
+global.itemlist_modules = initialize_itemlist_modules();
+global.itemlist_weapons = initialize_itemlist_weapons();
+global.player_ship = initialize_default_player_ship();
+player_ship_save();
+player_ship_load();
+
+enum context {
+	zone_map,
+	sector_map,
+	battle
+}
+global.context = context.sector_map;
+global.previous_context = context.sector_map;
 
 /*
 //code for testing the recursive evaluation function
