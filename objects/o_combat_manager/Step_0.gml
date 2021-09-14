@@ -14,21 +14,34 @@ if(!faded_in || fading_out) {
 			global.previous_context = context.battle;
 			final_fade = true;
 			fading_out = false;
+			with(o_ship) instance_destroy();
+			with(par_weapon) instance_destroy();
+			with(o_engineburn) instance_destroy();
+			with(par_projectile) instance_destroy();
+			with(o_shield) instance_destroy();
+			with(o_moveline) instance_destroy();
+			with(o_weapon_hud) instance_destroy();
 		}
 	}
-}
-else {
+} else {
 	fade = max(fade-0.02, 0);
 	if(final_fade && fade <= 0) {
+		instance_create(GUIW/2 - sprite_get_width(s_inventory_pane)/2, GUIH/2 - sprite_get_height(s_inventory_pane)/2, o_loot_pane);
 		instance_destroy();
 	}
 }
-if(faded_in) {
+if(faded_in && !fading_out && !final_fade) {
 	moveline_timer--;
 	if(moveline_timer <= 0) {
 		instance_create(irandom_range(50, VIEW_WIDTH-50), 0, o_moveline);
 		moveline_timer = irandom_range(10, 25);
 	}
+}
+if(faded_in && !final_fade && (player.hull_current <= 0 || enemy.hull_current <= 0)) {
+	end_of_battle_timer--;
+}
+if(end_of_battle_timer == 0) {
+	fading_out = true;
 }
 
 // Break shield

@@ -12,6 +12,10 @@ else {
 }
 var shield = collision_point(x, y, o_shield, true, true);
 if (instance_exists(par.opponent) && par.opponent.shield_current > 0 && shield != noone && shield.par != par) {
+	while(collision_point(x, y, shield, true, false)) {
+		x -= lengthdir_x(1, image_angle);
+		y -= lengthdir_y(1, image_angle);
+	}
 	damage_shield(id, shield);
 	instance_destroy();
 }

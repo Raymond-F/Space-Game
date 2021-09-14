@@ -50,10 +50,11 @@ function combat_init() {
 	}
 }
 
-battle_file = "testbattle.txt";
+battle_file = global.battle_file;
 fade = 0;
 faded_in = false;
 fading_out = false;
 final_fade = false;
-depth = 0;
+depth = -1;
 moveline_timer = irandom_range(10, 20);
+end_of_battle_timer = 300;

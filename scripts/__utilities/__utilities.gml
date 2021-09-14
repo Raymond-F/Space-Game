@@ -95,3 +95,29 @@ function draw_progress_bar(x1, y1, x2, y2, border_width, fill_color, border_colo
 	}
 	draw_set_color(pcolor);
 }
+
+function tokenize_to_int64(str) {
+	var arr = string_tokenize(str);
+	for(var i = 0; i < array_length(arr); i++) {
+		arr[i] = int64(arr[i]);
+	}
+	return arr;
+}
+
+// Creates a new struct and copies each member of `struct` into it. The struct will be of type
+// c_type
+function struct_copy(struct, c_type) {
+	var n = new c_type();
+	var names = variable_struct_get_names(struct);
+	for (var i = 0; i < array_length(names); i++) {
+		variable_struct_set(n, names[i], variable_struct_get(struct, names[i]));
+	}
+	return n;
+}
+
+// Wrapper function for easy mouse GUI collision on UI objects
+function mouse_collision_gui(obj = self) {
+	with(obj) {
+		return point_in_rectangle(MOUSE_GUIX, MOUSE_GUIY, bbox_left, bbox_top, bbox_right, bbox_bottom);
+	}
+}

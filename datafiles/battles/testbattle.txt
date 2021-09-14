@@ -1,3 +1,4 @@
 id 0
 mods 0 100 200 500 501
 wep 0 0
+loot testloot.txt 10

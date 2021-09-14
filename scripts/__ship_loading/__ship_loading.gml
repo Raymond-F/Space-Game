@@ -70,6 +70,10 @@ function load_ship_from_file(fname){
 					_weapons[j-1] = int64(tokens[j]);
 				}
 			} break;
+			case "loot" : {
+				global.loot_file = tokens[1]; // File to generate loot from
+				global.loot_rolls = round(int64(tokens[2]) * random_range(0.75, 1.25)); // Number of loot rolls
+			}
 			default: break;
 		}
 	}
@@ -158,7 +162,7 @@ function player_ship_save() {
 		return str;
 	}
 	
-	fname = "saveinfo\\ship"; //set to correct directory
+	var fname = "saveinfo\\ship"; //set to correct directory
 	if(file_exists(fname)){
 		show_debug_message("Save data found. Deleting...");
 		file_delete(fname);
@@ -196,7 +200,7 @@ function player_ship_save() {
 }
 
 function player_ship_load() {
-	fname = "saveinfo\\ship"; //set to correct directory
+	var fname = "saveinfo\\ship"; //set to correct directory
 	if(!file_exists(fname)){
 		show_debug_message("ERROR: could not open file with filename: " + fname);
 		return noone;
@@ -219,13 +223,6 @@ function player_ship_load() {
 	//we should now have a set of arrays representing the player ship.
 	file_text_close(file);
 	var sh = new ship(global.shiplist[? int64(lines[0])]);
-	var tokenize_to_int64 = function(str) {
-		var arr = string_tokenize(str);
-		for(var i = 0; i < array_length(arr); i++) {
-			arr[i] = int64(arr[i]);
-		}
-		return arr;
-	}
 	sh.class1 = tokenize_to_int64(lines[1]);
 	sh.class2 = tokenize_to_int64(lines[2]);
 	sh.class3 = tokenize_to_int64(lines[3]);

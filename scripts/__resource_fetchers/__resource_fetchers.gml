@@ -62,7 +62,11 @@ function modify_resource(str, amount) {
 	switch (str) {
 		case "pix" : global.pix += amount; break;
 		case "crew" : global.crew += amount; break;
-		case "supplies" : global.supplies += amount; break;
+		case "supplies" : if (amount > 0) {
+				inventory_add_item(global.player_inventory, global.itemlist_cargo[? 0], amount);
+			} else {
+				inventory_remove_item(global.player_inventory, "supplies", -amount);
+			} update_item_display(); break;
 		case "fuel" : global.fuel += amount; break;
 		default : break;
 	}

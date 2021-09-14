@@ -20,14 +20,21 @@ global.guts = 0;
 global.wits = 0;
 global.will = 0;
 global.charm = 0;
+//data structures
 global.flags = ds_map_create();
 initialize_flags();
 global.shiplist = initialize_shipinfo();
 global.itemlist_modules = initialize_itemlist_modules();
 global.itemlist_weapons = initialize_itemlist_weapons();
+global.itemlist_cargo = initialize_itemlist_cargo();
 global.player_ship = initialize_default_player_ship();
+initialize_default_player_inventory();
 player_ship_save();
 player_ship_load();
+//other flags
+global.battle_file = "testbattle.txt";
+global.loot_file = "testloot.txt";
+
 
 enum context {
 	zone_map,

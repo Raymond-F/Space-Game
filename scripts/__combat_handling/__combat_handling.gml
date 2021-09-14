@@ -152,7 +152,7 @@ function get_angle_with_smallest_difference(start, target) {
 function damage_shield(proj, shield) {
 	var damage_to_shield = proj.damage * proj.shield_damage_multiplier - shield.par.shield_stability_base;
 	shield.par.shield_current = max(shield.par.shield_current - damage_to_shield, 0);
-	ds_list_add(shield.hit_flares, [proj.x, proj.y, damage_to_shield]);
+	ds_list_add(shield.hit_flares, [proj.x, proj.y, power(damage_to_shield, 0.66)]);
 }
 
 // Damage the hull of a ship

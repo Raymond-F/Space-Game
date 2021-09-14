@@ -6,4 +6,4 @@ if(y > VIEW_HEIGHT + 20) {
 }
 
 draw_set_color(c_white);
-draw_rectangle(x-1, y+1, x, y - len, false);
+draw_rectangle(x, y+1, x, y - len, false);
