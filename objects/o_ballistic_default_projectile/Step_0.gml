@@ -1,5 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
+event_inherited();
 if (point_distance(x, y, tx, ty) < spd && hit) {
 	x = tx;
 	y = ty;

@@ -1,11 +1,17 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 
+enum option_link_type {
+	dialogue,
+	battle
+}
+
 //option for the player to select. Contains text and a link to another node.
 //if the link is empty, it closes the dialogue instead.
-function dsys_option(_text, _link, _costs, _gains, _conds, _reqs, _rand_costs, _rand_gains, _skilltest_info) constructor {
+function dsys_option(_text, _link, _link_type, _costs, _gains, _conds, _reqs, _rand_costs, _rand_gains, _skilltest_info) constructor {
 	text = _text;
 	link = _link;
+	link_type = _link_type;
 	costs = _costs;
 	gains = _gains;
 	conds = _conds; //conditions have the format [TYPE_MACRO, val1, comparator, val2]
@@ -38,7 +44,7 @@ function dsys_node(_name, _text, _options, _costs, _gains, _flags, _localflags, 
 		options = [_options];
 	}
 	else {
-		options = [dsys_option("<UNDEFINED OPTION ARRAY>", "", [], [], [], [], [], [], [])];
+		options = [dsys_option("<UNDEFINED OPTION ARRAY>", "", option_link_type.dialogue, [], [], [], [], [], [], [])];
 	}
 }
 
@@ -152,6 +158,7 @@ function dsys_parse_node_from_array(arr){
 			else if (INPUT_TYPE == "OPTION"){
 				var opt_text = s;
 				var opt_link = "";
+				var opt_link_type = option_link_type.dialogue;
 				var opt_costs = [];
 				var opt_gains = [];
 				var opt_conds = [];
@@ -209,7 +216,11 @@ function dsys_parse_node_from_array(arr){
 						case "KEYATTRIBUTE" : {
 							var skilltest = [tokens[1], int64(tokens[2])];
 							opt_skilltest = skilltest;
-						}
+						} break;
+						case "FIGHT" : {
+							opt_link_type = option_link_type.battle;
+							opt_link = tokens[1]; // Links to the battle file
+						} break;
 						case "EXIT" : break;
 						default : {
 							switch (string_char_at(command, 1)){
@@ -280,7 +291,7 @@ function dsys_parse_node_from_array(arr){
 					}
 				}
 				options[array_length(options)] = 
-						new dsys_option(opt_text, opt_link, opt_costs, opt_gains, opt_conds, opt_reqs, opt_rcosts, opt_rgains, opt_skilltest_info);
+						new dsys_option(opt_text, opt_link, opt_link_type, opt_costs, opt_gains, opt_conds, opt_reqs, opt_rcosts, opt_rgains, opt_skilltest_info);
 			}
 			state = GET_TYPE;
 		}
@@ -373,6 +384,7 @@ function format_optionbutton(_opt, _index, _window){
 	var button = instance_create(0,0,o_dialogue_optionbutton);
 	button.text = _opt.text;
 	button.link = _opt.link;
+	button.link_type = _opt.link_type;
 	button.gains = _opt.gains;
 	button.costs = _opt.costs;
 	button.rand_costs = _opt.rand_costs;
@@ -421,6 +433,12 @@ function format_optionbutton(_opt, _index, _window){
 		var successchance = _opt.skilltest_info[1];
 		var dcolor = color_interpolate(C_SKILLTEST_FAILURE, C_SKILLTEST_SUCCESS, successchance); //change later with color interpolation
 		button.skilltest_string = ts_colour(C_DIALOGUE_TOOLTIP) + "[" + fetch_sprite_atex(_opt.skilltest_info[0]) + ts_colour(dcolor) + string(floor(successchance * 100)) + "%" + ts_colour(C_DIALOGUE_TOOLTIP) + "] ";
+	}
+	button.link_type_string = "";
+	if (button.link_type == option_link_type.battle) {
+		button.link_type_string = "[FIGHT]";
+	} else if (button.link == "") {
+		button.link_type_string = "[END]";
 	}
 	return button;
 }

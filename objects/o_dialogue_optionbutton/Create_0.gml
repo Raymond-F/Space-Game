@@ -15,5 +15,6 @@ cost_string = "";
 gain_string = "";
 reqs_string = "";
 activity_string = "";
+link_type_string = "";
 depth = -11;
 formatted = false;

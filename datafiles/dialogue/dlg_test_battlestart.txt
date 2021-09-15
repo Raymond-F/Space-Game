@@ -1,0 +1,5 @@
+START
+Fight me.
+OPTION
+Catch these hands.
+FIGHT testbattle2.txt

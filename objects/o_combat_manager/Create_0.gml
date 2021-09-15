@@ -35,9 +35,11 @@ function combat_init() {
 	}
 	//Make hanger-on objects
 	with(instance_create(player.x, player.y, o_shield)) {
+		other.player.shield_object = id;
 		par = other.player;
 	}
 	with(instance_create(enemy.x, enemy.y, o_shield)) {
+		other.enemy.shield_object = id;
 		par = other.enemy;
 	}
 	for (var i = 0; i < array_length(player.engines); i++) {

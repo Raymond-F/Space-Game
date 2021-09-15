@@ -217,6 +217,9 @@ function initialize_itemlist_weapons() {
 	ds_map_add_unique(ilw, 0, new weapon(0, "Cantor Dirk", o_weapon_cantor_dirk, new weaponstats("8x10", 8, 1, weapon_type.projectile, ""), 800, RARITY_UBIQ));
 	ds_map_add_unique(ilw, 1, new weapon(1, "Cantor Striker", o_weapon_cantor_striker, new weaponstats("12x30", 10, 5, weapon_type.projectile, ""), 3900, RARITY_UNCOMMON));
 	
+	// beam weapons (index 100 to 199)
+	ds_map_add_unique(ilw, 100, new weapon(0, "NT Alpha", o_weapon_newton_alpha, new weaponstats("600", 14, 6, weapon_type.beam, ""), 5500, RARITY_SCARCE));
+	
 	return ilw;
 }
 
@@ -281,6 +284,6 @@ function initialize_default_player_ship() {
 	var sh = new ship(global.shiplist[? 0]);
 	sh.class1 = [0, 100, 200, 500];
 	sh.class2 = [501];
-	sh.hardpoint_objects = [1, 0];
+	sh.hardpoint_objects = [1, 100];
 	return sh;
 }

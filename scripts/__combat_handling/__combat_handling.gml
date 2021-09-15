@@ -1,5 +1,13 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
+// Setup the actual combat manager object
+function combat_setup() {
+	if(!instance_exists(o_combat_manager)) {
+		instance_create(0,0, o_combat_manager);
+		close_inventory();
+	}
+}
+
 function combat_create_ship(info, is_player) {
 	var yy = VIEW_HEIGHT/2;
 	if(is_player) {
@@ -152,7 +160,12 @@ function get_angle_with_smallest_difference(start, target) {
 function damage_shield(proj, shield) {
 	var damage_to_shield = proj.damage * proj.shield_damage_multiplier - shield.par.shield_stability_base;
 	shield.par.shield_current = max(shield.par.shield_current - damage_to_shield, 0);
-	ds_list_add(shield.hit_flares, [proj.x, proj.y, power(damage_to_shield, 0.66)]);
+	if (proj.type == weapon_type.projectile || proj.type == weapon_type.plasma) {
+		ds_list_add(shield.hit_flares, [proj.x, proj.y, power(damage_to_shield, 0.66)]);
+	} else {
+		var hit = collision_line_nearest_point(proj.x, proj.y, proj.tx, proj.ty, proj.target.shield_object, true, false);
+		ds_list_add(shield.hit_flares, [hit[1], hit[2], power(damage_to_shield, 0.66)]);
+	}
 }
 
 // Damage the hull of a ship

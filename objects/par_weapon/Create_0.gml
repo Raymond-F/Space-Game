@@ -48,6 +48,58 @@ function ai_weapon_projectile_default() {
 	}
 }
 
+function ai_weapon_beam_default() {
+	if(!setup) {
+		setup = true;
+		shots_remaining = max_shots;
+		cooldown_remaining = 0;
+		firing = false;
+		windup_remaining = windup_max;
+		target = [0,0];
+		target_angle = 0;
+		proj = noone;
+	}
+	if(charge == charge_max && (fire || autofire)) {
+		fire = false;
+		charge = 0;
+		firing = true;
+		target = select_target_point_on_ship(par.opponent);
+		target_angle =  get_angle_with_smallest_difference(image_angle, point_direction(x, y, target[0], target[1]));
+		windup_remaining = windup_max;
+		shots_remaining = max_shots;
+	}
+	if(firing) {
+		if(windup_remaining > 0) {
+			windup_remaining--;
+			image_angle = lerp(image_angle, target_angle, 0.3);
+		} else {
+			if (proj == noone) {
+				proj = instance_create(x + lengthdir_x(barrel_length, image_angle), y + lengthdir_y(barrel_length, image_angle), projectile_object);
+				proj.tx = target[0];
+				proj.ty = target[1];
+				proj.target = par.opponent;
+				var drift_target = select_target_point_on_ship(par.opponent);
+				proj.endx = drift_target[0];
+				proj.endy = drift_target[1];
+				proj.damage = damage;
+				proj.shield_damage_multiplier = shield_damage_multiplier;
+				proj.hull_damage_multiplier = hull_damage_multiplier;
+				proj.armor_penetration = armor_penetration;
+				proj.par = par;
+				proj.depth = depth - 1;
+			}
+			if(instance_exists(proj)) {
+				image_angle = point_direction(x, y, proj.tx, proj.ty);
+				proj.x = x + lengthdir_x(barrel_length, image_angle);
+				proj.y = y + lengthdir_y(barrel_length, image_angle);
+			} else {
+				proj = noone;
+				firing = false;
+			}
+		}
+	}
+}
+
 enum weapon_type {
 	projectile,
 	blaster,

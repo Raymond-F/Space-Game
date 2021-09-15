@@ -1,10 +1,16 @@
 {
-  "spriteId": null,
+  "spriteId": {
+    "name": "s_projectile_laser_narrow",
+    "path": "sprites/s_projectile_laser_narrow/s_projectile_laser_narrow.yy",
+  },
   "solid": false,
   "visible": true,
   "spriteMaskId": null,
   "persistent": false,
-  "parentObjectId": null,
+  "parentObjectId": {
+    "name": "par_projectile",
+    "path": "objects/par_projectile/par_projectile.yy",
+  },
   "physicsObject": false,
   "physicsSensor": false,
   "physicsShape": 1,
@@ -20,6 +26,8 @@
   "eventList": [
     {"isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
     {"isDnD":false,"eventNum":0,"eventType":3,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+    {"isDnD":false,"eventNum":0,"eventType":8,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+    {"isDnD":false,"eventNum":1,"eventType":3,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
   "overriddenProperties": [],
@@ -28,7 +36,7 @@
     "path": "folders/Objects/weapons/projectiles.yy",
   },
   "resourceVersion": "1.0",
-  "name": "par_projectile",
+  "name": "o_beam_default_projectile",
   "tags": [],
   "resourceType": "GMObject",
 }
