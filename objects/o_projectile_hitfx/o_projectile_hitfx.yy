@@ -24,7 +24,7 @@
   "overriddenProperties": [],
   "parent": {
     "name": "fx",
-    "path": "folders/Objects/fx.yy",
+    "path": "folders/Objects/combat/fx.yy",
   },
   "resourceVersion": "1.0",
   "name": "o_projectile_hitfx",

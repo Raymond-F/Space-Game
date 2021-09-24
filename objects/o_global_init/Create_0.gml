@@ -6,6 +6,15 @@ global.debug = false;
 room_goto(room_next(room));
 randomize();
 global.sprite_map = initialize_sprite_map();
+draw_set_circle_precision(64);
+//bookkeeping
+global.zone_width = 100;
+global.zone_height = 50;
+global.current_zone = 1;
+global.player = noone;
+global.player_x = irandom_range(30, 70)
+global.player_y = irandom_range(20, 30)
+global.camera_constraints = [0, 0, 99999, 99999];
 //resources
 global.pix = 0;
 global.crew = 0;
@@ -21,6 +30,7 @@ global.wits = 0;
 global.will = 0;
 global.charm = 0;
 //data structures
+global.sector_map = sector_map_init();
 global.flags = ds_map_create();
 initialize_flags();
 global.shiplist = initialize_shipinfo();
@@ -28,13 +38,13 @@ global.itemlist_modules = initialize_itemlist_modules();
 global.itemlist_weapons = initialize_itemlist_weapons();
 global.itemlist_cargo = initialize_itemlist_cargo();
 global.player_ship = initialize_default_player_ship();
+sector_map_init();
 initialize_default_player_inventory();
 player_ship_save();
 player_ship_load();
 //other flags
 global.battle_file = "testbattle.txt";
 global.loot_file = "testloot.txt";
-
 
 enum context {
 	zone_map,

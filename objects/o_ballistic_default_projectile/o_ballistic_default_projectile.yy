@@ -32,7 +32,7 @@
   "overriddenProperties": [],
   "parent": {
     "name": "projectiles",
-    "path": "folders/Objects/weapons/projectiles.yy",
+    "path": "folders/Objects/combat/weapons/projectiles.yy",
   },
   "resourceVersion": "1.0",
   "name": "o_ballistic_default_projectile",

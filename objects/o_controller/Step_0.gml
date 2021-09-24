@@ -23,5 +23,14 @@ if(PRESSED(ord("1"))){
 } else if(PRESSED(ord("I"))) {
 	if(!instance_exists(o_inventory_pane) && !instance_exists(o_combat_manager) && !instance_exists(o_dialogue_manager)) {
 		instance_create(GUIW/2 - sprite_get_width(s_inventory_pane)/2, GUIH/2 - sprite_get_height(s_inventory_pane)/2, o_inventory_pane);
+	} else {
+		close_inventory();
+	}
+} else if(PRESSED(ord("M"))) {
+	close_inventory();
+	if (!instance_exists(o_gui_sectormap)) {
+		instance_create(0, 0, o_gui_sectormap);
+	} else {
+		with (o_gui_sectormap) { instance_destroy(); }
 	}
 }

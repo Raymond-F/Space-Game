@@ -25,8 +25,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Objects",
-    "path": "folders/Objects.yy",
+    "name": "dialogue",
+    "path": "folders/Objects/dialogue.yy",
   },
   "resourceVersion": "1.0",
   "name": "o_dialogue_manager",

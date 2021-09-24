@@ -30,7 +30,7 @@
   "overriddenProperties": [],
   "parent": {
     "name": "weapons",
-    "path": "folders/Objects/weapons.yy",
+    "path": "folders/Objects/combat/weapons.yy",
   },
   "resourceVersion": "1.0",
   "name": "o_weapon_cantor_striker",

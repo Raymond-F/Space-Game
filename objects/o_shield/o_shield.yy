@@ -29,8 +29,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Objects",
-    "path": "folders/Objects.yy",
+    "name": "fx",
+    "path": "folders/Objects/combat/fx.yy",
   },
   "resourceVersion": "1.0",
   "name": "o_shield",

@@ -1,0 +1,16 @@
+/// @description Insert description here
+// You can write your code in this editor
+if (!setup) {
+	setup = true;
+	switch(type) {
+		case location_type.settlement: {
+			sprite_index = s_zonemap_settlement_small;
+		} break;
+		case location_type.pirate_base: {
+			sprite_index = s_zonemap_pirate_base_small;
+		} break;
+		case location_type.event: {
+			sprite_index = s_zonemap_event_unknown;
+		} break;
+	}
+}

@@ -30,8 +30,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "Objects",
-    "path": "folders/Objects.yy",
+    "name": "inventory",
+    "path": "folders/Objects/inventory.yy",
   },
   "resourceVersion": "1.0",
   "name": "o_inventory_pane",

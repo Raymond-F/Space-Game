@@ -25,7 +25,7 @@
   "overriddenProperties": [],
   "parent": {
     "name": "ships",
-    "path": "folders/Objects/ships.yy",
+    "path": "folders/Objects/combat/ships.yy",
   },
   "resourceVersion": "1.0",
   "name": "o_ship",
