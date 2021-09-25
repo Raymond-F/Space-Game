@@ -34,3 +34,7 @@ if(PRESSED(ord("1"))){
 		with (o_gui_sectormap) { instance_destroy(); }
 	}
 }
+
+if (PRESSED(vk_backspace)) {
+	global.debug = !global.debug;
+}

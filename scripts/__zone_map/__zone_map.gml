@@ -24,13 +24,14 @@ function location(_gx, _gy, _type) constructor {
 }
 
 function location_create(loc, zone_cont) {
-	var hex = zone_cont.hex_array[loc.gx][loc.gy];
-	with (instance_create(hex.x, hex.y, o_zonemap_location)) {
+	var _hex = zone_cont.hex_array[loc.gx][loc.gy];
+	with (instance_create(_hex.x, _hex.y, o_zonemap_location)) {
 		gx = loc.gx;
 		gy = loc.gy;
 		type = loc.type;
 		image_index = loc.img_index;
 		size = loc.size;
+		hex = _hex;
 	}
 }
 
@@ -149,6 +150,7 @@ function zone_create(z) {
 	var cont = instance_create(0, 0, o_controller_zonemap);
 	var hex = cont.hex_array[global.player_x][global.player_y];
 	global.player = instance_create(hex.x, hex.y, o_player);
+	update_vision(hex, global.sensor_range);
 	//instance_create(0, 0, o_zone_hex_renderer);
 	instance_create(0, 0, o_camera);
 	for (var i = 0; i < ds_list_size(z.locations); i++) {
@@ -270,4 +272,25 @@ function apply_terrain_floodfill_hex(type, start, spread_chance, max_size) {
 		
 	ds_list_destroy(open);
 	ds_list_destroy(closed);
+}
+
+function vision_recur(hex, range_rem, start_hex) {
+	hex.vision = true;
+	hex.explored = true;
+	if(hex.type == hex_type.dust && hex != start_hex) {
+		range_rem -= 2;
+	}
+	if (range_rem > 0) {
+		var adj = hex_get_adjacent(hex);
+		for (var i = 0; i < array_length(adj); i++) {
+			vision_recur(adj[i], range_rem-1, start_hex);
+		}
+	}
+}
+
+function update_vision(start, range) {
+	with(o_zonemap_hex) {
+		vision = false;
+	}
+	vision_recur(start, global.sensor_range, start);
 }

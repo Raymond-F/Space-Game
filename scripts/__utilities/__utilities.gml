@@ -113,3 +113,11 @@ function collision_line_nearest_point(x1, y1, x2, y2, object, prec, notme) {
 function array_choose(arr) {
 	return arr[irandom(array_length(arr)-1)];
 }
+
+// Makes a 2d array of the specified dimensions, filled with the given value
+function array_2d_create(dim1, dim2, val) {
+	var arr = array_create(dim1);
+	for (var i = 0; i < dim1; i++) {
+		arr[i] = array_create(dim2, val);
+	}
+}

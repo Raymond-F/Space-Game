@@ -10,6 +10,7 @@ set_player_dest = function() {
 	global.camera.follow = true;
 	global.camera.target = global.player;
 	global.player.hex = targeted_hex;
+	update_vision(targeted_hex, global.sensor_range);
 }
 
 hex_array = array_create(global.zone_width);

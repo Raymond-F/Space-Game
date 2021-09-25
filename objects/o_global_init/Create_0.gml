@@ -15,6 +15,7 @@ global.player = noone;
 global.player_x = irandom_range(30, 70)
 global.player_y = irandom_range(20, 30)
 global.camera_constraints = [0, 0, 99999, 99999];
+global.sensor_range = 5;
 //resources
 global.pix = 0;
 global.crew = 0;

@@ -8,3 +8,4 @@ enum hex_type {
 type = hex_type.empty;
 gx = 0;
 gy = 0;
+explored = false;

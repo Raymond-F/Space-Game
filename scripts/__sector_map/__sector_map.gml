@@ -34,6 +34,7 @@ function zone(_s, _e, _outer, _inner, _cx, _cy) constructor {
 	for(var i = 0; i < global.zone_width; i++) {
 		terrain[i] = array_create(global.zone_height);
 	}
+	explored = array_2d_create(global.zone_width, global.zone_height, false);
 	zone_place_terrain(self, 10);
 	
 	destroy = function() {
