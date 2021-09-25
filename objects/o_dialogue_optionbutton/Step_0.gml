@@ -13,6 +13,7 @@ if(active && MPRESSED(mb_left)){
 			}
 		} else if (link_type == option_link_type.battle) {
 			global.battle_file = link;
+			global.postbattle_file = postbattle_file;
 			combat_setup();
 			with (parent) {
 				instance_destroy();

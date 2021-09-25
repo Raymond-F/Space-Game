@@ -11,6 +11,9 @@ set_player_dest = function() {
 	global.camera.target = global.player;
 	global.player.hex = targeted_hex;
 	update_vision(targeted_hex, global.sensor_range);
+	global.current_turn++;
+	pcontrol = false;
+	pcontrol_timer = 30;
 }
 
 hex_array = array_create(global.zone_width);
@@ -19,6 +22,8 @@ targeted_hex = noone;
 for (var i = 0; i < global.zone_width; i++) {
 	hex_array[i] = array_create(global.zone_height);
 }
+pcontrol = true;
+pcontrol_timer = -1;
 
 // For camera constraints
 var l = 99999, r = 0, t = 99999, b = 0;

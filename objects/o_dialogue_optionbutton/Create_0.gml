@@ -17,4 +17,5 @@ reqs_string = "";
 activity_string = "";
 link_type_string = "";
 depth = -11;
+postbattle_file = "";
 formatted = false;

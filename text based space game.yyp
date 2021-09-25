@@ -118,6 +118,7 @@
     {"id":{"name":"usertag_add","path":"scripts/usertag_add/usertag_add.yy",},"order":0,},
     {"id":{"name":"sh_to_white","path":"shaders/sh_to_white/sh_to_white.yy",},"order":0,},
     {"id":{"name":"ts_font","path":"scripts/ts_font/ts_font.yy",},"order":4,},
+    {"id":{"name":"__event_handling","path":"scripts/__event_handling/__event_handling.yy",},"order":14,},
     {"id":{"name":"ts_shadow","path":"scripts/ts_shadow/ts_shadow.yy",},"order":13,},
     {"id":{"name":"__items","path":"scripts/__items/__items.yy",},"order":11,},
     {"id":{"name":"ts_lineback","path":"scripts/ts_lineback/ts_lineback.yy",},"order":9,},
@@ -243,6 +244,8 @@
     {"CopyToMask":-1,"filePath":"datafiles/loot","resourceVersion":"1.0","name":"testloot.txt","resourceType":"GMIncludedFile",},
     {"CopyToMask":-1,"filePath":"datafiles/battles","resourceVersion":"1.0","name":"testbattle2.txt","resourceType":"GMIncludedFile",},
     {"CopyToMask":-1,"filePath":"datafiles/dialogue","resourceVersion":"1.0","name":"dlg_test_battlestart.txt","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles/dialogue","resourceVersion":"1.0","name":"dlg_event_find_derelict.txt","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles/dialogue","resourceVersion":"1.0","name":"dlg_postcombat_derelict_ambush.txt","resourceType":"GMIncludedFile",},
   ],
   "MetaData": {
     "IDEVersion": "2.3.4.580",

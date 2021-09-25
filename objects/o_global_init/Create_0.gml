@@ -10,12 +10,15 @@ draw_set_circle_precision(64);
 //bookkeeping
 global.zone_width = 100;
 global.zone_height = 50;
+global.current_turn = 0; // global current turn value. Increments 1 per player turn.
 global.current_zone = 1;
+global.zone_tags = [etags.always];
 global.player = noone;
 global.player_x = irandom_range(30, 70)
 global.player_y = irandom_range(20, 30)
 global.camera_constraints = [0, 0, 99999, 99999];
 global.sensor_range = 5;
+global.event_current_object = noone; // the object pertaining to the event currently happening
 //resources
 global.pix = 0;
 global.crew = 0;
@@ -38,6 +41,7 @@ global.shiplist = initialize_shipinfo();
 global.itemlist_modules = initialize_itemlist_modules();
 global.itemlist_weapons = initialize_itemlist_weapons();
 global.itemlist_cargo = initialize_itemlist_cargo();
+global.event_list = initialize_event_list();
 global.player_ship = initialize_default_player_ship();
 sector_map_init();
 initialize_default_player_inventory();
@@ -45,6 +49,7 @@ player_ship_save();
 player_ship_load();
 //other flags
 global.battle_file = "testbattle.txt";
+global.postbattle_file = "";
 global.loot_file = "testloot.txt";
 
 enum context {

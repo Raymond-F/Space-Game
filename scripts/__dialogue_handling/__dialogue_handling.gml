@@ -19,6 +19,7 @@ function dsys_option(_text, _link, _link_type, _costs, _gains, _conds, _reqs, _r
 	rand_costs = _rand_costs;
 	rand_gains = _rand_gains;
 	skilltest_info = _skilltest_info; //format [attribute, success_chance]
+	postbattle_file = "";
 }
 
 //a node of dialogue, including main text and all option objects
@@ -158,6 +159,7 @@ function dsys_parse_node_from_array(arr){
 			else if (INPUT_TYPE == "OPTION"){
 				var opt_text = s;
 				var opt_link = "";
+				var opt_postbattle = "";
 				var opt_link_type = option_link_type.dialogue;
 				var opt_costs = [];
 				var opt_gains = [];
@@ -220,6 +222,9 @@ function dsys_parse_node_from_array(arr){
 						case "FIGHT" : {
 							opt_link_type = option_link_type.battle;
 							opt_link = tokens[1]; // Links to the battle file
+							if (array_length(tokens) > 2) {
+								opt_postbattle = tokens[2];
+							}
 						} break;
 						case "EXIT" : break;
 						default : {
@@ -290,8 +295,9 @@ function dsys_parse_node_from_array(arr){
 						}
 					}
 				}
-				options[array_length(options)] = 
-						new dsys_option(opt_text, opt_link, opt_link_type, opt_costs, opt_gains, opt_conds, opt_reqs, opt_rcosts, opt_rgains, opt_skilltest_info);
+				var new_opt = new dsys_option(opt_text, opt_link, opt_link_type, opt_costs, opt_gains, opt_conds, opt_reqs, opt_rcosts, opt_rgains, opt_skilltest_info);
+				new_opt.postbattle_file = opt_postbattle;
+				array_push(options, new_opt);
 			}
 			state = GET_TYPE;
 		}
@@ -385,6 +391,7 @@ function format_optionbutton(_opt, _index, _window){
 	button.text = _opt.text;
 	button.link = _opt.link;
 	button.link_type = _opt.link_type;
+	button.postbattle_file = _opt.postbattle_file;
 	button.gains = _opt.gains;
 	button.costs = _opt.costs;
 	button.rand_costs = _opt.rand_costs;

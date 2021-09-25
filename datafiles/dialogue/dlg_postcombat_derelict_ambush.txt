@@ -1,0 +1,5 @@
+START
+It looks like these pirates already took the liberty of stripping this wreck clean before they used it as bait. There's nothing more to find here.
+OPTION
+Let's get back on the jump.
+EXIT

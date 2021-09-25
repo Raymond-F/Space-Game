@@ -1,6 +1,11 @@
 /// @description Insert description here
 // You can write your code in this editor
 
+if (global.context == context.battle) {
+	camera_set_view_pos(CAM, 0, 0);
+	exit;
+}
+
 // Manual control
 var xchange = 0, ychange = 0;
 if (HELD(ord("D"))) {

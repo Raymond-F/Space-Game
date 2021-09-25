@@ -21,6 +21,26 @@ function location(_gx, _gy, _type) constructor {
 	type = _type;
 	img_index = 0; // Used for locations with multiple possible sprites
 	size = settlement_size.small; // Used for settlements and possibly pirate bases
+	switch(type) {
+		case location_type.settlement : {
+			interact = function() {
+				// TODO: settlement screen
+			}
+		} break;
+		case location_type.pirate_base : {
+			interact = function() {
+				// TODO: some kind of handling for this?
+			}
+		} break;
+		case location_type.event : {
+			interact = function() {
+				event_trigger_random();
+			}
+		} break;
+		default : {
+			interact = function() {}
+		} break;
+	}
 }
 
 function location_create(loc, zone_cont) {
@@ -32,6 +52,7 @@ function location_create(loc, zone_cont) {
 		image_index = loc.img_index;
 		size = loc.size;
 		hex = _hex;
+		struct = loc;
 	}
 }
 
@@ -292,5 +313,5 @@ function update_vision(start, range) {
 	with(o_zonemap_hex) {
 		vision = false;
 	}
-	vision_recur(start, global.sensor_range, start);
+	vision_recur(start, range, start);
 }

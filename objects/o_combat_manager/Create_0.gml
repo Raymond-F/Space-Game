@@ -50,6 +50,13 @@ function combat_init() {
 		var eng = instance_create(enemy.x + enemy.engines[i][0], enemy.y + enemy.engines[i][1], o_engineburn);
 		eng.par = enemy;
 	}
+	
+	// Disable zone map objects temporarily
+	instance_deactivate_object(o_zonemap_hex);
+	instance_deactivate_object(o_player);
+	instance_deactivate_object(o_zonemap_location);
+	instance_deactivate_object(o_controller_zonemap);
+	
 }
 
 battle_file = global.battle_file;
