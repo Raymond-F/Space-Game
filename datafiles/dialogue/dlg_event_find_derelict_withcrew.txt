@@ -1,0 +1,60 @@
+START
+Your sensors detect an interesting object nearby. Deciding to investigate further, you close the distance and run another scan. The scan reveals what appears to be a derelict ship, but at the moment you can't get any more details without drawing nearer to whatever it is.
+OPTION
+Close the gap and get a better scan.
+$DERELICT
+OPTION
+Let's leave it alone.
+$END
+
+DERELICT
+You are initially disappointed as your scanning routine finishes and detects little debris of any use among the wreckage. However, one of your crew gets your attention and shows you a strange reading. It seems the sensors have picked up on traces of life aboard!
+OPTION
+We should investigate, there could be people stranded aboard.
+%FINDCREW 6
+%AMBUSH 2
+%MADMAN 1
+OPTION
+Turn around. I'm not sending my boarders into some kind of death trap!
+END
+
+FINDCREW
+You arrange an away party to investigate and send them to board. You're unsure of what caused this wreck, but it seems the remains of the ship are safe enough for now. The crew dock with the remains of the ship's shuttle bay and begin to sweep through its silent, airless halls and junctures. An overturned table here, a spatter of blood there. The whole place would be nearly serene were it not for the occasional frozen corpse floating by, visage still twisted in the pain and shock of whatever made up their final moments. Finally, the party comes upon a sealed room that still seems pressurized. Making their way quickly inside, they find several crew members in cryosleep. After bringing them back aboard and thawing them out, they agree to join your crew. Frankly, they didn't have much choice.
+GAINRANDOM crew 5 9
+OPTION
+Excellent.
+EXIT
+
+AMBUSH
+You arrange an away party to investigate and send them to board. You're unsure of what caused this wreck, but it seems the remains of the ship are safe enough for now. The crew finds the section of the ship with the strongest life signs docks there, eager to see what's inside. As their cutting torch makes it through the last bit of metal and the chunk of hull they've cut through falls away, they are greeted by a volley of gunfire that fells several and injures a few more. Your crew quickly return fire, cutting down the unexpected foes who were lying in ambush. Whether they were pirates or simply jumpy survivors, there's no way of knowing now. Frowning, you order your boarding party to gather the fallen and return aboard.
+LOSERANDOM crew 3 6
+OPTION
+They will be remembered...
+EXIT
+
+MADMAN
+You arrange an away party to investigate and send them to board. You're unsure of what caused this wreck, but it seems the remains of the ship are safe enough for now. This ship seems to have been rather small internally, and your search quickly runs out of new places to look. You nearly decide to order the crew off the search when one of the away party spots a vent door that looks to have been recently disturbed. Checking inside, they find a hollow-eyed man rocking back and forth in a suit with an hour of oxygen left at best. He seems to be speaking rapidly inside the helmet, but without comms noone can understand him.
+OPTION
+Bring him aboard before he suffocates!
+$MADMAN_ABOARD
+OPTION
+We have no time for shellshocked fools. Leave him.
+$MADMAN_ABANDONED
+
+MADMAN_ABOARD
+Despite bringing him aboard and providing him with a warm meal and a room, whoever this stranger is seems to have been thoroughly broken. They simply rock slowly back and forth, muttering nonsense. Deciding to check on him and perhaps help him find some kind of respite from his madness, you make your way to his room only to find it empty. You quickly raise the alarm and get the crew to help search for him. They quickly find him having sealed himself into one of the airlocks. You hurridly go there, hoping to talk him down from whatever is running through his head. As you arrive, he presses the comms switch on the airlock and says the only intelligible thing so far after locking eyes with you.\n\n"I saw them. Like space, but wrong. It crawled and pulsed. In its horrible beauty, we died."\n\nBefore you can even process what he said, he slams down the release button on the airlock and is gone in a flash and a muted hiss. You order everyone back to their posts and return to the bridge, shaken by the experience.
+OPTION
+Just a crazed, doomed man... Right?
+EXIT
+
+MADMAN_ABANDONED
+You quickly remind the boarding party that you were on the search for useful survivors. Whoever this is is clearly beyond whatever help you can provide. After one last try to get the man, who slowly taps his hands against the visor of his helmet, to respond, the group agree and make their way back aboard your ship. The life signs on the wrecked vessel fade away as you pull back into open space.
+OPTION
+The Kaib does things to a man.
+EXIT
+
+END
+You decide whatever this junkheap is isn't worth your time. You pull away and it soon drifts out of sensor range.
+OPTION
+Better safe than sorry.
+EXIT

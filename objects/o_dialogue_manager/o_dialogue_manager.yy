@@ -4,7 +4,10 @@
   "visible": true,
   "spriteMaskId": null,
   "persistent": false,
-  "parentObjectId": null,
+  "parentObjectId": {
+    "name": "par_interface",
+    "path": "objects/par_interface/par_interface.yy",
+  },
   "physicsObject": false,
   "physicsSensor": false,
   "physicsShape": 1,

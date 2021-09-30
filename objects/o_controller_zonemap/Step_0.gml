@@ -1,5 +1,11 @@
 /// @description Insert description here
 // You can write your code in this editor
+
+// Don't interact with the map when an interface is up
+if (instance_exists(par_interface)) {
+	exit;
+}
+
 pcontrol_timer = max(-1, pcontrol_timer-1);
 if (pcontrol_timer == 0) {
 	pcontrol = true;

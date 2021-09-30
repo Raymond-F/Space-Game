@@ -12,5 +12,11 @@ if (!setup) {
 		case location_type.event: {
 			sprite_index = s_zonemap_event_unknown;
 		} break;
+		case location_type.derelict: {
+			sprite_index = s_zonemap_derelict;
+		} break;
+		case location_type.comet: {
+			sprite_index = s_zonemap_comet;
+		} break;
 	}
 }

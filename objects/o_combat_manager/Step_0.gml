@@ -22,10 +22,7 @@ if(!faded_in || fading_out) {
 			with(o_moveline) instance_destroy();
 			with(o_weapon_hud) instance_destroy();
 			// Enable zone map objects again
-			instance_activate_object(o_zonemap_hex);
-			instance_activate_object(o_player);
-			instance_activate_object(o_zonemap_location);
-			instance_activate_object(o_controller_zonemap);
+			zonemap_activate_objects();
 		}
 	}
 } else {

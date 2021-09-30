@@ -67,7 +67,11 @@ function modify_resource(str, amount) {
 			} else {
 				inventory_remove_item(global.player_inventory, "supplies", -amount);
 			} update_item_display(); break;
-		case "fuel" : global.fuel += amount; break;
+		case "fuel" : if (amount > 0) {
+				inventory_add_item(global.player_inventory, global.itemlist_cargo[? 1], amount);
+			} else {
+				inventory_remove_item(global.player_inventory, "fuel", -amount);
+			} update_item_display(); break;
 		default : break;
 	}
 }

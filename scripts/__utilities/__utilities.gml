@@ -120,4 +120,53 @@ function array_2d_create(dim1, dim2, val) {
 	for (var i = 0; i < dim1; i++) {
 		arr[i] = array_create(dim2, val);
 	}
+	return arr;
+}
+
+// Grabs the zone struct of the current zone
+function zone_get_current() {
+	return global.sector_map[? global.current_zone];
+}
+
+// Choose a value with weighting. Structured as [v1, c1, v2, c2, v3, c3,...]
+function choose_weighted() {
+	var c = argument_count;
+	var total = 0;
+	for (var i = 1; i < c; i += 2) {
+		total += argument[i];
+	}
+	var roll = random(total);
+	var val = 0;
+	for (var i = 0; i < c; i += 2) {
+		val += argument[i+1];
+		if (val >= roll) {
+			return argument[i];
+		}
+	}
+	return argument[0];
+}
+
+// Read a file line by line and return an array of those strings
+function file_parse_lines(fname){
+	if(!file_exists(fname)){
+		show_debug_message("ERROR: could not open file with filename: " + fname);
+		return noone;
+	}
+	var file = file_text_open_read(fname);
+	if(file < 0){
+		return noone;
+	}
+	var lines = [];
+	var linecount = 0;
+	while(!file_text_eof(file)){
+		var line = file_text_readln(file);
+		while(string_char_at(line, string_length(line)) == "\r" || string_char_at(line, string_length(line)) == "\n"){
+			line = string_delete(line, string_length(line), 1);
+		}
+		lines[linecount] = line;
+		linecount++;
+	}
+	//we should now have an array of each node object.
+	file_text_close(file);
+	return lines;
 }

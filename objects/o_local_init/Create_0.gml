@@ -2,8 +2,6 @@
 // You can write your code in this editor
 global.pix = 300;
 global.crew = 20;
-global.supplies = 10;
-global.fuel = 100;
 global.gunnery = 15;
 global.maneuvering = 15;
 global.leadership = 15;

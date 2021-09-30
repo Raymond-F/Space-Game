@@ -2,6 +2,28 @@
 // You can write your code in this editor
 var z = global.sector_map[? global.current_zone];
 
+location_prompt_refresh = function() {
+	var loc_at_hex = noone;
+	with (o_zonemap_location) {
+		if (hex == other.player_hex) {
+			loc_at_hex = id;
+		}
+	}
+	location_prompt_setinfo(loc_at_hex);
+}
+
+location_prompt_setinfo = function(loc) {
+	if (loc == noone) {
+		location_prompt_name = "";
+		location_prompt_text = "";
+		location_prompt_button.text = "";
+	} else {
+		location_prompt_name = loc.struct.name;
+		location_prompt_text = loc.struct.tip_text;
+		location_prompt_button.text = loc.struct.prompt_text;
+	}
+}
+
 set_player_dest = function() {
 	global.player.tx = selected_hex.x;
 	global.player.ty = selected_hex.y;
@@ -10,15 +32,19 @@ set_player_dest = function() {
 	global.camera.follow = true;
 	global.camera.target = global.player;
 	global.player.hex = targeted_hex;
+	player_hex = global.player.hex;
 	update_vision(targeted_hex, global.sensor_range);
 	global.current_turn++;
 	pcontrol = false;
 	pcontrol_timer = 30;
+	location_prompt_y = GUIH;
+	location_prompt_refresh();
 }
 
 hex_array = array_create(global.zone_width);
 selected_hex = noone;
 targeted_hex = noone;
+player_hex = noone;
 for (var i = 0; i < global.zone_width; i++) {
 	hex_array[i] = array_create(global.zone_height);
 }
@@ -50,3 +76,24 @@ for(var i = 0; i < global.zone_width; i++) {
 }
 
 global.camera_constraints = [l + VIEW_WIDTH/4, t + VIEW_HEIGHT/4, r - VIEW_WIDTH/4, b - VIEW_HEIGHT/4];
+
+location_prompt_y = GUIH;
+location_prompt_x = GUIW/2 - sprite_get_width(s_location_prompt)/2;
+location_prompt_button = instance_create(GUIW/2 - sprite_get_width(s_button_large)/2, GUIH, o_button);
+location_prompt_button.on_press = function() {
+	if (location_prompt_button.text == "") {
+		return;
+	}
+	with (o_zonemap_location) {
+		if (hex == global.player.hex) {
+			struct.interact();
+			if (type == location_type.event) {
+				global.event_current_object = id;
+			}
+			break;
+		}
+	}
+}
+location_prompt_button.sprite_index = s_button_large;
+location_prompt_button.depth = depth - 1;
+location_prompt_setinfo(noone);

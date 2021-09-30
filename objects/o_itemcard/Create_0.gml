@@ -9,3 +9,8 @@ y_cutoff = [99999, 0]; // Point at which this card becomes inactive: [> top, <bo
 active = true;
 current_target = noone;
 transfer_target = noone;
+
+tooltip_delay = 60;
+tooltip_timer = tooltip_delay;
+mouse_xprevious = mouse_x;
+mouse_yprevious = mouse_y;

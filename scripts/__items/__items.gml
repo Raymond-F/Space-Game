@@ -13,7 +13,11 @@ function item(_list_id = 0, _name = "", _sprite = 0, _weight = 1, _stackability 
 function initialize_itemlist_cargo(){
 	var cl = ds_map_create();
 	
-	ds_map_add_unique(cl, 0, new item(0, "supplies", s_cargo_placeholder, 1, true, 100));
+	ds_map_add_unique(cl, 0, new item(0, "supplies", s_cargo_supplies, 1, true, 100));
+	ds_map_add_unique(cl, 1, new item(1, "fuel", s_cargo_placeholder, 0.1, true, 40));
+	ds_map_add_unique(cl, 2, new item(2, "alloys", s_cargo_placeholder, 2, true, 250));
+	ds_map_add_unique(cl, 3, new item(3, "precious metals", s_cargo_placeholder, 1, true, 1000));
+	ds_map_add_unique(cl, 4, new item(4, "electronics", s_cargo_placeholder, 2, true, 400));
 	
 	return cl;
 }
@@ -95,14 +99,20 @@ function update_item_display() {
 	if (supplies_ind < 0) {
 		global.supplies = 0;
 	} else {
-		global.supplies = global.player_inventory[|supplies_ind].quantity;
+		global.supplies = global.player_inventory[| supplies_ind].quantity;
+	}
+	var fuel_ind = inventory_find_item_index_by_name(global.player_inventory, "fuel");
+	if (fuel_ind < 0) {
+		global.fuel = 0;
+	} else {
+		global.fuel = global.player_inventory[| fuel_ind].quantity;
 	}
 }
 
 function initialize_default_player_inventory() {
 	global.player_inventory = ds_list_create();
-	var ids = [0];
-	var quantities = [10];
+	var ids = [0, 1];
+	var quantities = [10, 50];
 	for (var i = 0; i < array_length(ids); i++) {
 		inventory_add_item(global.player_inventory, global.itemlist_cargo[? ids[i]], quantities[i]);
 	}

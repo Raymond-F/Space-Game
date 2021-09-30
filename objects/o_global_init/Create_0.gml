@@ -19,6 +19,7 @@ global.player_y = irandom_range(20, 30)
 global.camera_constraints = [0, 0, 99999, 99999];
 global.sensor_range = 5;
 global.event_current_object = noone; // the object pertaining to the event currently happening
+global.settlement_list = ds_list_create(); // tracks all settlement structs
 //resources
 global.pix = 0;
 global.crew = 0;
@@ -43,7 +44,7 @@ global.itemlist_weapons = initialize_itemlist_weapons();
 global.itemlist_cargo = initialize_itemlist_cargo();
 global.event_list = initialize_event_list();
 global.player_ship = initialize_default_player_ship();
-sector_map_init();
+global.tooltips = initialize_tooltips();
 initialize_default_player_inventory();
 player_ship_save();
 player_ship_load();

@@ -9,7 +9,7 @@ if(type == hex_type.dust) {
 }
 
 if(!vision) {
-	draw_set_alpha(0.3);
+	draw_set_alpha(0.2);
 	draw_sprite(s_zonemap_oov_hex, 0, x, y);
 	draw_set_alpha(1);
 }

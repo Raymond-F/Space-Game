@@ -20,6 +20,7 @@ function dsys_option(_text, _link, _link_type, _costs, _gains, _conds, _reqs, _r
 	rand_gains = _rand_gains;
 	skilltest_info = _skilltest_info; //format [attribute, success_chance]
 	postbattle_file = "";
+	postevent_location = noone; // What kind of location to make after the event, if it's an event
 }
 
 //a node of dialogue, including main text and all option objects
@@ -59,6 +60,13 @@ function dsys_dialogue(_node_array) constructor {
 	}
 	
 	static destroy = function() {
+		repeat (ds_map_size(map)) {
+			var n = map[? ds_map_find_first(map)];
+			for (var i = 0; i < array_length(n.options); i++) {
+				delete n.options[i];
+			}
+			delete n;
+		}
 		ds_map_destroy(map);
 	}
 }
@@ -172,6 +180,7 @@ function dsys_parse_node_from_array(arr){
 				var opt_skilltest_info = [];
 				var opt_success_link = "";
 				var opt_failure_link = "";
+				var opt_postloc = noone;
 				do {
 					line++;
 					s = arr[line];
@@ -218,6 +227,13 @@ function dsys_parse_node_from_array(arr){
 						case "KEYATTRIBUTE" : {
 							var skilltest = [tokens[1], int64(tokens[2])];
 							opt_skilltest = skilltest;
+						} break;
+						case "CREATELOC" : {
+							switch(tokens[1]) {
+								case "derelict": opt_postloc = location_type.derelict; break;
+								case "comet": opt_postloc = location_type.comet; break;
+								default: break;
+							}
 						} break;
 						case "FIGHT" : {
 							opt_link_type = option_link_type.battle;
@@ -297,6 +313,7 @@ function dsys_parse_node_from_array(arr){
 				}
 				var new_opt = new dsys_option(opt_text, opt_link, opt_link_type, opt_costs, opt_gains, opt_conds, opt_reqs, opt_rcosts, opt_rgains, opt_skilltest_info);
 				new_opt.postbattle_file = opt_postbattle;
+				new_opt.postevent_location = opt_postloc;
 				array_push(options, new_opt);
 			}
 			state = GET_TYPE;
@@ -402,6 +419,7 @@ function format_optionbutton(_opt, _index, _window){
 	button.gain_string = format_gains(button.gains);
 	button.parent = _window;
 	button.index = _index;
+	button.postevent_location = _opt.postevent_location;
 	//check whether the button will be pressable
 	button.active = true;
 	button.fails_requirement = false;

@@ -46,6 +46,10 @@ function draw_align_reset() {
 #macro RAND_LOSS1 4
 #macro RAND_LOSS2 5
 
+#macro C_WINDOW_BACKGROUND $191919
+#macro C_WINDOW_BORDER $B29035
+#macro C_WINDOW_HIGHLIGHT $BF9A39
+
 #macro C_DIALOGUE $F8F8F8
 #macro C_COST $4444AA
 #macro C_GAIN $44AA44

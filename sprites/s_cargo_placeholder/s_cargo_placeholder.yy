@@ -69,8 +69,8 @@
   ],
   "nineSlice": null,
   "parent": {
-    "name": "ui",
-    "path": "folders/Sprites/ui.yy",
+    "name": "item_icons",
+    "path": "folders/Sprites/ui/item_icons.yy",
   },
   "resourceVersion": "1.0",
   "name": "s_cargo_placeholder",

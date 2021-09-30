@@ -2,8 +2,7 @@ START
 Your sensors detect an interesting object nearby. Deciding to investigate further, you close the distance and run another scan. The scan reveals what appears to be a derelict ship, but at the moment you can't get any more details without drawing nearer to whatever it is.
 OPTION
 Close the gap and get a better scan.
-%DERELICT 7
-%AMBUSH 22
+%DERELICT 3
 %NOTHING 1
 OPTION
 Let's leave it alone.
@@ -13,13 +12,8 @@ DERELICT
 No surprises here - on closer examination this turns out to be the wreckage of something that once could have been called a ship. Now, it simply exists as a tangled mess of shattered hull and vented rooms. Whatever happened here, the remains are yours to pick at, should you choose to.
 OPTION
 Excellent.
+CREATELOC derelict
 EXIT
-
-AMBUSH
-As you pull in closer your attention is drawn away from the wreckage to the sudden sound of an alarm going off on the bridge. Another ship has been detected, and it's closing fast! You quickly order the crew to battle stations and prepare yourself for a fight.
-OPTION
-To arms!
-FIGHT testbattle2.txt dlg_postcombat_derelict_ambush.txt
 
 NOTHING
 No surprises here - on closer examination this turns out to be the wreckage of something that once could have been called a ship. Vacuum, collisions, and more than likely other scavenger teams appear to have done a number on this wreck. Even with your relatively cursory examination, you determine that there's nothing worth salvaging here.

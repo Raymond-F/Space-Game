@@ -132,3 +132,43 @@ function draw_arc(cx, cy, degree_start, degree_end, outer, inner, color = draw_g
 	surface_free(surf3);
 	draw_set_color(pcolor);
 }
+
+// Draw a tooltip box in the given coordinates
+// Constraints: x1 < x2 & y1 < y2
+function tooltip_draw_background(x1, y1, x2, y2) {
+	var pcolor = draw_get_color();
+	
+	draw_set_color(C_WINDOW_BACKGROUND);
+	draw_rectangle(x1, y1, x2, y2, false);
+	draw_set_color(C_WINDOW_HIGHLIGHT);
+	draw_rectangle(x1+1, y1+1, x2-1, y2-1, true);
+	draw_set_color(C_WINDOW_BORDER);
+	draw_rectangle(x1, y1, x2, y2, true);
+	draw_rectangle(x1+2, y1+2, x2-2, y2-2, true);
+	
+	draw_set_color(pcolor);
+}
+
+// Draw the tooltip to the screen
+function draw_tooltip(_x, _y, _name_text, _tip_text) {
+	var sx = _x;
+	var sy = _y;
+	var name_text = string_upper(_name_text);
+	var tip_text = _tip_text;
+	var border = 6;
+	draw_set_font(fnt_dialogue);
+	var ttw = string_width_ext(tip_text, -1, 300);
+	var tth = string_height_ext(tip_text, -1, 300);
+	draw_set_font(fnt_dialogue_big);
+	var namew = string_width_ext(name_text, -1, 300);
+	var nameh = string_height_ext(name_text, -1, 300);
+	var twidth = max(namew, ttw);
+	var theight = nameh + border + tth;
+	tooltip_draw_background(sx, sy, sx + border*2 + twidth, sy + border*2 + theight);
+	draw_set_color(C_DIALOGUE);
+	draw_set_halign(fa_left);
+	draw_set_valign(fa_top);
+	draw_text_ext(sx+border, sy+border, name_text, -1, namew);
+	draw_set_font(fnt_dialogue);
+	draw_text_ext(sx+border, sy+border*2+nameh, tip_text, -1, ttw);
+}

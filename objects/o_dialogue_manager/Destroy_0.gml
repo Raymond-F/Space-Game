@@ -14,3 +14,7 @@ ds_list_destroy(local_flags);
 
 instance_destroy(global.event_current_object);
 global.event_current_object = noone;
+
+with (o_controller_zonemap) {
+	location_prompt_refresh();
+}

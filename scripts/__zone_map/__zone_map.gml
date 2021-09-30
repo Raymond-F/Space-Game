@@ -5,42 +5,95 @@
 enum location_type {
 	settlement,
 	pirate_base,
-	event
+	event,
+	derelict,
+	comet
 }
 
 // Size of settlement
-enum settlement_size {
+enum location_size {
 	small,
 	medium,
 	large
+}
+
+function settlement_get_random_name() {
+	var name_list = file_parse_lines("data\\settlement_names.txt");
+	var unique = false;
+	var name = "";
+	do {
+		name = array_choose(name_list);
+		unique = true;
+		for (var i = 0; i < ds_list_size(global.settlement_list); i++) {
+			if (name == global.settlement_list[|i].name) {
+				unique = false;
+				break;
+			}
+		}
+	} until (unique);
+	return name;
 }
 
 function location(_gx, _gy, _type) constructor {
 	gx = _gx;
 	gy = _gy;
 	type = _type;
+	obj = noone;
 	img_index = 0; // Used for locations with multiple possible sprites
-	size = settlement_size.small; // Used for settlements and possibly pirate bases
+	size = location_size.small; // Used for settlements and possibly pirate bases
+	name = ""; tip_text = ""; prompt_text = "";
 	switch(type) {
 		case location_type.settlement : {
 			interact = function() {
 				// TODO: settlement screen
 			}
+			// Set tooltips
+			name = settlement_get_random_name();
+			tip_text = "A settlement drifting in the Kaib. The folk here are civilized enough and should be open to providing trade and work.";
+			prompt_text = "VISIT";
+			ds_list_add(global.settlement_list, self);
 		} break;
 		case location_type.pirate_base : {
 			interact = function() {
 				// TODO: some kind of handling for this?
 			}
+			// Set tooltips
+			name = "Pirate Base"
+			tip_text = "A settlement drifting in the Kaib. This settlement in particular is the operating base for pirates, smugglers, and other nefarious entities. It may be best to stay away.";
+			prompt_text = "VISIT";
 		} break;
 		case location_type.event : {
 			interact = function() {
 				event_trigger_random();
 			}
+			// Set tooltips
+			name = "Unknown";
+			tip_text = "There's something here. You'll have to investigate further to find out more.";
+			prompt_text = "INVESTIGATE";
 		} break;
+		case location_type.derelict : {
+			interact = function() {
+				// TODO: derelict harvesting
+			}
+			// Set tooltips
+			name = "Derelict";
+			tip_text = "Wreckage of a ship drifts here. Often there are still things of value left, even if scavs have taken a pass or two already.";
+			prompt_text = "SALVAGE";
+		} break;
+		case location_type.comet : {
+			interact = function() {
+				// TODO: comet harvesting
+			}
+			// Set tooltips
+			name = "Comet";
+			tip_text = "This comet has a relatively stable orbital trajectory. It seems to be an ideal candidate for a mining operation, if you've the equipment.";
+			prompt_text = "MINE"
+		}
 		default : {
 			interact = function() {}
 		} break;
 	}
+	resources = 1; // Percentage of max resources remaining. Depletes as it's looted. Used in comets/derelicts
 }
 
 function location_create(loc, zone_cont) {
@@ -52,7 +105,9 @@ function location_create(loc, zone_cont) {
 		image_index = loc.img_index;
 		size = loc.size;
 		hex = _hex;
+		resources = loc.resources;
 		struct = loc;
+		return id;
 	}
 }
 
@@ -91,12 +146,12 @@ function place_settlement(z) {
 	var set = new location(cx, cy, location_type.settlement);
 	var size_weighting;
 	switch (z.security) {
-		case zone_security.high: size_weighting = [settlement_size.large, settlement_size.large, settlement_size.medium, settlement_size.medium, settlement_size.small]; break;
-		case zone_security.moderate: size_weighting = [settlement_size.large, settlement_size.medium, settlement_size.medium, settlement_size.small, settlement_size.small, settlement_size.small]; break;
-		case zone_security.sparse: size_weighting = [settlement_size.medium, settlement_size.small]; break;
-		case zone_security.little: size_weighting = [settlement_size.medium, settlement_size.medium, settlement_size.small]; break;
-		case zone_security.lawless: size_weighting = [settlement_size.small]; break;
-		default: size_weighting = [settlement_size.small]; break;
+		case zone_security.high: size_weighting = [location_size.large, location_size.large, location_size.medium, location_size.medium, location_size.small]; break;
+		case zone_security.moderate: size_weighting = [location_size.large, location_size.medium, location_size.medium, location_size.small, location_size.small, location_size.small]; break;
+		case zone_security.sparse: size_weighting = [location_size.medium, location_size.small]; break;
+		case zone_security.little: size_weighting = [location_size.medium, location_size.medium, location_size.small]; break;
+		case zone_security.lawless: size_weighting = [location_size.small]; break;
+		default: size_weighting = [location_size.small]; break;
 	}
 	set.size = array_choose(size_weighting);
 	set.img_index = irandom(sprite_get_number(s_zonemap_pirate_base_small));
@@ -116,12 +171,12 @@ function place_pirate_base(z) {
 	var size_weighting;
 	// Pirate bases have inverse size to security
 	switch (z.security) {
-		case zone_security.lawless: size_weighting = [settlement_size.large, settlement_size.large, settlement_size.medium, settlement_size.medium, settlement_size.small]; break;
-		case zone_security.little: size_weighting = [settlement_size.large, settlement_size.medium, settlement_size.medium, settlement_size.small, settlement_size.small, settlement_size.small]; break;
-		case zone_security.sparse: size_weighting = [settlement_size.medium, settlement_size.small]; break;
-		case zone_security.moderate: size_weighting = [settlement_size.medium, settlement_size.medium, settlement_size.small]; break;
-		case zone_security.high: size_weighting = [settlement_size.small]; break;
-		default: size_weighting = [settlement_size.small]; break;
+		case zone_security.lawless: size_weighting = [location_size.large, location_size.large, location_size.medium, location_size.medium, location_size.small]; break;
+		case zone_security.little: size_weighting = [location_size.large, location_size.medium, location_size.medium, location_size.small, location_size.small, location_size.small]; break;
+		case zone_security.sparse: size_weighting = [location_size.medium, location_size.small]; break;
+		case zone_security.moderate: size_weighting = [location_size.medium, location_size.medium, location_size.small]; break;
+		case zone_security.high: size_weighting = [location_size.small]; break;
+		default: size_weighting = [location_size.small]; break;
 	}
 	base.size = array_choose(size_weighting);
 	base.img_index = irandom(sprite_get_number(s_zonemap_settlement_small));
@@ -130,7 +185,7 @@ function place_pirate_base(z) {
 }
 
 function place_event(z) {
-	// Do not place settlements within 3 tiles of the map edge
+	// Do not place events within 3 tiles of the map edge
 	var minx = 3, miny = 3, maxx = global.zone_width - 4, maxy = global.zone_height - 4;
 	var cx, cy;
 	do {
@@ -142,6 +197,76 @@ function place_event(z) {
 	return ev;
 }
 
+function derelict_populate_stats(z, struct) {
+	switch (z.security) {
+		case zone_security.lawless:
+			struct.size = choose_weighted(location_size.large, 3, location_size.medium, 4, location_size.small, 1);
+			struct.resources = random(1) < 0.3 ? 1 : random_range(0.7, 1.0); break;
+		case zone_security.little:
+			struct.size = choose_weighted(location_size.large, 2, location_size.medium, 5, location_size.small, 3);
+			struct.resources = random(1) < 0.2 ? 1 : random_range(0.5, 1.0); break;
+		case zone_security.sparse:
+			struct.size = choose_weighted(location_size.large, 1, location_size.medium, 3, location_size.small, 5);
+			struct.resources = random(1) < 0.1 ? 1 : random_range(0.4, 0.9); break;
+		case zone_security.moderate:
+			struct.size = choose_weighted(location_size.medium, 2, location_size.small, 5);
+			struct.resources = random(1) < 0.1 ? 1 : random_range(0.4, 0.9); break;
+		case zone_security.high:
+			struct.size = choose_weighted(location_size.medium, 1, location_size.small, 4);
+			struct.resources = random(1) < 0.1 ? 1 : random_range(0.2, 0.8); break;
+		default: break;
+	}
+}
+
+function place_derelict(z) {
+	// Do not place derelicts within 3 tiles of the map edge
+	var minx = 3, miny = 3, maxx = global.zone_width - 4, maxy = global.zone_height - 4;
+	var cx, cy;
+	do {
+		cx = irandom_range(minx, maxx);
+		cy = irandom_range(miny, maxy);
+	} until (distance_nearest_location(cx, cy, z) > 5);
+	var d = new location(cx, cy, location_type.derelict);
+	derelict_populate_stats(z, d);
+	ds_list_add(z.locations, d);
+	return d;
+}
+
+function comet_populate_stats(z, struct) {
+	switch (z.security) {
+		case zone_security.lawless:
+			struct.size = choose_weighted(location_size.large, 3, location_size.medium, 4, location_size.small, 1);
+			struct.resources = random(1) < 0.3 ? 1 : random_range(0.7, 1.0); break;
+		case zone_security.little:
+			struct.size = choose_weighted(location_size.large, 2, location_size.medium, 5, location_size.small, 3);
+			struct.resources = random(1) < 0.2 ? 1 : random_range(0.5, 1.0); break;
+		case zone_security.sparse:
+			struct.size = choose_weighted(location_size.large, 1, location_size.medium, 3, location_size.small, 5);
+			struct.resources = random(1) < 0.1 ? 1 : random_range(0.4, 0.9); break;
+		case zone_security.moderate:
+			struct.size = choose_weighted(location_size.medium, 2, location_size.small, 5);
+			struct.resources = random(1) < 0.1 ? 1 : random_range(0.4, 0.9); break;
+		case zone_security.high:
+			struct.size = choose_weighted(location_size.medium, 1, location_size.small, 4);
+			struct.resources = random(1) < 0.1 ? 1 : random_range(0.2, 0.8); break;
+		default: break;
+	}
+}
+
+function place_comet(z) {
+	// Do not place derelicts within 3 tiles of the map edge
+	var minx = 3, miny = 3, maxx = global.zone_width - 4, maxy = global.zone_height - 4;
+	var cx, cy;
+	do {
+		cx = irandom_range(minx, maxx);
+		cy = irandom_range(miny, maxy);
+	} until (distance_nearest_location(cx, cy, z) > 5);
+	var c = new location(cx, cy, location_type.comet);
+	comet_populate_stats(z, c);
+	ds_list_add(z.locations, c);
+	return c;
+}
+
 // Initialize a zone based on that zone's security level.
 // More secure zones will have more seettlements and less pirates
 function zone_init(z) {
@@ -149,11 +274,11 @@ function zone_init(z) {
 	var num_settlements = 1;
 	var num_pirates = 1;
 	switch (security_level) {
-		case zone_security.high: num_settlements = irandom_range(2, 4); num_pirates = 0; break;
-		case zone_security.moderate: num_settlements = irandom_range(2, 3); num_pirates = choose(0, 1, 1); break;
-		case zone_security.sparse: num_settlements = irandom_range(1, 2); num_pirates = choose(2, 1, 1, 0); break;
-		case zone_security.little: num_settlements = choose(1, 1, 2); num_pirates = choose(2, 2, 1, 1); break;
-		case zone_security.lawless: num_settlements = choose(0, 1, 1); num_pirates = choose(3, 3, 2, 2, 2, 1); break;
+		case zone_security.high: num_settlements = irandom_range(2, 3); num_pirates = 0; break;
+		case zone_security.moderate: num_settlements = irandom_range(1, 3); num_pirates = choose(0, 1, 1); break;
+		case zone_security.sparse: num_settlements = choose(0, 1, 1, 1); num_pirates = choose(2, 1, 1, 0); break;
+		case zone_security.little: num_settlements = choose(0, 1, 1); num_pirates = choose(2, 2, 1, 1); break;
+		case zone_security.lawless: num_settlements = choose(0, 1); num_pirates = choose(3, 3, 2, 2, 2, 1); break;
 	}
 	repeat (num_settlements) {
 		place_settlement(z);
@@ -173,10 +298,12 @@ function zone_create(z) {
 	global.player = instance_create(hex.x, hex.y, o_player);
 	update_vision(hex, global.sensor_range);
 	//instance_create(0, 0, o_zone_hex_renderer);
+	instance_create(0, 0, o_zonemap_bgrenderer);
 	instance_create(0, 0, o_camera);
 	for (var i = 0; i < ds_list_size(z.locations); i++) {
 		var loc = z.locations[|i];
-		location_create(loc, cont);
+		var o = location_create(loc, cont);
+		loc.obj = o;
 	}
 }
 
@@ -314,4 +441,21 @@ function update_vision(start, range) {
 		vision = false;
 	}
 	vision_recur(start, range, start);
+}
+
+// These two functions activate and deactivate all zonemap objects, respectively. Useful for going to different contexts.
+function zonemap_activate_objects() {
+	instance_activate_object(o_zonemap_hex);
+	instance_activate_object(o_player);
+	instance_activate_object(o_zonemap_location);
+	instance_activate_object(o_controller_zonemap);
+	instance_activate_object(o_zonemap_bgrenderer);
+}
+
+function zonemap_deactivate_objects() {
+	instance_deactivate_object(o_zonemap_hex);
+	instance_deactivate_object(o_player);
+	instance_deactivate_object(o_zonemap_location);
+	instance_deactivate_object(o_controller_zonemap);
+	instance_deactivate_object(o_zonemap_bgrenderer);
 }

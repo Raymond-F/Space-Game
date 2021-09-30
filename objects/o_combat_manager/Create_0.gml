@@ -52,11 +52,7 @@ function combat_init() {
 	}
 	
 	// Disable zone map objects temporarily
-	instance_deactivate_object(o_zonemap_hex);
-	instance_deactivate_object(o_player);
-	instance_deactivate_object(o_zonemap_location);
-	instance_deactivate_object(o_controller_zonemap);
-	
+	zonemap_deactivate_objects();
 }
 
 battle_file = global.battle_file;

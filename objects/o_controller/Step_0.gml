@@ -30,8 +30,10 @@ if(PRESSED(ord("1"))){
 	close_inventory();
 	if (!instance_exists(o_gui_sectormap)) {
 		instance_create(0, 0, o_gui_sectormap);
+		zonemap_deactivate_objects();
 	} else {
 		with (o_gui_sectormap) { instance_destroy(); }
+		zonemap_activate_objects();
 	}
 }
 

@@ -18,4 +18,5 @@ activity_string = "";
 link_type_string = "";
 depth = -11;
 postbattle_file = "";
+postevent_location = noone;
 formatted = false;
