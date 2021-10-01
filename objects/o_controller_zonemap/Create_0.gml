@@ -39,6 +39,11 @@ set_player_dest = function() {
 	pcontrol_timer = 30;
 	location_prompt_y = GUIH;
 	location_prompt_refresh();
+	//Player fx
+	global.player.exit_burst = false;
+	var burst = instance_create(global.player.x, global.player.y, o_zonemap_impulse_burst_fx);
+	burst.depth = global.player.depth-1;
+	global.player.image_index = 1;
 }
 
 hex_array = array_create(global.zone_width);

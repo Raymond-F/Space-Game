@@ -45,7 +45,7 @@ function location(_gx, _gy, _type) constructor {
 	switch(type) {
 		case location_type.settlement : {
 			interact = function() {
-				// TODO: settlement screen
+				open_settlement_window(obj.id);
 			}
 			// Set tooltips
 			name = settlement_get_random_name();
