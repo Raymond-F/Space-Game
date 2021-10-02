@@ -93,8 +93,8 @@ function modulestats_cargo(_space) constructor {
 	}
 }
 
-function module(_module_id, _name, _type, _class, _stats, _value, _rarity) constructor {
-	module_id = _module_id;
+function module(_list_id, _name, _type, _class, _stats, _value, _rarity) constructor {
+	list_id = _list_id;
 	name = _name;
 	type = _type;
 	class = _class;
@@ -200,8 +200,8 @@ function weaponstats(_damage, _charge_time, _processing_cost, _type, _notes) con
 	notes = _notes;
 }
 
-function weapon(_weapon_id, _name, _index, _stats, _value, _rarity) constructor {
-	weapon_id = _weapon_id;
+function weapon(_list_id, _name, _index, _stats, _value, _rarity) constructor {
+	list_id = _list_id;
 	name = _name;
 	index = _index;
 	stats = _stats;
@@ -236,8 +236,8 @@ function ship_statistics(_hull, _armor, _impulse_penalty, _evasion_penalty) cons
 	evasion_penalty = _evasion_penalty;
 }
 
-function shipinfo(_ship_id, _name, _sprite, _class, _mod_slots, _hardpoints, _engines, _statistics, _built_in_mods, _value, _rarity) constructor {
-	ship_id = _ship_id;
+function shipinfo(_list_id, _name, _sprite, _class, _mod_slots, _hardpoints, _engines, _statistics, _built_in_mods, _value, _rarity) constructor {
+	list_id = _list_id;
 	name = _name;
 	sprite = _sprite
 	class = _class;

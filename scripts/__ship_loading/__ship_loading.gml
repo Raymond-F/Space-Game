@@ -3,7 +3,7 @@
 
 //Construct a ship from a shipinfo struct
 function ship(info) constructor {
-	info_id = info.ship_id;
+	info_id = info.list_id;
 	name = info.name;
 	sprite = info.sprite;
 	class1 = array_create(info.mod_slots[0], noone);
@@ -109,34 +109,34 @@ function load_ship_from_file(fname){
 		var mclass = m.class; //module class
 		var placed = false;
 		if(!placed && mclass <= 1 && mod_class_has_space(ship_struct.class1)) {
-			place_mod_in_class(ship_struct.class1, m.module_id);
+			place_mod_in_class(ship_struct.class1, m.list_id);
 			placed = true;
 		}
 		if(!placed && mclass <= 2 && mod_class_has_space(ship_struct.class2)) {
-			place_mod_in_class(ship_struct.class2, m.module_id);
+			place_mod_in_class(ship_struct.class2, m.list_id);
 			placed = true;
 		}
 		if(!placed && mclass <= 3 && mod_class_has_space(ship_struct.class3)) {
-			place_mod_in_class(ship_struct.class3, m.module_id);
+			place_mod_in_class(ship_struct.class3, m.list_id);
 			placed = true;
 		}
 		if(!placed && mclass <= 4 && mod_class_has_space(ship_struct.class4)) {
-			place_mod_in_class(ship_struct.class4, m.module_id);
+			place_mod_in_class(ship_struct.class4, m.list_id);
 			placed = true;
 		}
 		if(!placed && mclass <= 5 && mod_class_has_space(ship_struct.class5)) {
-			place_mod_in_class(ship_struct.class5, m.module_id);
+			place_mod_in_class(ship_struct.class5, m.list_id);
 			placed = true;
 		}
 		if(!placed && mclass <= 6 && mod_class_has_space(ship_struct.class6)) {
-			place_mod_in_class(ship_struct.class6, m.module_id);
+			place_mod_in_class(ship_struct.class6, m.list_id);
 			placed = true;
 		}
 		if(placed) {
 			switch(m.stats.get_type()) {
-				case "drive" : drive = m.module_id; break;
-				case "shield" : shield = m.module_id; break;
-				case "wepsys" : wepsys = m.module_id; break;
+				case "drive" : drive = m.list_id; break;
+				case "shield" : shield = m.list_id; break;
+				case "wepsys" : wepsys = m.list_id; break;
 				default: break;
 			}
 		}

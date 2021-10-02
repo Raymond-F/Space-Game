@@ -14,6 +14,8 @@ function initialize_tooltips() {
 	ds_map_add_unique(tt, "alloys", "A mix of alloys good for shipbuilding and other industrial tasks. Valuable, both as a trade good and to patch up holes in your ship.");
 	ds_map_add_unique(tt, "precious metals", "An assortment of valuable metals like gold and palladium. This fetches a very high price, but isn't good for much to a captain.");
 	ds_map_add_unique(tt, "electronics", "Wires, conductors, circuitboards, you name it. Probably useful in some situations and also fetches a decent price.");
+	ds_map_add_unique(tt, "raw iron", "Iron ore pulled from local comets. This can be refined into alloys by some settlements and can fetch a nice price there.");
+	ds_map_add_unique(tt, "raw ice", "Unprocessed water ice harvested from local comets. Water is the source of all life, and so this is unsurprisingly in high demand despite being relatively common in the Kaib.");
 	
 	return tt;
 }

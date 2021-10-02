@@ -94,6 +94,7 @@ function location(_gx, _gy, _type) constructor {
 		} break;
 	}
 	resources = 1; // Percentage of max resources remaining. Depletes as it's looted. Used in comets/derelicts
+	zone_id = noone; // Id of the zone this is in.
 }
 
 function location_create(loc, zone_cont) {
@@ -155,6 +156,9 @@ function place_settlement(z) {
 	}
 	set.size = array_choose(size_weighting);
 	set.img_index = irandom(sprite_get_number(s_zonemap_pirate_base_small));
+	set.zone_id = z;
+	// Set up settlement-specific things
+	settlement_init(set);
 	ds_list_add(z.locations, set);
 	return set;
 }
@@ -180,6 +184,7 @@ function place_pirate_base(z) {
 	}
 	base.size = array_choose(size_weighting);
 	base.img_index = irandom(sprite_get_number(s_zonemap_settlement_small));
+	base.zone_id = z;
 	ds_list_add(z.locations, base);
 	return base;
 }
@@ -193,6 +198,7 @@ function place_event(z) {
 		cy = irandom_range(miny, maxy);
 	} until (distance_nearest_location(cx, cy, z) > 5);
 	var ev = new location(cx, cy, location_type.event);
+	ev.zone_id = z;
 	ds_list_add(z.locations, ev);
 	return ev;
 }
@@ -228,6 +234,7 @@ function place_derelict(z) {
 	} until (distance_nearest_location(cx, cy, z) > 5);
 	var d = new location(cx, cy, location_type.derelict);
 	derelict_populate_stats(z, d);
+	d.zone_id = z;
 	ds_list_add(z.locations, d);
 	return d;
 }
@@ -263,6 +270,7 @@ function place_comet(z) {
 	} until (distance_nearest_location(cx, cy, z) > 5);
 	var c = new location(cx, cy, location_type.comet);
 	comet_populate_stats(z, c);
+	c.zone_id = z;
 	ds_list_add(z.locations, c);
 	return c;
 }

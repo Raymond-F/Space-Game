@@ -29,8 +29,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "inventory",
-    "path": "folders/Objects/inventory.yy",
+    "name": "abstract",
+    "path": "folders/Objects/abstract.yy",
   },
   "resourceVersion": "1.0",
   "name": "o_button",

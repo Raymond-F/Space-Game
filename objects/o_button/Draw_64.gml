@@ -15,6 +15,7 @@ switch (sprite_index) {
 	case s_button_tab: // Fallthrough
 	case s_button_small: draw_set_font(fnt_dialogue); break;
 	case s_button_large: draw_set_font(fnt_gui_big); break;
+	case s_button_settlement_pane: draw_set_font(fnt_gui_big); break;
 	default: draw_set_font(fnt_dialogue); break;
 }
 draw_set_halign(fa_center);

@@ -111,6 +111,9 @@ function collision_line_nearest_point(x1, y1, x2, y2, object, prec, notme) {
 
 // Copies the `choose` function, but from an array rather than a strict listing
 function array_choose(arr) {
+	if (array_length(arr) == 0) {
+		return noone;
+	}
 	return arr[irandom(array_length(arr)-1)];
 }
 

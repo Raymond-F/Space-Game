@@ -1,6 +1,17 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function item(_list_id = 0, _name = "", _sprite = 0, _weight = 1, _stackability = true, _value = 1) constructor {
+/*
+	TAGS LIST | Note that all tags are LOWER CASE
+	basics (used for fuel and supplies that will be at every settlement)
+	ore
+	ice
+	refined
+	luxury
+	manufactured
+	plants
+*/
+
+function item(_list_id = 0, _name = "", _sprite = 0, _weight = 1, _stackability = true, _value = 1, _tags = [], _rarity = RARITY_COMMON) constructor {
 	list_id = _list_id;
 	name = _name;
 	sprite = _sprite;
@@ -8,16 +19,24 @@ function item(_list_id = 0, _name = "", _sprite = 0, _weight = 1, _stackability 
 	weight = _weight; // Per item
 	stackable = _stackability; // Whether an item can be stacked
 	quantity = 1; // Unused in list but used in inventories
+	tags = _tags;
+	rarity = _rarity;
+	
+	static has_tag = function(t) {
+		return (array_find(tags, t) >= 0);
+	}
 }
 
 function initialize_itemlist_cargo(){
 	var cl = ds_map_create();
 	
-	ds_map_add_unique(cl, 0, new item(0, "supplies", s_cargo_supplies, 1, true, 100));
-	ds_map_add_unique(cl, 1, new item(1, "fuel", s_cargo_placeholder, 0.1, true, 40));
-	ds_map_add_unique(cl, 2, new item(2, "alloys", s_cargo_placeholder, 2, true, 250));
-	ds_map_add_unique(cl, 3, new item(3, "precious metals", s_cargo_placeholder, 1, true, 1000));
-	ds_map_add_unique(cl, 4, new item(4, "electronics", s_cargo_placeholder, 2, true, 400));
+	ds_map_add_unique(cl, 0, new item(0, "supplies", s_cargo_supplies, 1, true, 100, ["basics"], RARITY_UBIQ));
+	ds_map_add_unique(cl, 1, new item(1, "fuel", s_cargo_placeholder, 0.1, true, 40, ["basics"], RARITY_UBIQ));
+	ds_map_add_unique(cl, 2, new item(2, "alloys", s_cargo_placeholder, 2, true, 250, ["refined"], RARITY_COMMON));
+	ds_map_add_unique(cl, 3, new item(3, "precious metals", s_cargo_placeholder, 1, true, 1000, ["ore", "luxury"], RARITY_SCARCE));
+	ds_map_add_unique(cl, 4, new item(4, "electronics", s_cargo_placeholder, 2, true, 400, ["manufactured"], RARITY_COMMON));
+	ds_map_add_unique(cl, 5, new item(5, "raw iron", s_cargo_placeholder, 2, true, 125, ["ore"], RARITY_COMMON));
+	ds_map_add_unique(cl, 6, new item(6, "raw ice", s_cargo_placeholder, 2, true, 125, ["ice"], RARITY_COMMON));
 	
 	return cl;
 }
@@ -42,7 +61,7 @@ function inventory_find_item_index_by_id(list, item_id) {
 
 function inventory_add_item(list, struct, quantity) {
 	var index = inventory_find_item_index_by_id(list, struct.list_id);
-	if (index < 0 || !struct.stackable) {
+	if (index < 0 || (variable_struct_exists(struct, "stackable") && !struct.stackable)) {
 		var cpy = struct_copy(struct, item);
 		cpy.quantity = quantity;
 		ds_list_add(list, cpy);

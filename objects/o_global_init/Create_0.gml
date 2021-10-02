@@ -35,7 +35,6 @@ global.wits = 0;
 global.will = 0;
 global.charm = 0;
 //data structures
-global.sector_map = sector_map_init();
 global.flags = ds_map_create();
 initialize_flags();
 global.shiplist = initialize_shipinfo();
@@ -46,6 +45,7 @@ global.event_list = initialize_event_list();
 global.player_ship = initialize_default_player_ship();
 global.tooltips = initialize_tooltips();
 initialize_default_player_inventory();
+global.sector_map = sector_map_init();
 player_ship_save();
 player_ship_load();
 //other flags
