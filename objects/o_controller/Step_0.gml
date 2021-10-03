@@ -35,6 +35,8 @@ if(PRESSED(ord("1"))){
 		with (o_gui_sectormap) { instance_destroy(); }
 		zonemap_activate_objects();
 	}
+} else if (PRESSED(vk_pageup)) {
+	global.current_turn += 100;
 }
 
 if (PRESSED(vk_backspace)) {

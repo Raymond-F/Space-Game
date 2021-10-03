@@ -6,6 +6,19 @@ if (instance_exists(par_interface)) {
 	exit;
 }
 
+// Debug stuff
+if (PRESSED(vk_f4)) {
+	// Go to nearest settlement
+	with (o_zonemap_location) {
+		if (type == location_type.settlement) {
+			other.targeted_hex = hex;
+			other.set_player_dest();
+			other.targeted_hex = noone;
+			break;
+		}
+	}
+}
+
 pcontrol_timer = max(-1, pcontrol_timer-1);
 if (pcontrol_timer == 0) {
 	pcontrol = true;
@@ -21,14 +34,14 @@ else if (MPRESSED(mb_right) && selected_hex != noone && selected_hex.vision == t
 	set_player_dest();
 	targeted_hex = noone;
 } else if (MPRESSED(mb_left)) {
-	if (selected_hex != noone && selected_hex.vision == true) {
+	/*if (selected_hex != noone && selected_hex.vision == true) {
 		if (selected_hex == targeted_hex) {
 			set_player_dest();
 			targeted_hex = noone;
 		} else {
 			targeted_hex = selected_hex;
 		}
-	}
+	}*/
 } else if (PRESSED(vk_enter)) {
 	with (o_zonemap_location) {
 		if (hex == global.player.hex) {

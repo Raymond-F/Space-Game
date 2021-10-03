@@ -69,8 +69,8 @@
   ],
   "nineSlice": null,
   "parent": {
-    "name": "Sprites",
-    "path": "folders/Sprites.yy",
+    "name": "ships",
+    "path": "folders/Sprites/ships.yy",
   },
   "resourceVersion": "1.0",
   "name": "s_ship_kepler_proteus",

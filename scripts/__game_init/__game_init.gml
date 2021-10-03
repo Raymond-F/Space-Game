@@ -6,7 +6,7 @@ function initialize_flags(){
 	flag_set("flag_test_quest", 0);
 }
 
-function initialize_tooltips() {
+function initialize_item_tooltips() {
 	var tt = ds_map_create();
 	
 	ds_map_add_unique(tt, "supplies", "Food, water, and other basic needs. Your crew consumes, at baseline, one unit of supplies per ten crew per cycle. If you run out, your crew will be unhappy.");
@@ -16,6 +16,8 @@ function initialize_tooltips() {
 	ds_map_add_unique(tt, "electronics", "Wires, conductors, circuitboards, you name it. Probably useful in some situations and also fetches a decent price.");
 	ds_map_add_unique(tt, "raw iron", "Iron ore pulled from local comets. This can be refined into alloys by some settlements and can fetch a nice price there.");
 	ds_map_add_unique(tt, "raw ice", "Unprocessed water ice harvested from local comets. Water is the source of all life, and so this is unsurprisingly in high demand despite being relatively common in the Kaib.");
+	ds_map_add_unique(tt, "natural fibers", "Plant fibers grown and harvested in large agri-pods aboard settlement platforms. Not as strong as synthetic stuff, but significantly more comfortable and aesthetically pleasing.");
+	ds_map_add_unique(tt, "synthetic fibers", "Textiles made in a processing plant. Usually made from plastics and assorted volatiles, these offer high tensile strength and durability for their cost. However, they tend to be rather unflattering and stiff for personal uses.");
 	
 	return tt;
 }

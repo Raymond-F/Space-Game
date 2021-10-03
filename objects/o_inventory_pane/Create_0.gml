@@ -7,11 +7,12 @@ create_itemcards = function() {
 	var border_height = 81;
 	var card_width = sprite_get_width(s_itemframe);
 	var card_height = sprite_get_height(s_itemframe);
-	for (var i = 0; i < ds_list_size(global.player_inventory); i++) {
+	for (var i = 0; i < ds_list_size(active_list); i++) {
 		var itc = instance_create(x + border_width + card_width*row, y + border_height + card_height*col, o_itemcard);
-		itc.name = global.player_inventory[|i].name;
-		itc.quantity = global.player_inventory[|i].quantity;
-		itc.sprite = global.player_inventory[|i].sprite;
+		itc.struct = active_list[|i];
+		itc.name = active_list[|i].name;
+		itc.quantity = active_list[|i].quantity;
+		itc.sprite = active_list[|i].sprite;
 		itc.pos = i;
 		itc.par = id;
 		itc.y_cutoff = [y + 500, y + 52];
@@ -36,6 +37,7 @@ scroll = 0;
 items_per_row = 7;
 scroll_cd = 0;
 scroll_cd_max = 20;
+active_list = global.player_inventory;
 create_itemcards();
 depth = -100;
 

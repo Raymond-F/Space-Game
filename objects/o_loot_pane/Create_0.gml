@@ -9,6 +9,7 @@ create_itemcards = function() {
 	var card_height = sprite_get_height(s_itemframe);
 	for (var i = 0; i < ds_list_size(active_list); i++) {
 		var itc = instance_create(x + border_width + card_width*row, y + border_height + card_height*col, o_itemcard);
+		itc.struct = active_list[|i];
 		itc.name = active_list[|i].name;
 		itc.quantity = active_list[|i].quantity;
 		itc.sprite = active_list[|i].sprite;
@@ -86,7 +87,7 @@ ds_list_add(buttons, loot_button);
 loot_button.inv_btn = inv_button;
 inv_button.loot_btn = loot_button;
 
-var leave_button = instance_create(x + sprite_width/2 - sprite_get_width(s_button_large)/2, y + sprite_height - 60, o_button);
+var leave_button = instance_create(x + sprite_width/2 - sprite_get_width(s_button_large)/2, y + sprite_height - sprite_get_height(s_button_large), o_button);
 leave_button.on_press = function() {
 	close_inventory();
 }

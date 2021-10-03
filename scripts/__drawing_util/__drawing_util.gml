@@ -149,7 +149,7 @@ function tooltip_draw_background(x1, y1, x2, y2) {
 	draw_set_color(pcolor);
 }
 
-// Draw the tooltip to the screen
+// Draw a basic tooltip to the screen
 function draw_tooltip(_x, _y, _name_text, _tip_text) {
 	var sx = _x;
 	var sy = _y;
@@ -171,4 +171,40 @@ function draw_tooltip(_x, _y, _name_text, _tip_text) {
 	draw_text_ext(sx+border, sy+border, name_text, -1, namew);
 	draw_set_font(fnt_dialogue);
 	draw_text_ext(sx+border, sy+border*2+nameh, tip_text, -1, ttw);
+}
+
+// Draw a tooltip for an item in inventory to the screen
+function draw_tooltip_item(_x, _y) {
+	var sx = _x;
+	var sy = _y;
+	var name_text = string_upper(name);
+	var tip_text = "";
+	if(ds_map_exists(global.item_tooltips, name)) {
+		tip_text = global.item_tooltips[? name];
+	}
+	var border = 6;
+	draw_set_font(fnt_dialogue);
+	var ttw = string_width_ext(tip_text, -1, 300);
+	var tth = string_height_ext(tip_text, -1, 300);
+	draw_set_font(fnt_dialogue_big);
+	var namew = string_width_ext(name_text, -1, 300);
+	var nameh = string_height_ext(name_text, -1, 300);
+	var twidth = max(namew, ttw);
+	var theight = nameh + border + tth;
+	tooltip_draw_background(sx, sy, sx + border*2 + twidth, sy + border*2 + theight);
+	draw_set_color(C_DIALOGUE);
+	draw_set_halign(fa_left);
+	draw_set_valign(fa_top);
+	draw_text_ext(sx+border, sy+border, name_text, -1, namew);
+	draw_set_font(fnt_dialogue);
+	draw_text_ext(sx+border, sy+border*2+nameh, tip_text, -1, ttw);
+	draw_set_halign(fa_right);
+	var value = item_get_true_value(struct);
+	var value_string = string(value);
+	if (struct.has_tag("trade")) {
+		value_string += "(T)";
+	}
+	var vwidth = string_width(value_string);
+	draw_text(sx + twidth + 2, sy + border - 2, value_string);
+	draw_sprite(s_icon_pix, 0, sx + twidth - vwidth - sprite_get_width(s_icon_pix) + 6, sy + border - 2);
 }

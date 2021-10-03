@@ -2,7 +2,7 @@
 // You can write your code in this editor
 tx = x;
 ty = y;
-hex = noone;
+hex = get_hex(x, y);
 depth = -20;
 
 exit_burst = true;

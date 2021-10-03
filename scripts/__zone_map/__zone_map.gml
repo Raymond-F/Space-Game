@@ -315,18 +315,23 @@ function zone_create(z) {
 	}
 }
 
-// Determine if the mouse is over a hex and, if so, return that hex object
-function mouse_get_hex() {
+// Get the hex of an arbitrary location
+function get_hex(xx, yy) {
 	// The furthest a hex can be while still being the active one is sprite_width/2+1
 	var maxw = (sprite_get_width(s_zonemap_hex) / 2) + 1;
 	with(o_zonemap_hex) {
-		if (abs(mouse_x - x) <= maxw && abs(mouse_y - y) <= maxw) {
-			if(position_meeting(mouse_x, mouse_y, id)) {
+		if (abs(xx - x) <= maxw && abs(yy - y) <= maxw) {
+			if(position_meeting(xx, yy, id)) {
 				return id;
 			}
 		}
 	}
 	return noone;
+}
+
+// Determine if the mouse is over a hex and, if so, return that hex object
+function mouse_get_hex() {
+	return get_hex(mouse_x, mouse_y);
 }
 
 // Get an array of up to 6 adjacent hexes for a given hex.

@@ -20,6 +20,8 @@ global.camera_constraints = [0, 0, 99999, 99999];
 global.sensor_range = 5;
 global.event_current_object = noone; // the object pertaining to the event currently happening
 global.settlement_list = ds_list_create(); // tracks all settlement structs
+global.pressed_button = noone; // Tracking for the last button pressed. Needed because GMS is weird about variable functions.
+global.active_shop = noone; // Actively open shop
 //resources
 global.pix = 0;
 global.crew = 0;
@@ -37,13 +39,13 @@ global.charm = 0;
 //data structures
 global.flags = ds_map_create();
 initialize_flags();
-global.shiplist = initialize_shipinfo();
-global.itemlist_modules = initialize_itemlist_modules();
-global.itemlist_weapons = initialize_itemlist_weapons();
-global.itemlist_cargo = initialize_itemlist_cargo();
+initialize_shipinfo();
+initialize_itemlist_modules();
+initialize_itemlist_weapons();
+initialize_itemlist_cargo();
 global.event_list = initialize_event_list();
 global.player_ship = initialize_default_player_ship();
-global.tooltips = initialize_tooltips();
+global.item_tooltips = initialize_item_tooltips();
 initialize_default_player_inventory();
 global.sector_map = sector_map_init();
 player_ship_save();

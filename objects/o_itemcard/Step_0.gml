@@ -8,7 +8,22 @@ if (mouse_x == mouse_xprevious && mouse_y == mouse_yprevious) {
 
 if (mouse_collision_gui()) {
 	if (MPRESSED(mb_right) && transfer_target != noone) {
-		inventory_transfer_item(current_target, transfer_target, pos, quantity);
+		var transfer_qty = 1;
+		if (HELD(vk_control)) {
+			transfer_qty = quantity;
+		} else if (HELD(vk_shift)) {
+			transfer_qty = min(quantity, 10)
+		}
+		if (buying) {
+			var max_affordable = floor(global.pix / value);
+			transfer_qty = min(max_affordable, transfer_qty);
+		}
+		inventory_transfer_item(current_target, transfer_target, pos, transfer_qty);
+		if (buying) {
+			global.pix -= value * transfer_qty;
+		} else if (selling) {
+			global.pix += value * transfer_qty;
+		}
 		par.refresh();
 	}
 } else {

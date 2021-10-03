@@ -35,7 +35,7 @@ function settlement_get_industry_icon(ind) {
 
 // Choose a settlement's industries based on its size and security
 function settlement_choose_industries(loc) {
-	var num_industries_small = [1, 2], num_industries_med = [2,3], num_industries_large = [2, 4];
+	var num_industries_small = [1, 2], num_industries_med = [2,3], num_industries_large = [3, 4];
 	var num_industries;
 	switch (loc.size) {
 		case location_size.small :
@@ -107,9 +107,36 @@ function settlement_choose_shops(loc) {
 	}
 }
 
+function settlement_update_prices(loc) {
+	// Choose global buying and selling modifiers.
+	var base_buymod = random_range(0.9, 1.1);
+	var base_sellmod = random_range(0.2, 0.3);
+	switch (loc.size) {
+		case location_size.small: base_buymod *= 0.9; base_sellmod *= 0.8; break;
+		case location_size.medium: base_buymod *= 1.0; base_sellmod *= 1.0; break;
+		case location_size.large: base_buymod *= 1.2; base_sellmod *= 1.1; break;
+	}
+	switch (loc.zone_id.security) {
+		case zone_security.high: base_buymod *= 0.9; base_sellmod *= 1.1; break;
+		case zone_security.moderate: base_buymod *= 0.95; base_sellmod *= 1; break;
+		case zone_security.sparse: base_buymod *= 1; base_sellmod *= 0.95; break;
+		case zone_security.little: base_buymod *= 1.1; base_sellmod *= 0.9; break;
+		case zone_security.lawless: base_buymod *= 1.2; base_sellmod *= 0.8; break;
+	}
+	loc.global_buymod = base_buymod;
+	loc.global_sellmod = base_sellmod;
+	for (var i = 0; i < array_length(loc.shops); i++) {
+		for (var j = 0; j < ds_list_size(loc.shops[i].inventory); j++) {
+			shop_calculate_item_value(loc.shops[i], loc.shops[i].inventory[|j]);
+		}
+	}
+}
+
 function settlement_init(loc) {
 	loc.industries = [];
 	loc.shops = [];
+	loc.global_buymod = 1;
+	loc.global_sellmod = 0.25;
 	// First, choose what industries a settlement has.
 	settlement_choose_industries(loc);
 	// Now, choose shops and stock those shops.
@@ -117,6 +144,7 @@ function settlement_init(loc) {
 	for (var i = 0; i < array_length(loc.shops); i++) {
 		shop_restock(loc.shops[i]);
 	}
+	settlement_update_prices(loc);
 }
 
 // Opens the settlement window for a location object
@@ -124,4 +152,25 @@ function open_settlement_window(loc){
 	var win = instance_create(0, 0, o_settlement_pane);
 	win.loc = loc;
 	win.title = loc.struct.name;
+}
+
+// Deactivate settlement pane and all associated objects. Used for opening stacked interfaces like shops and
+// stuff.
+function settlement_deactivate_pane() {
+	with (o_settlement_pane) {
+		for (var i = 0; i < array_length(buttons); i++) {
+			instance_deactivate_object(buttons[i]);
+		}
+	}
+	instance_deactivate_object(o_settlement_pane);
+}
+
+// Reactivate the deactivated settlement pane.
+function settlement_reactivate_pane() {
+	instance_activate_object(o_settlement_pane);
+	with (o_settlement_pane) {
+		for (var i = 0; i < array_length(buttons); i++) {
+			instance_activate_object(buttons[i]);
+		}
+	}
 }

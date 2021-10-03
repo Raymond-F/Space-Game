@@ -25,8 +25,8 @@ location_prompt_setinfo = function(loc) {
 }
 
 set_player_dest = function() {
-	global.player.tx = selected_hex.x;
-	global.player.ty = selected_hex.y;
+	global.player.tx = targeted_hex.x;
+	global.player.ty = targeted_hex.y;
 	global.player_x = global.player.tx;
 	global.player_y = global.player.ty;
 	global.camera.follow = true;
@@ -39,7 +39,7 @@ set_player_dest = function() {
 	pcontrol_timer = 30;
 	location_prompt_y = GUIH;
 	location_prompt_refresh();
-	//Player fx
+	// Player fx
 	global.player.exit_burst = false;
 	var burst = instance_create(global.player.x, global.player.y, o_zonemap_impulse_burst_fx);
 	burst.depth = global.player.depth-1;

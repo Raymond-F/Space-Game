@@ -6,7 +6,7 @@ if (location_prompt_text != "" && !instance_exists(par_interface)) {
 	if (abs(location_prompt_y - ytarget) < 0.5) {
 		location_prompt_y = ytarget+0.5;
 	}
-	draw_sprite(s_location_prompt, 0, location_prompt_x, location_prompt_y);
+	draw_sprite(s_location_prompt, 0, round(location_prompt_x), round(location_prompt_y));
 	location_prompt_button.y = round(location_prompt_y);
 	draw_set_halign(fa_center);
 	draw_set_valign(fa_top);

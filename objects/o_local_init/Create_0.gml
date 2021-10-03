@@ -1,6 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
-global.pix = 300;
+global.pix = 3000;
 global.crew = 20;
 global.gunnery = 15;
 global.maneuvering = 15;

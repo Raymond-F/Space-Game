@@ -3,16 +3,19 @@
 /*
 	TAGS LIST | Note that all tags are LOWER CASE
 	basics (used for fuel and supplies that will be at every settlement)
+	trade (trade items are not reduced much in sell price unless that settlement produces them)
 	ore
 	ice
 	refined
 	luxury
 	manufactured
-	plants
+	organic
 */
 
 function item(_list_id = 0, _name = "", _sprite = 0, _weight = 1, _stackability = true, _value = 1, _tags = [], _rarity = RARITY_COMMON) constructor {
 	list_id = _list_id;
+	list = global.itemlist_cargo;
+	struct_t = struct_type.cargo;
 	name = _name;
 	sprite = _sprite;
 	value = _value; // Per item
@@ -29,14 +32,17 @@ function item(_list_id = 0, _name = "", _sprite = 0, _weight = 1, _stackability 
 
 function initialize_itemlist_cargo(){
 	var cl = ds_map_create();
+	global.itemlist_cargo = cl;
 	
 	ds_map_add_unique(cl, 0, new item(0, "supplies", s_cargo_supplies, 1, true, 100, ["basics"], RARITY_UBIQ));
-	ds_map_add_unique(cl, 1, new item(1, "fuel", s_cargo_placeholder, 0.1, true, 40, ["basics"], RARITY_UBIQ));
-	ds_map_add_unique(cl, 2, new item(2, "alloys", s_cargo_placeholder, 2, true, 250, ["refined"], RARITY_COMMON));
-	ds_map_add_unique(cl, 3, new item(3, "precious metals", s_cargo_placeholder, 1, true, 1000, ["ore", "luxury"], RARITY_SCARCE));
-	ds_map_add_unique(cl, 4, new item(4, "electronics", s_cargo_placeholder, 2, true, 400, ["manufactured"], RARITY_COMMON));
-	ds_map_add_unique(cl, 5, new item(5, "raw iron", s_cargo_placeholder, 2, true, 125, ["ore"], RARITY_COMMON));
-	ds_map_add_unique(cl, 6, new item(6, "raw ice", s_cargo_placeholder, 2, true, 125, ["ice"], RARITY_COMMON));
+	ds_map_add_unique(cl, 1, new item(1, "fuel", s_cargo_fuel, 0.1, true, 40, ["basics"], RARITY_UBIQ));
+	ds_map_add_unique(cl, 2, new item(2, "alloys", s_cargo_alloys, 2, true, 250, ["refined", "trade"], RARITY_COMMON));
+	ds_map_add_unique(cl, 3, new item(3, "precious metals", s_cargo_precious_metals, 1, true, 1000, ["ore", "luxury", "trade"], RARITY_SCARCE));
+	ds_map_add_unique(cl, 4, new item(4, "electronics", s_cargo_electronics, 2, true, 400, ["manufactured", "trade"], RARITY_COMMON));
+	ds_map_add_unique(cl, 5, new item(5, "raw iron", s_cargo_raw_iron, 2, true, 125, ["ore", "trade"], RARITY_COMMON));
+	ds_map_add_unique(cl, 6, new item(6, "raw ice", s_cargo_raw_ice, 2, true, 125, ["ice", "trade"], RARITY_COMMON));
+	ds_map_add_unique(cl, 7, new item(7, "natural fibers", s_cargo_natural_fibers, 1, true, 300, ["organic", "trade"], RARITY_UNCOMMON));
+	ds_map_add_unique(cl, 8, new item(8, "synthetic fibers", s_cargo_synthetic_fibers, 1, true, 150, ["refined", "trade"], RARITY_COMMON));
 	
 	return cl;
 }
@@ -97,7 +103,7 @@ function inventory_transfer_item(source, dest, index, quantity) {
 		ds_list_delete(source, index);
 	}
 	var dest_index = inventory_find_item_index_by_id(dest, it.list_id);
-	var new_item = struct_copy(global.itemlist_cargo[? it.list_id], item);
+	var new_item = struct_copy(it.list[? it.list_id], item);
 	if (dest_index < 0) {
 		new_item.quantity = quantity;
 		ds_list_add(dest, new_item);
@@ -136,6 +142,10 @@ function initialize_default_player_inventory() {
 		inventory_add_item(global.player_inventory, global.itemlist_cargo[? ids[i]], quantities[i]);
 	}
 	update_item_display();
+	// Set up lists for module/weapon/ship storage.
+	global.player_module_inventory = ds_list_create();
+	global.player_weapon_inventory = ds_list_create();
+	global.player_ship_inventory = ds_list_create();
 }
 
 function close_inventory() {
@@ -169,7 +179,7 @@ function sort_inventory() {
 function sort_itemlist(list) {
 	for (var i = 0; i < ds_list_size(list)-1; i++) {
 		var first = list[|i];
-		for (var j = i; j < ds_list_size(list)-1; j++) {
+		for (var j = i; j < ds_list_size(list); j++) {
 			var check = list[|j];
 			if (check.list_id < first.list_id) {
 				var t = first;
@@ -203,6 +213,19 @@ function loot_pane_refresh() {
 		instance_destroy();
 	}
 	with(o_loot_pane) {
+		create_itemcards();
+	}
+}
+
+// As above but for the shop pane
+function shop_pane_refresh() {
+	if (!instance_exists(o_shop_pane)) {
+		return;
+	}
+	with(o_itemcard) {
+		instance_destroy();
+	}
+	with(o_shop_pane) {
 		create_itemcards();
 	}
 }
@@ -266,4 +289,9 @@ function generate_loot() {
 		}
 	}
 	return list;
+}
+
+// Returns an item's true baseline value. Should be used with a localized item struct, e.g. from an inventory
+function item_get_true_value(it) {
+	return it.list[? it.list_id].value;
 }
