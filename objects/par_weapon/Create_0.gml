@@ -18,6 +18,9 @@ function ai_weapon_projectile_default() {
 		target_angle =  get_angle_with_smallest_difference(image_angle, point_direction(x, y, target[0], target[1]));
 		windup_remaining = windup_max;
 		shots_remaining = max_shots;
+		if (sound_windup != noone) {
+			audio_play_sound(sound_windup, 11, false);
+		}
 	}
 	if(firing) {
 		if(windup_remaining > 0) {
@@ -37,10 +40,24 @@ function ai_weapon_projectile_default() {
 				flash.par = id;
 				flash.scale = flash_scale;
 				flash.image_angle = image_angle + random_range(-10,10);
+				// Audio
+				if (array_length(sound_fire) > 0) {
+					var snd = array_choose(sound_fire);
+					if (!sound_fire_loops || sound_fire_id == noone) {
+						sound_fire_id = audio_play_sound(snd, 10, sound_fire_loops);
+					}
+				}
 			}
 			if(shots_remaining > 0) {
 				cooldown_remaining--;
 			} else {
+				if (sound_fire_loops) {
+					audio_stop_sound(sound_fire_id);
+					sound_fire_id = noone;
+				}
+				if (sound_stopfire != noone) {
+					audio_play_sound(sound_stopfire, 10, false);
+				}
 				firing = false;
 				image_angle %= 360;
 			}
@@ -67,6 +84,10 @@ function ai_weapon_beam_default() {
 		target_angle =  get_angle_with_smallest_difference(image_angle, point_direction(x, y, target[0], target[1]));
 		windup_remaining = windup_max;
 		shots_remaining = max_shots;
+		
+		if (sound_windup != noone) {
+			audio_play_sound(sound_windup, 12, false);
+		}
 	}
 	if(firing) {
 		if(windup_remaining > 0) {
@@ -87,6 +108,10 @@ function ai_weapon_beam_default() {
 				proj.armor_penetration = armor_penetration;
 				proj.par = par;
 				proj.depth = depth - 1;
+				
+				if (array_length(sound_fire) > 0) {
+					sound_fire_id = audio_play_sound(array_choose(sound_fire), 10, sound_fire_loops);
+				}
 			}
 			if(instance_exists(proj)) {
 				image_angle = point_direction(x, y, proj.tx, proj.ty);
@@ -95,6 +120,13 @@ function ai_weapon_beam_default() {
 			} else {
 				proj = noone;
 				firing = false;
+				if (sound_fire_loops && sound_fire_id != noone) {
+					audio_stop_sound(sound_fire_id);
+					sound_fire_id = noone;
+				}
+				if (sound_stopfire != noone) {
+					audio_play_sound(sound_stopfire, 10, false);
+				}
 			}
 		}
 	}
@@ -129,3 +161,9 @@ spread = 0; //Radius of spread from a target point
 
 hud = instance_create(0, 0, o_weapon_hud)
 hud.wep = id;
+
+sound_fire = []; // An array of different shot sounds. One is chosen at random each attack.
+sound_fire_loops = false; // Whether the firing sound effect is a loop.
+sound_fire_id = noone; // The sound ID of the last fire sound played. Used to stop loops, mainly.
+sound_stopfire = noone; // A sound made when the gun stops firing, if any.
+sound_windup = noone; // A sound made when the guns is winding up to fire, if any.

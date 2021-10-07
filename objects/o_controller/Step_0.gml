@@ -8,7 +8,9 @@ if(PRESSED(ord("1"))){
 	dsys_initialize_window("test2.txt");
 } else if (PRESSED(ord("4"))){
 	dsys_initialize_window("dlg_test_battlestart.txt")
-}else if(PRESSED(vk_f1)){
+} else if (PRESSED(192)) { // Tilde (~) key
+	db_terminal();
+} else if(PRESSED(vk_f1)){
 	var input = get_string("DIALOGUE DEBUGGER: Enter the filename, including .txt, of the dialogue file you want to debug.", "");
 	dsys_initialize_window(input);
 } else if(PRESSED(vk_f2)){
@@ -28,12 +30,19 @@ if(PRESSED(ord("1"))){
 	}
 } else if(PRESSED(ord("M"))) {
 	close_inventory();
-	if (!instance_exists(o_gui_sectormap)) {
+	if (!instance_exists(o_gui_sectormap) && global.context == context.zone_map) {
+		with(o_controller_zonemap) {
+			location_prompt_button.y = GUIH;
+		}
 		instance_create(0, 0, o_gui_sectormap);
 		zonemap_deactivate_objects();
-	} else {
+		global.previous_context = global.context;
+		global.context = context.sector_map;
+	} else if (global.context == context.sector_map) {
 		with (o_gui_sectormap) { instance_destroy(); }
 		zonemap_activate_objects();
+		global.previous_context = global.context;
+		global.context = context.zone_map;
 	}
 } else if (PRESSED(vk_pageup)) {
 	global.current_turn += 100;

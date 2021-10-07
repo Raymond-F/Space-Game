@@ -16,3 +16,8 @@ instance_create(0,0,o_gui);
 zone_create(global.sector_map[? global.current_zone]);
 // instance_create(VIEW_WIDTH/2, VIEW_HEIGHT/2, o_testshield);
 // instance_create(0,0,o_testarc);
+
+ambience = snd_ambience_zonemap;
+global.ambience_id = audio_play_sound(ambience, 50, true);
+audio_sound_gain(global.ambience_id, 0, 0);
+audio_sound_gain(global.ambience_id, 1, 1000);

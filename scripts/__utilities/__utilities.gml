@@ -56,15 +56,13 @@ function tokenize_to_int64(str) {
 	return arr;
 }
 
-// Creates a new struct and copies each member of `struct` into it. The struct will be of type
-// c_type
-function struct_copy(struct, c_type) {
-	var n = new c_type();
+// Copies the contents of `struct` into a struct of the same type `ref`.
+function struct_copy(struct, ref) {
 	var names = variable_struct_get_names(struct);
 	for (var i = 0; i < array_length(names); i++) {
-		variable_struct_set(n, names[i], variable_struct_get(struct, names[i]));
+		variable_struct_set(ref, names[i], variable_struct_get(struct, names[i]));
 	}
-	return n;
+	return ref;
 }
 
 // Wrapper function for easy mouse GUI collision on UI objects
@@ -172,4 +170,13 @@ function file_parse_lines(fname){
 	//we should now have an array of each node object.
 	file_text_close(file);
 	return lines;
+}
+
+// Create a generic tooltip and flash it to the screen.
+function tooltip_make_generic(text) {
+	with(o_tooltip_generic) {
+		instance_destroy();
+	}
+	var tt = instance_create(0, 0, o_tooltip_generic);
+	tt.text = text;
 }

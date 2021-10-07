@@ -19,3 +19,8 @@ flash_scale = 1; //scale of muzzle flash
 name = "NT Alpha"
 
 ai = ai_weapon_beam_default;
+
+sound_fire = [snd_gunshot_newtonalphaloop];
+sound_fire_loops = true;
+sound_windup = snd_gunshot_newtonalphawindup;
+sound_stopfire = snd_gunshot_newtonalphastop;

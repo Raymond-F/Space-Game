@@ -1,6 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
-if (location_prompt_text != "" && !instance_exists(par_interface)) {
+if (location_prompt_text != "" && !instance_exists(par_interface) && global.context == context.zone_map) {
 	var ytarget = GUIH - sprite_get_height(s_location_prompt);
 	location_prompt_y = lerp(location_prompt_y, ytarget, 0.2);
 	if (abs(location_prompt_y - ytarget) < 0.5) {

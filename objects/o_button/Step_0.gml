@@ -7,5 +7,8 @@ if (point_in_rectangle(MOUSE_GUIX, MOUSE_GUIY, x, y, x + sprite_width, y + sprit
 		}
 		global.pressed_button = id;
 		on_press();
+		if (press_sound != noone) {
+			audio_play_sound(press_sound, 20, false);
+		}
 	}
 }

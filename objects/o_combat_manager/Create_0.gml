@@ -63,3 +63,4 @@ final_fade = false;
 depth = -1;
 moveline_timer = irandom_range(10, 20);
 end_of_battle_timer = 300;
+audio_sound_gain(global.ambience_id, 0, 1000);

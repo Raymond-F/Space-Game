@@ -50,8 +50,10 @@ open_shop_list = function() {
 	back_button.on_press = function() {
 		open_main();
 	}
+	back_button.press_sound = snd_interface_pressbutton1;
 	array_push(buttons, back_button);
 	buttons_set_depth();
+	escape_function = open_main;
 }
 
 open_main = function() {
@@ -65,7 +67,18 @@ open_main = function() {
 	shop_button.on_press = function() {
 		open_shop_list();
 	}
+	shop_button.press_sound = snd_interface_pressbutton1;
 	array_push(buttons, shop_button);
+	by += bh;
+	var manage_button = instance_create(bx, by, o_button);
+	manage_button.sprite_index = s_button_settlement_pane;
+	manage_button.text = "MANAGE SHIP";
+	manage_button.on_press = function() {
+		instance_create(GUIW/2 - sprite_get_width(s_ship_management_pane)/2, GUIH/2 - sprite_get_height(s_ship_management_pane)/2, o_manage_ship_pane);
+		settlement_deactivate_pane();
+	}
+	manage_button.press_sound = snd_interface_pressbutton1;
+	array_push(buttons, manage_button);
 	by += bh;
 	var exit_button = instance_create(bx, by, o_button);
 	exit_button.sprite_index = s_button_settlement_pane;
@@ -78,6 +91,9 @@ open_main = function() {
 	array_push(buttons, exit_button);
 	by += bh;
 	buttons_set_depth();
+	escape_function = instance_destroy;
 }
 
 open_main();
+
+audio_play_sound(snd_interface_open, 30, false);

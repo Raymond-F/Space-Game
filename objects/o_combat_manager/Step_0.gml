@@ -23,6 +23,8 @@ if(!faded_in || fading_out) {
 			with(o_weapon_hud) instance_destroy();
 			// Enable zone map objects again
 			zonemap_activate_objects();
+			// Clear combat audio
+			audio_stop_all();
 		}
 	}
 } else {
@@ -42,8 +44,9 @@ if(faded_in && !fading_out && !final_fade) {
 if(faded_in && !final_fade && (player.hull_current <= 0 || enemy.hull_current <= 0)) {
 	end_of_battle_timer--;
 }
-if(end_of_battle_timer == 0) {
+if(end_of_battle_timer == 0 && !fading_out) {
 	fading_out = true;
+	audio_sound_gain(global.ambience_id, 1, 1000);
 }
 
 // Break shield

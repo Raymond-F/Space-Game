@@ -4,7 +4,7 @@ create_itemcards = function() {
 	var row = 0;
 	var col = 0;
 	var border_width = 52;
-	var border_height = 81;
+	var border_height = 51;
 	var card_width = sprite_get_width(s_itemframe);
 	var card_height = sprite_get_height(s_itemframe);
 	for (var i = 0; i < ds_list_size(active_list); i++) {
@@ -15,7 +15,7 @@ create_itemcards = function() {
 		itc.sprite = active_list[|i].sprite;
 		itc.pos = i;
 		itc.par = id;
-		itc.y_cutoff = [y + 500, y + 52];
+		itc.y_cutoff = [y + 500, y];
 		if (active_list == global.player_inventory) {
 			itc.transfer_target = loot_list;
 			itc.current_target = global.player_inventory;
@@ -29,6 +29,11 @@ create_itemcards = function() {
 		if (row >= items_per_row) {
 			row = 0;
 			col++;
+		}
+	}
+	with (o_itemcard) {
+		if (y > y_cutoff[0] || y < y_cutoff[1]) {
+			active = false;
 		}
 	}
 }
@@ -49,7 +54,7 @@ loot_list = generate_loot();
 active_list = loot_list;
 create_itemcards();
 
-var sort_button = instance_create(x + 52, y + 43, o_button);
+var sort_button = instance_create(x + 52, y + 13, o_button);
 sort_button.on_press = function() {
 	sort_itemlist(active_list);
 	loot_pane_refresh();
@@ -59,7 +64,7 @@ sort_button.depth = depth - 1;
 sort_button.sprite_index = s_button_tab;
 ds_list_add(buttons, sort_button);
 
-var inv_button = instance_create(x + sprite_width - 52 - sprite_get_width(s_button_tab) * 2, y + 43, o_button);
+var inv_button = instance_create(x + sprite_width - 52 - sprite_get_width(s_button_tab) * 2, y + 13, o_button);
 inv_button.on_press = function() {
 	active_list = global.player_inventory;
 	other.loot_btn.image_index = 0;
@@ -69,9 +74,10 @@ inv_button.text = "CARGO";
 inv_button.depth = depth - 1;
 inv_button.sprite_index = s_button_tab;
 inv_button.use_active_image = true;
+inv_button.press_sound = snd_interface_pressbutton1;
 ds_list_add(buttons, inv_button);
 
-var loot_button = instance_create(x + sprite_width - 52 - sprite_get_width(s_button_tab), y + 43, o_button);
+var loot_button = instance_create(x + sprite_width - 52 - sprite_get_width(s_button_tab), y + 13, o_button);
 loot_button.on_press = function() {
 	active_list = loot_list;
 	other.inv_btn.image_index = 0;
@@ -82,6 +88,7 @@ loot_button.depth = depth - 1;
 loot_button.sprite_index = s_button_tab;
 loot_button.use_active_image = true;
 loot_button.image_index = 1;
+loot_button.press_sound = snd_interface_pressbutton1;
 ds_list_add(buttons, loot_button);
 
 loot_button.inv_btn = inv_button;
@@ -92,6 +99,8 @@ leave_button.on_press = function() {
 	close_inventory();
 }
 leave_button.text = "LEAVE";
-leave_button.depth = depth - 1;
+leave_button.depth = depth - 5;
 leave_button.sprite_index = s_button_large;
 ds_list_add(buttons, leave_button);
+
+audio_play_sound(snd_interface_open, 30, false);

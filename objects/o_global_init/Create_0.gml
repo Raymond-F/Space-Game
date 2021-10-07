@@ -18,10 +18,12 @@ global.player_x = irandom_range(30, 70)
 global.player_y = irandom_range(20, 30)
 global.camera_constraints = [0, 0, 99999, 99999];
 global.sensor_range = 5;
-global.event_current_object = noone; // the object pertaining to the event currently happening
-global.settlement_list = ds_list_create(); // tracks all settlement structs
+global.event_current_object = noone; // the object pertaining to the event currently happening.
+global.settlement_list = ds_list_create(); // tracks all settlement structs.
 global.pressed_button = noone; // Tracking for the last button pressed. Needed because GMS is weird about variable functions.
-global.active_shop = noone; // Actively open shop
+global.active_shop = noone; // Actively open shop.
+global.dragged_module = noone; // Module being dragged in the management screen.
+global.editing_ship = noone; // The ship being edited currently. Merged with the player ship on exit of management screen.
 //resources
 global.pix = 0;
 global.crew = 0;
@@ -60,7 +62,7 @@ enum context {
 	sector_map,
 	battle
 }
-global.context = context.sector_map;
+global.context = context.zone_map;
 global.previous_context = context.sector_map;
 
 /*

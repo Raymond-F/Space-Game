@@ -32,3 +32,8 @@ if(mouse_wheel_up()) {
 		scroll_cd = scroll_cd_max;
 	}
 }
+
+if (PRESSED(vk_escape)) {
+	instance_destroy();
+	keyboard_clear(vk_escape);
+}

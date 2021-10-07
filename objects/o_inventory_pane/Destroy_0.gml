@@ -8,3 +8,5 @@ for (var i = 0; i < ds_list_size(buttons); i++) {
 }
 ds_list_destroy(item_cards);
 ds_list_destroy(buttons);
+
+audio_play_sound(snd_interface_close, 30, false);

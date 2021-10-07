@@ -22,3 +22,8 @@ flash_scale = 1; //scale of muzzle flash
 name = "Cantor Striker"
 
 ai = ai_weapon_projectile_default;
+
+sound_windup = snd_gunshot_strikerwindup;
+sound_fire = [snd_gunshot_strikerloop];
+sound_fire_loops = true;
+sound_stopfire = snd_gunshot_strikerstop;

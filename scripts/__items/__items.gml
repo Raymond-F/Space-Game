@@ -68,7 +68,7 @@ function inventory_find_item_index_by_id(list, item_id) {
 function inventory_add_item(list, struct, quantity) {
 	var index = inventory_find_item_index_by_id(list, struct.list_id);
 	if (index < 0 || (variable_struct_exists(struct, "stackable") && !struct.stackable)) {
-		var cpy = struct_copy(struct, item);
+		var cpy = struct_copy(struct, new item());
 		cpy.quantity = quantity;
 		ds_list_add(list, cpy);
 	} else {
@@ -103,7 +103,7 @@ function inventory_transfer_item(source, dest, index, quantity) {
 		ds_list_delete(source, index);
 	}
 	var dest_index = inventory_find_item_index_by_id(dest, it.list_id);
-	var new_item = struct_copy(it.list[? it.list_id], item);
+	var new_item = struct_copy(it.list[? it.list_id], new item());
 	if (dest_index < 0) {
 		new_item.quantity = quantity;
 		ds_list_add(dest, new_item);
@@ -284,7 +284,7 @@ function generate_loot() {
 			}
 		}
 		if (!in_list) {
-			ds_list_add(list, struct_copy(global.itemlist_cargo[? chosen[0]], item));
+			ds_list_add(list, struct_copy(global.itemlist_cargo[? chosen[0]], new item()));
 			list[|i].quantity = qty;
 		}
 	}
@@ -294,4 +294,8 @@ function generate_loot() {
 // Returns an item's true baseline value. Should be used with a localized item struct, e.g. from an inventory
 function item_get_true_value(it) {
 	return it.list[? it.list_id].value;
+}
+
+function item_get_base_struct(it) {
+	return it.list[? it.list_id];
 }

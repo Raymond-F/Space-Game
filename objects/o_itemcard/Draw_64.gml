@@ -12,13 +12,6 @@ if ((buying || selling) && point_in_rectangle(MOUSE_GUIX, MOUSE_GUIY, x, y, x + 
 	draw_self();
 	shader_reset();
 }
-draw_set_font(fnt_gui);
-draw_set_halign(fa_center);
-draw_set_valign(fa_middle);
-draw_set_color(c_white);
-draw_text(x + sprite_width/2, y + sprite_height - 16, name);
-draw_set_halign(fa_right);
-draw_text(x + sprite_width - 4, y + 12, string(quantity));
 if (sprite != noone) {
 	if (sprite_get_width(sprite) > 120 || sprite_get_height(sprite) > 120) {
 		var scalar = 120 / max(sprite_get_width(sprite), sprite_get_height(sprite));
@@ -29,6 +22,13 @@ if (sprite != noone) {
 		draw_sprite(sprite, 0, x + sprite_width/2, y + sprite_height/2 - 8);
 	}
 }
+draw_set_font(fnt_gui);
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+draw_set_color(c_white);
+draw_text(x + sprite_width/2, y + sprite_height - 16, name);
+draw_set_halign(fa_right);
+draw_text(x + sprite_width - 4, y + 12, string(quantity));
 if (buying || selling) {
 	var val_string = string(value);
 	draw_set_halign(fa_left);

@@ -48,5 +48,8 @@ if(active && MPRESSED(mb_left)){
 			}
 		}
 		mouse_clear(mb_left);
+		audio_play_sound(snd_interface_pressbutton1, 30, false);
 	}
+} else if (!active && MPRESSED(mb_left)){
+	audio_play_sound(snd_interface_deadclick, 30, false);
 }

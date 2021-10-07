@@ -14,3 +14,5 @@ for (var i = 0; i < ds_list_size(player_list); i++) {
 	var it = player_list[|i];
 	it.value = item_get_true_value(it);
 }
+
+audio_play_sound(snd_interface_close, 30, false);

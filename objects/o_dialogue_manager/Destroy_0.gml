@@ -18,3 +18,6 @@ global.event_current_object = noone;
 with (o_controller_zonemap) {
 	location_prompt_refresh();
 }
+
+audio_sound_gain(global.ambience_id, 1, 300);
+audio_play_sound(snd_interface_close, 30, false);

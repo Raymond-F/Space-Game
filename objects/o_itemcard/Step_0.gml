@@ -24,6 +24,11 @@ if (mouse_collision_gui()) {
 		} else if (selling) {
 			global.pix += value * transfer_qty;
 		}
+		if (transfer_qty > 0) {
+			audio_play_sound(snd_interface_transfer, 30, false);
+		} else {
+			audio_play_sound(snd_interface_deadclick, 30, false);
+		}
 		par.refresh();
 	}
 } else {

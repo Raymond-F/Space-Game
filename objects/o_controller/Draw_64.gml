@@ -10,4 +10,7 @@ if (global.debug) {
 		draw_text(GUIW - 10, 30, string(global.player.hex.gy));
 	}
 	draw_text(GUIW - 10, 50, "Turn: " + string(global.current_turn));
+	if (keyboard_lastkey != -1) {
+		draw_text(GUIW - 10, 70, "Last press: " + string(keyboard_lastkey));
+	}
 }

@@ -192,7 +192,7 @@ function initialize_itemlist_modules() {
 	ds_map_add_unique(ilm, 502, new module(502, "Small Cargo Bay", MODULETYPE_OTHER, s_cargo_placeholder, 3, new modulestats_cargo(20), 2000, RARITY_UBIQ));
 	ds_map_add_unique(ilm, 503, new module(503, "Cargo Bay", MODULETYPE_OTHER, s_cargo_placeholder, 4, new modulestats_cargo(40), 4000, RARITY_COMMON));
 	ds_map_add_unique(ilm, 504, new module(504, "Large Cargo Bay", MODULETYPE_OTHER, s_cargo_placeholder, 5, new modulestats_cargo(75), 8000, RARITY_COMMON));
-	ds_map_add_unique(ilm, 505, new module(505, "Vast Cargo Bay", MODULETYPE_OTHER, s_cargo_placeholder, 5, new modulestats_cargo(150), 15000, RARITY_UNCOMMON));
+	ds_map_add_unique(ilm, 505, new module(505, "Vast Cargo Bay", MODULETYPE_OTHER, s_cargo_placeholder, 6, new modulestats_cargo(150), 15000, RARITY_UNCOMMON));
 	
 	return ilm;
 }
@@ -212,12 +212,13 @@ function weaponstats(_damage, _charge_time, _processing_cost, _type, _notes) con
 	notes = _notes;
 }
 
-function weapon(_list_id, _name, _index, _stats, _value, _rarity) constructor {
+function weapon(_list_id, _name, _index, _sprite, _stats, _value, _rarity) constructor {
 	list_id = _list_id;
 	list = global.itemlist_weapons;
 	struct_t = struct_type.weapon;
 	name = _name;
 	index = _index;
+	sprite = _sprite;
 	stats = _stats;
 	value = _value;
 	rarity = _rarity;
@@ -228,11 +229,11 @@ function initialize_itemlist_weapons() {
 	global.itemlist_weapons = ilw;
 	
 	// basic projectile weapons (index 0 to 99)
-	ds_map_add_unique(ilw, 0, new weapon(0, "Cantor Dirk", o_weapon_cantor_dirk, new weaponstats("8x10", 8, 1, weapon_type.projectile, ""), 800, RARITY_UBIQ));
-	ds_map_add_unique(ilw, 1, new weapon(1, "Cantor Striker", o_weapon_cantor_striker, new weaponstats("12x30", 10, 5, weapon_type.projectile, ""), 3900, RARITY_UNCOMMON));
+	ds_map_add_unique(ilw, 0, new weapon(0, "Cantor Dirk", o_weapon_cantor_dirk, s_weapon_cantor_dirk, new weaponstats("8x10", 8, 1, weapon_type.projectile, ""), 800, RARITY_UBIQ));
+	ds_map_add_unique(ilw, 1, new weapon(1, "Cantor Striker", o_weapon_cantor_striker, s_weapon_cantor_striker, new weaponstats("12x30", 10, 5, weapon_type.projectile, ""), 3900, RARITY_UNCOMMON));
 	
 	// beam weapons (index 100 to 199)
-	ds_map_add_unique(ilw, 100, new weapon(0, "NT Alpha", o_weapon_newton_alpha, new weaponstats("600", 14, 6, weapon_type.beam, ""), 5500, RARITY_SCARCE));
+	ds_map_add_unique(ilw, 100, new weapon(0, "NT Alpha", o_weapon_newton_alpha, s_weapon_newton_alpha, new weaponstats("600", 14, 6, weapon_type.beam, ""), 5500, RARITY_SCARCE));
 	
 	return ilw;
 }

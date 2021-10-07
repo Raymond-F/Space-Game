@@ -7,6 +7,9 @@ depth = par.depth - 10;
 wiggle += pi/64 + random(pi/128);
 var pct = par.shield_current/par.shield_max;
 if(pct == 0) {
+	if (break_advancement == 0) {
+		audio_play_sound(snd_combat_shieldfalls, 30, false);
+	}
 	break_advancement = min(break_advancement+1, 30);
 	if (break_advancement == 30) {
 		exit;

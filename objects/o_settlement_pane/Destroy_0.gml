@@ -3,3 +3,5 @@
 for (var i = 0; i < array_length(buttons); i++) {
 	instance_destroy(buttons[i]);
 }
+
+audio_play_sound(snd_interface_close, 30, false);

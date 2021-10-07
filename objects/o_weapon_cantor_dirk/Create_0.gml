@@ -22,3 +22,8 @@ flash_scale = 0.5; //scale of muzzle flash
 name = "Cantor Dirk"
 
 ai = ai_weapon_projectile_default;
+
+sound_fire_loops = true;
+sound_fire = [snd_gunshot_dirkloop];
+sound_stopfire = snd_gunshot_dirkstop;
+sound_windup = snd_gunshot_dirkwindup;

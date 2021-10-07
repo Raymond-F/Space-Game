@@ -3,7 +3,7 @@
 scroll_cd = max(scroll_cd-1, 0);
 
 if(mouse_wheel_down()) {
-	var count = ds_list_size(global.player_inventory);
+	var count = ds_list_size(active_list);
 	if (count > items_per_row * (3 + scroll)) {
 		scroll++;
 		with(o_itemcard) {
@@ -31,4 +31,10 @@ if(mouse_wheel_up()) {
 		}
 		scroll_cd = scroll_cd_max;
 	}
+}
+
+if (PRESSED(vk_escape)) {
+	settlement_reactivate_pane();
+	instance_destroy();
+	keyboard_clear(vk_escape);
 }
