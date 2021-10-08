@@ -101,6 +101,7 @@
     {"id":{"name":"s_ship_kepler_proteus","path":"sprites/s_ship_kepler_proteus/s_ship_kepler_proteus.yy",},"order":0,},
     {"id":{"name":"text_render","path":"scripts/text_render/text_render.yy",},"order":5,},
     {"id":{"name":"__game_init","path":"scripts/__game_init/__game_init.yy",},"order":7,},
+    {"id":{"name":"s_ship_wicked_epic","path":"sprites/s_ship_wicked_epic/s_ship_wicked_epic.yy",},"order":2,},
     {"id":{"name":"o_weapon_hud","path":"objects/o_weapon_hud/o_weapon_hud.yy",},"order":4,},
     {"id":{"name":"o_manage_ship_pane","path":"objects/o_manage_ship_pane/o_manage_ship_pane.yy",},"order":2,},
     {"id":{"name":"snd_gunshot_strikerstop","path":"sounds/snd_gunshot_strikerstop/snd_gunshot_strikerstop.yy",},"order":1,},
@@ -346,7 +347,7 @@
     {"CopyToMask":-1,"filePath":"datafiles/data","resourceVersion":"1.0","name":"settlement_names.txt","resourceType":"GMIncludedFile",},
   ],
   "MetaData": {
-    "IDEVersion": "2.3.5.589",
+    "IDEVersion": "2.3.4.583",
   },
   "resourceVersion": "1.4",
   "name": "text based space game",
