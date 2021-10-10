@@ -68,7 +68,7 @@ function struct_copy(struct, ref) {
 // Wrapper function for easy mouse GUI collision on UI objects
 function mouse_collision_gui(obj = self) {
 	with(obj) {
-		return point_in_rectangle(MOUSE_GUIX, MOUSE_GUIY, bbox_left, bbox_top, bbox_right, bbox_bottom);
+		return point_in_rectangle(MOUSE_GUIX, MOUSE_GUIY, bbox_left, bbox_top, bbox_right-1, bbox_bottom-1);
 	}
 }
 

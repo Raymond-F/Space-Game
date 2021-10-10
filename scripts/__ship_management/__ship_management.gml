@@ -68,3 +68,29 @@ function ship_has_module(sh, module_id) {
 	}
 	return false;
 }
+
+// Tests whether a module is valid to be placed
+// `mdl` argument is module struct.
+function module_addition_valid(sh, mdl) {
+	switch (mdl.type) {
+		case MODULETYPE_DRIVE: return !ship_has_drive(sh); break;
+		case MODULETYPE_SHIELD: return !ship_has_shield(sh); break;
+		case MODULETYPE_WEPSYS: return !ship_has_wepsys(sh); break;
+		default: break;
+	}
+	return true;
+}
+
+// Similar to above but further checks if, when not baseline valid, this module is valid conditionally
+// on replacing a given module. This is the case for things like replacing a drive module with another
+// drive module.
+function module_replacement_valid(sh, mdl, replaced) {
+	if (module_addition_valid(sh, mdl)) {
+		return true;
+	} else {
+		if (mdl.type != MODULETYPE_OTHER && mdl.type == replaced.type) {
+			return true;
+		}
+	}
+	return false;
+}

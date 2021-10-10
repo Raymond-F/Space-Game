@@ -16,5 +16,6 @@ ds_list_destroy(buttons);
 delete global.player_ship;
 global.player_ship = global.editing_ship;
 global.editing_ship = noone;
+global.dragged_module = noone;
 
 audio_play_sound(snd_interface_close, 30, false);

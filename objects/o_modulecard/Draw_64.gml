@@ -4,7 +4,27 @@ if (!active || !instance_exists(par)) {
 	exit;
 }
 depth = par.depth-1;
+if (global.dragged_module == id) {
+	depth = par.depth - 20;
+	if (sprite != noone) {
+		draw_set_alpha(0.8);
+		if (sprite_get_width(sprite) > 60 || sprite_get_height(sprite) > 60) {
+			var scalar = 60 / max(sprite_get_width(sprite), sprite_get_height(sprite));
+			var draw_width = sprite_get_width(sprite) * scalar;
+			var draw_height = sprite_get_height(sprite) * scalar;
+			draw_sprite_stretched(sprite, 0, MOUSE_GUIX - draw_width/2, MOUSE_GUIY - draw_height/2, draw_width, draw_height);
+		} else {
+			draw_sprite(sprite, 0, MOUSE_GUIX, MOUSE_GUIY);
+		}
+		draw_set_alpha(1);
+	}
+	exit;
+}
 draw_self();
+if (global.dragged_module != noone && global.dragged_module.object_index == o_modulecard) {
+	draw_set_color(c_white);
+	draw_rectangle_feathered(x + 1, y + 1, x + sprite_width - 2, y + sprite_height - 2, 0.5, 5)
+}
 if (point_in_rectangle(MOUSE_GUIX, MOUSE_GUIY, x, y, x + sprite_width, y + sprite_height)) {
 	shader_set(sh_to_white);
 	var u_alpha = shader_get_uniform(sh_to_white, "draw_alpha");
@@ -59,5 +79,7 @@ for (var i = 0; i < array_length(pip_coords); i++) {
 	draw_sprite(s_module_sizepip, 0, x + pip_coords[i][0], y + pip_coords[i][1]);
 }
 if (invalid) {
-	draw_sprite(s_cancelsymbol, 0, x + sprite_width/2, y + sprite_height/2);
+	//draw_sprite(s_cancelsymbol, 0, x + sprite_width/2, y + sprite_height/2);
+	draw_set_color(c_red);
+	draw_rectangle_feathered(x+1, y+1, x + sprite_width - 2, y + sprite_height - 2, 0.5, 5);
 }

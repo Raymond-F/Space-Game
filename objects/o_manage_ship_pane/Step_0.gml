@@ -2,6 +2,17 @@
 // You can write your code in this editor
 scroll_cd = max(scroll_cd-1, 0);
 
+if (global.dragged_module != noone && global.dragged_module.object_index == o_modulesocket && !instance_exists(o_modulecard_list_dropbox)) {
+	var db = instance_create(0, 0, o_modulecard_list_dropbox);
+	// Values are arbitrary magic numbers based on UI sprite. Tee hee.
+	with (db) {
+		coords[0] = other.x + 3;
+		coords[1] = other.y + 51;
+		coords[2] = other.x + 202;
+		coords[3] = other.y + 696;
+	}
+}
+
 if(mouse_wheel_down()) {
 	var count = ds_list_size(global.player_module_inventory);
 	if (count > items_displayed + scroll) {

@@ -77,6 +77,23 @@ function inventory_add_item(list, struct, quantity) {
 	update_item_display();
 }
 
+// As above, but insert the item into the specific position within the list `pos` iff
+// the added item is not already present somewhere in the inventory.
+function inventory_add_item_insert(list, struct, quantity, pos) {
+	if (pos < 0 || pos >= ds_list_size(list)) {
+		return inventory_add_item(list, struct, quantity);
+	}
+	var index = inventory_find_item_index_by_id(list, struct.list_id);
+	if (index < 0 || (variable_struct_exists(struct, "stackable") && !struct.stackable)) {
+		var cpy = struct_copy(struct, new item());
+		cpy.quantity = quantity;
+		ds_list_insert(list, pos, cpy);
+	} else {
+		list[|index].quantity += quantity;
+	}
+	update_item_display();
+}
+
 function inventory_remove_item(list, name_or_id, quantity) {
 	var index;
 	if (is_string(name_or_id)) {

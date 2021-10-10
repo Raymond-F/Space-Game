@@ -8,14 +8,19 @@ target_ind = 0;
 sprite = noone;
 par = noone;
 
-assign_module = function(_struct) {
-	// Abort if the struct is "noone"
+assign_module = function(_struct, insert_index = -1) {
+	// "noone" makes this effectively just unassigning the module
 	if (_struct == noone) {
+		unassign_module();
 		return;
 	}
 	// Add the module back to the module list if there is one
 	if (contained != noone) {
-		inventory_add_item(global.player_module_inventory, contained, 1);
+		if (insert_index < 0) {
+			inventory_add_item(global.player_module_inventory, contained, 1);
+		} else {
+			inventory_add_item_insert(global.player_module_inventory, contained, 1, insert_index);
+		}
 	}
 	contained = item_get_base_struct(_struct);
 	sprite = _struct.sprite;
