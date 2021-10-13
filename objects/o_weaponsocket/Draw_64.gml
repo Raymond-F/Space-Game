@@ -17,34 +17,18 @@ if (locked) {
 	image_index = 0; // Empty
 }
 
-if (global.dragged_module != noone && global.dragged_module != id) {
-	if (class >= global.dragged_module.class &&
-	    (contained == noone || global.dragged_module.object_index == o_modulecard ||
-		 contained.class <= global.dragged_module.class) && !locked) {
-		// If the dragged module is a modulecard and also invalid, this is only valid when it shares
-		// the moduletype of the dragged module.
-		if (global.dragged_module.object_index = o_modulecard && !module_replacement_valid(global.editing_ship, global.dragged_module.struct, contained)) {
-			draw_set_color(c_red);
+if (global.dragged_weapon != noone && global.dragged_weapon != id) {
+	if (!locked) {
+		if (mouse_col) {
 			draw_set_alpha(0.2);
+			draw_set_color(c_white);
 			draw_rectangle(x, y, x+sprite_width-1, y+sprite_height-1, false);
 			draw_set_alpha(1);
-		} else {
-			if (mouse_col) {
-				draw_set_alpha(0.2);
-				draw_set_color(c_white);
-				draw_rectangle(x, y, x+sprite_width-1, y+sprite_height-1, false);
-				draw_set_alpha(1);
-			}
-			draw_set_color(c_white);
-			draw_rectangle_feathered(x + 2, y + 2, x + sprite_width - 3, y + sprite_height - 3, 0.5, 5);
 		}
-	} else if (class < global.dragged_module.class || (contained != noone && contained.class > global.dragged_module.class) || locked) {
-		draw_set_color(c_red);
-		draw_set_alpha(0.2);
-		draw_rectangle(x, y, x+sprite_width-1, y+sprite_height-1, false);
-		draw_set_alpha(1);
+		draw_set_color(c_white);
+		draw_rectangle_feathered(x + 2, y + 2, x + sprite_width - 3, y + sprite_height - 3, 0.5, 5);
 	}
-} else if (global.dragged_module == id) {
+} else if (global.dragged_weapon == id) {
 	depth = par.depth - 20;
 	if (sprite != noone) {
 		draw_set_alpha(0.8);
@@ -65,7 +49,7 @@ if (global.dragged_module != noone && global.dragged_module != id) {
 	draw_rectangle(x, y, x+sprite_width-1, y+sprite_height-1, false);
 	draw_set_alpha(1);
 }
-if (contained != noone && global.dragged_module != id) {
+if (contained != noone && global.dragged_weapon != id) {
 	if (sprite != noone) {
 		if (sprite_get_width(sprite) > 60 || sprite_get_height(sprite) > 60) {
 			var scalar = 60 / max(sprite_get_width(sprite), sprite_get_height(sprite));

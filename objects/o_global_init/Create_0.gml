@@ -23,6 +23,7 @@ global.settlement_list = ds_list_create(); // tracks all settlement structs.
 global.pressed_button = noone; // Tracking for the last button pressed. Needed because GMS is weird about variable functions.
 global.active_shop = noone; // Actively open shop.
 global.dragged_module = noone; // Module being dragged in the management screen.
+global.dragged_weapon = noone; // Weapon being dragged in the management screen.
 global.editing_ship = noone; // The ship being edited currently. Merged with the player ship on exit of management screen.
 //resources
 global.pix = 0;

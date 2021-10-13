@@ -233,7 +233,7 @@ function initialize_itemlist_weapons() {
 	ds_map_add_unique(ilw, 1, new weapon(1, "Cantor Striker", o_weapon_cantor_striker, s_weapon_cantor_striker, new weaponstats("12x30", 10, 5, weapon_type.projectile, ""), 3900, RARITY_UNCOMMON));
 	
 	// beam weapons (index 100 to 199)
-	ds_map_add_unique(ilw, 100, new weapon(0, "NT Alpha", o_weapon_newton_alpha, s_weapon_newton_alpha, new weaponstats("600", 14, 6, weapon_type.beam, ""), 5500, RARITY_SCARCE));
+	ds_map_add_unique(ilw, 100, new weapon(100, "NT Alpha", o_weapon_newton_alpha, s_weapon_newton_alpha, new weaponstats("600", 14, 6, weapon_type.beam, ""), 5500, RARITY_SCARCE));
 	
 	return ilw;
 }
