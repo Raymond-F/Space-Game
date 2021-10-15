@@ -24,5 +24,22 @@ if (tab == open_tab.module) {
 	// Draw ship sprite
 	var sh = global.editing_ship;
 	var spr = sh.sprite;
-	draw_sprite(spr, 0, x + 556, y + 300);
+	draw_sprite(spr, 0, x + 566, y + 375);
+	draw_set_font(fnt_gui_big);
+	draw_set_halign(fa_center);
+	draw_set_valign(fa_bottom);
+	draw_set_color(C_DIALOGUE);
+	draw_text(x + 566, y + sprite_height - 10, sh.name);
+} else if (tab == open_tab.ship) {
+	// Draw ship sprite
+	var sh = global.editing_ship;
+	var spr = sh.sprite;
+	draw_sprite(spr, 0, x + 800, y + 375);
+	draw_set_font(fnt_gui_big);
+	draw_set_halign(fa_center);
+	draw_set_valign(fa_bottom);
+	draw_set_color(C_DIALOGUE);
+	draw_text(x + 800, y + sprite_height - 10, sh.name);
+	draw_set_valign(fa_top);
+	draw_text(x + 800, y + 60, "CURRENT SHIP");
 }

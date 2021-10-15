@@ -13,6 +13,9 @@ function db_terminal() {
 	
 	var input = get_string("DEBUG TERMINAL: Enter your command (e.g. \"additem 4\") here.", "");
 	var tokens = string_tokenize(input);
+	if (array_length(tokens) == 0) {
+		return;
+	}
 	for (var i = 0; i < array_length(tokens); i++) {
 		tokens[i] = string_lower(tokens[i]);
 	}
@@ -40,6 +43,28 @@ function db_terminal() {
 			} else {
 				db_module_add_to_inventory(int64(tokens[1]));
 			}
+		} break;
+		case "addweapon": {
+			var qty = 1;
+			if (array_length(tokens) == 1) {
+				short_command();
+			} else if (array_length(tokens) > 2) {
+				qty = tokens[2];
+			}
+			if (tokens[1] == "all") {
+				db_weapon_add_all(qty);
+			} else {
+				db_weapon_add_to_inventory(int64(tokens[1]), qty);
+			}
+		} break;
+		case "addship": {
+			if (array_length(tokens == 1)) {
+				short_command();
+			}
+			db_ship_add_to_inventory(int64(tokens[1]));
+		} break;
+		case "reset": {
+			game_restart();
 		} break;
 		case "addmoney": {
 			if (array_length(tokens == 1)) {
@@ -84,4 +109,31 @@ function db_module_add_all() {
 		inventory_add_item(global.player_module_inventory, global.itemlist_modules[? k], 1);
 		k = ds_map_find_next(global.itemlist_modules, k);
 	}
+}
+
+// Adds `qty` of the given weapon to the player's inventory.
+function db_weapon_add_to_inventory(_id, qty){
+	if(!ds_map_exists(global.itemlist_weapons, _id)) {
+		show_debug_message("WARNING: Attempted to add nonexistent weapon: " + string(_id));
+		return;
+	}
+	inventory_add_item(global.player_weapon_inventory, global.itemlist_cargo[? int64(_id)], qty);
+}
+
+// Adds `qty` copies of all weapons to the player's storage
+function db_weapon_add_all(qty) {
+	var k = ds_map_find_first(global.itemlist_weapons);
+	while (!is_undefined(k)) {
+		inventory_add_item(global.player_weapon_inventory, global.itemlist_weapons[? k], qty);
+		k = ds_map_find_next(global.itemlist_weapons, k);
+	}
+}
+
+// Adds the given ship to the player's ship storage.
+function db_ship_add_to_inventory(_id){
+	if(!ds_map_exists(global.shiplist, _id)) {
+		show_debug_message("WARNING: Attempted to add nonexistent ship: " + string(_id));
+		return;
+	}
+	inventory_add_item(global.player_ship_inventory, new ship(global.shiplist[? int64(_id)]), 1);
 }

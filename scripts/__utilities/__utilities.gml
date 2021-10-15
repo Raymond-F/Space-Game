@@ -180,3 +180,11 @@ function tooltip_make_generic(text) {
 	var tt = instance_create(0, 0, o_tooltip_generic);
 	tt.text = text;
 }
+
+// Start up the ambient background noise.
+function start_ambience() {
+	ambience = snd_ambience_zonemap;
+	global.ambience_id = audio_play_sound(ambience, 50, true);
+	audio_sound_gain(global.ambience_id, 0, 0);
+	audio_sound_gain(global.ambience_id, 1, 1000);
+}

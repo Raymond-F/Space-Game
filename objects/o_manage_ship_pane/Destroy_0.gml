@@ -12,6 +12,9 @@ with(o_weaponcard) {
 with(o_weaponsocket) {
 	instance_destroy();
 }
+with(o_shipcard) {
+	instance_destroy();
+}
 for (var i = 0; i < ds_list_size(buttons); i++) {
 	instance_destroy(buttons[|i]);
 }

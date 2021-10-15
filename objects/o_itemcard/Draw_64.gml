@@ -27,8 +27,10 @@ draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 draw_set_color(c_white);
 draw_text(x + sprite_width/2, y + sprite_height - 16, name);
-draw_set_halign(fa_right);
-draw_text(x + sprite_width - 4, y + 12, string(quantity));
+if (struct.struct_t != struct_type.ship) {
+	draw_set_halign(fa_right);
+	draw_text(x + sprite_width - 4, y + 12, string(quantity));
+}
 if (buying || selling) {
 	var val_string = string(value);
 	draw_set_halign(fa_left);

@@ -24,9 +24,8 @@ shader_set_uniform_f_array(u_point, [(uvs[2] - uvs[0])/2, (uvs[3] - uvs[1])/2]);
 
 image_xscale = 1;
 image_yscale = 1;
-//values are deliberately flipped
-var xscale = 1.5*sprite_width/par.sprite_height;
-var yscale = 1.5*sprite_height/par.sprite_width;
+var xscale = 1.2*par.sprite_width/sprite_width;
+var yscale = 1.2*par.sprite_height/sprite_height;
 draw_sprite_ext(sprite_index, image_index, par.x, par.y, xscale, yscale, 0, c_white, 1);
 
 shader_reset();

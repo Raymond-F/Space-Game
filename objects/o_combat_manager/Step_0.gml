@@ -25,6 +25,7 @@ if(!faded_in || fading_out) {
 			zonemap_activate_objects();
 			// Clear combat audio
 			audio_stop_all();
+			start_ambience();
 		}
 	}
 } else {
@@ -46,7 +47,6 @@ if(faded_in && !final_fade && (player.hull_current <= 0 || enemy.hull_current <=
 }
 if(end_of_battle_timer == 0 && !fading_out) {
 	fading_out = true;
-	audio_sound_gain(global.ambience_id, 1, 1000);
 }
 
 // Break shield
@@ -56,6 +56,7 @@ if(PRESSED(ord("B"))) {
 if(PRESSED(ord("E"))) {
 	instance_create(VIEW_WIDTH/2, VIEW_HEIGHT/2, o_explosion);
 }
+// Kill enemy ship
 if(PRESSED(ord("D"))) {
 	enemy.shield_current = 0;
 	enemy.hull_current = 0;

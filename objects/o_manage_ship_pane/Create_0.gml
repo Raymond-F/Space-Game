@@ -13,6 +13,9 @@ clear_objects = function() {
 	with(o_weaponsocket) {
 		instance_destroy();
 	}
+	with(o_shipcard) {
+		instance_destroy();
+	}
 	for (var i = 0; i < ds_list_size(buttons); i++) {
 		instance_destroy(buttons[|i]);
 	}
@@ -40,6 +43,14 @@ create_weaponmanager = function() {
 	create_buttons_weaponmanager();
 	top_text = "MANAGE WEAPONS";
 	image_index = 1;
+}
+
+create_shipmanager = function() {
+	tab = open_tab.ship;
+	clear_objects();
+	create_shipcards();
+	top_text = "CHANGE SHIP";
+	image_index = 2;
 }
 
 create_buttons_modulemanager = function() {
@@ -112,7 +123,7 @@ create_modulesockets = function() {
 
 create_weaponsockets = function() {
 	var sh = global.editing_ship;
-	var cx = 556, cy = 300;
+	var cx = 566, cy = 375;
 	var ws_width = sprite_get_width(s_modulesocket);
 	var ws_height = sprite_get_height(s_modulesocket);
 	for (var i = 0; i < array_length(sh.hardpoints); i++) {
@@ -190,6 +201,39 @@ create_weaponcards = function() {
 	}
 }
 
+create_shipcards = function() {
+	var row = 0;
+	var col = 0;
+	var border_width = 4;
+	var border_height = 51;
+	var card_width = sprite_get_width(s_shipframe);
+	var card_height = sprite_get_height(s_shipframe);
+	var items_per_row = 3;
+	var active_list = global.player_ship_inventory;
+	for (var i = 0; i < ds_list_size(active_list); i++) {
+		var sc = instance_create(x + border_width + card_width*row, y + border_height + card_height*col, o_shipcard);
+		sc.struct = active_list[|i];
+		sc.name = active_list[|i].name;
+		sc.sprite = active_list[|i].sprite;
+		sc.pos = i;
+		sc.par = id;
+		sc.y_cutoff = [y + 600, y];
+		sc.depth = depth - 1;
+		ds_list_add(cards, sc);
+		row++;
+		if (row >= items_per_row) {
+			row = 0;
+			col++;
+		}
+	}
+	with(o_shipcard) {
+		y -= other.scroll * sprite_height;
+		if (y > y_cutoff[0] || y < y_cutoff[1]) {
+			active = false;
+		}
+	}
+}
+
 refresh = function() {
 	switch (tab) {
 		case open_tab.module :
@@ -240,7 +284,7 @@ enum open_tab {
 	ship
 }
 tab = open_tab.module;
-global.editing_ship = struct_copy(global.player_ship, new ship(global.shiplist[? global.player_ship.info_id]));
+global.editing_ship = struct_copy(global.player_ship, new ship(global.shiplist[? global.player_ship.list_id]));
 scroll = 0;
 cards = ds_list_create();
 sockets = ds_list_create();
@@ -291,6 +335,15 @@ ship_button.sprite = s_icon_shiptab;
 ship_button.depth = depth + 1;
 ship_button.image_index = 1;
 ship_button.par = id;
+ship_button.on_press = function() {
+	if (tab != open_tab.ship) {
+		create_shipmanager();
+		audio_play_sound(snd_interface_pressbutton1, 30, false);
+		module_button.depth = depth + 1;
+		ship_button.depth = depth - 1;
+		weapon_button.depth = depth + 1;
+	}
+}
 
 close_button = instance_create(x + sprite_width - 64, y + 25 - sprite_get_height(s_button_small)/2, o_button);
 close_button.sprite_index = s_button_small;

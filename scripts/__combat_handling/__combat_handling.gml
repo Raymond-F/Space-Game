@@ -64,7 +64,7 @@ function combat_create_ship(info, is_player) {
 	var shield = parse_arrays_for_best_module_of_type(info, MODULETYPE_SHIELD);
 	
 	with (sh) {
-		info_id = info.info_id;
+		list_id = info.list_id;
 		name = info.name;
 		sprite_index = info.sprite;
 		hardpoints = [];
