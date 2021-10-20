@@ -24,12 +24,13 @@
   "gridX": 0,
   "gridY": 0,
   "frames": [
-    {"compositeImage":{"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_kepler_proteus/s_ship_kepler_proteus.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_kepler_proteus/s_ship_kepler_proteus.yy",},"LayerId":{"name":"aefa003a-32fb-4ace-8a78-97500d4cd0fa","path":"sprites/s_ship_kepler_proteus/s_ship_kepler_proteus.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"s_ship_kepler_proteus","path":"sprites/s_ship_kepler_proteus/s_ship_kepler_proteus.yy",},"resourceVersion":"1.0","name":"b9091df1-a138-4328-a673-c0e1bec03c50","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_U223_Transport/s_ship_U223_Transport.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_U223_Transport/s_ship_U223_Transport.yy",},"LayerId":{"name":"aefa003a-32fb-4ace-8a78-97500d4cd0fa","path":"sprites/s_ship_U223_Transport/s_ship_U223_Transport.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+        {"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_U223_Transport/s_ship_U223_Transport.yy",},"LayerId":{"name":"17e3b627-e70d-4bdb-9166-9b9af76e71f3","path":"sprites/s_ship_U223_Transport/s_ship_U223_Transport.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"s_ship_U223_Transport","path":"sprites/s_ship_U223_Transport/s_ship_U223_Transport.yy",},"resourceVersion":"1.0","name":"b9091df1-a138-4328-a673-c0e1bec03c50","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
-    "spriteId": {"name":"s_ship_kepler_proteus","path":"sprites/s_ship_kepler_proteus/s_ship_kepler_proteus.yy",},
+    "spriteId": {"name":"s_ship_U223_Transport","path":"sprites/s_ship_U223_Transport/s_ship_U223_Transport.yy",},
     "timeUnits": 1,
     "playback": 1,
     "playbackSpeed": 30.0,
@@ -41,7 +42,7 @@
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
-            {"id":"a1d95607-5991-44c2-b9f4-e032b40afead","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_kepler_proteus/s_ship_kepler_proteus.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"e3a1f6b2-d4bc-4302-a2ad-d48719eb89fd","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_U223_Transport/s_ship_U223_Transport.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack","modifiers":[],},
     ],
     "visibleRange": null,
@@ -58,13 +59,14 @@
     "yorigin": 125,
     "eventToFunction": {},
     "eventStubScript": null,
-    "parent": {"name":"s_ship_kepler_proteus","path":"sprites/s_ship_kepler_proteus/s_ship_kepler_proteus.yy",},
+    "parent": {"name":"s_ship_U223_Transport","path":"sprites/s_ship_U223_Transport/s_ship_U223_Transport.yy",},
     "resourceVersion": "1.3",
-    "name": "s_ship_kepler_proteus",
+    "name": "s_ship_U223_Transport",
     "tags": [],
     "resourceType": "GMSequence",
   },
   "layers": [
+    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"Layer 1","resourceVersion":"1.0","name":"17e3b627-e70d-4bdb-9166-9b9af76e71f3","tags":[],"resourceType":"GMImageLayer",},
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"aefa003a-32fb-4ace-8a78-97500d4cd0fa","tags":[],"resourceType":"GMImageLayer",},
   ],
   "nineSlice": null,
@@ -73,7 +75,7 @@
     "path": "folders/Sprites/ships.yy",
   },
   "resourceVersion": "1.0",
-  "name": "s_ship_kepler_proteus",
+  "name": "s_ship_U223_Transport",
   "tags": [],
   "resourceType": "GMSprite",
 }
