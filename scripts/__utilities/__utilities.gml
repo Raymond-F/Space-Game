@@ -68,7 +68,7 @@ function struct_copy(struct, ref) {
 // Wrapper function for easy mouse GUI collision on UI objects
 function mouse_collision_gui(obj = self) {
 	with(obj) {
-		return point_in_rectangle(MOUSE_GUIX, MOUSE_GUIY, bbox_left, bbox_top, bbox_right, bbox_bottom);
+		return point_in_rectangle(MOUSE_GUIX, MOUSE_GUIY, bbox_left, bbox_top, bbox_right-1, bbox_bottom-1);
 	}
 }
 
@@ -179,4 +179,12 @@ function tooltip_make_generic(text) {
 	}
 	var tt = instance_create(0, 0, o_tooltip_generic);
 	tt.text = text;
+}
+
+// Start up the ambient background noise.
+function start_ambience() {
+	ambience = snd_ambience_zonemap;
+	global.ambience_id = audio_play_sound(ambience, 50, true);
+	audio_sound_gain(global.ambience_id, 0, 0);
+	audio_sound_gain(global.ambience_id, 1, 1000);
 }

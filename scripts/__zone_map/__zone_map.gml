@@ -463,12 +463,19 @@ function zonemap_activate_objects() {
 	instance_activate_object(o_zonemap_location);
 	instance_activate_object(o_controller_zonemap);
 	instance_activate_object(o_zonemap_bgrenderer);
+	with (o_controller_zonemap) {
+		instance_activate_object(location_prompt_button);
+	}
 }
 
 function zonemap_deactivate_objects() {
 	instance_deactivate_object(o_zonemap_hex);
 	instance_deactivate_object(o_player);
 	instance_deactivate_object(o_zonemap_location);
+	with (o_controller_zonemap) {
+		location_prompt_button.y = GUIH;
+		instance_deactivate_object(location_prompt_button);
+	}
 	instance_deactivate_object(o_controller_zonemap);
 	instance_deactivate_object(o_zonemap_bgrenderer);
 }

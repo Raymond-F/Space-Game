@@ -233,7 +233,7 @@ function initialize_itemlist_weapons() {
 	ds_map_add_unique(ilw, 1, new weapon(1, "Cantor Striker", o_weapon_cantor_striker, s_weapon_cantor_striker, new weaponstats("12x30", 10, 5, weapon_type.projectile, ""), 3900, RARITY_UNCOMMON));
 	
 	// beam weapons (index 100 to 199)
-	ds_map_add_unique(ilw, 100, new weapon(0, "NT Alpha", o_weapon_newton_alpha, s_weapon_newton_alpha, new weaponstats("600", 14, 6, weapon_type.beam, ""), 5500, RARITY_SCARCE));
+	ds_map_add_unique(ilw, 100, new weapon(100, "NT Alpha", o_weapon_newton_alpha, s_weapon_newton_alpha, new weaponstats("600", 14, 6, weapon_type.beam, ""), 5500, RARITY_SCARCE));
 	
 	return ilw;
 }
@@ -281,7 +281,7 @@ function initialize_shipinfo() {
 	
 	//SKIFFS (index 0 to 99)
 	
-	ds_map_add_unique(si, 0, new shipinfo(0, "Kepler Proteus", s_ship_kepler_proteus, SHIPSIZE_SKIFF, [4, 1], [[40, -45], [-40, -20]], [[-35, 75], [35, 75]], new ship_statistics(2500, 3, 0, 0), [], 5000, RARITY_UBIQ));
+	ds_map_add_unique(si, 0, new shipinfo(0, "Kepler Proteus", s_ship_kepler_proteus, SHIPSIZE_SKIFF, [4, 1], [[40, -45], [-40, -20]], [[-35, 75], [35, 75]], new ship_statistics(2500, 3, 0, 0), [], 5000, RARITY_COMMON));
 	ds_map_add_unique(si, 1, new shipinfo(1, "Mercanto Packmule", s_ship_mercanto_packmule, SHIPSIZE_SKIFF, [3, 1], [[0,-40]], [[0, 100]], new ship_statistics(1350, 0, 0, 10), [502], 6750, RARITY_COMMON));//built in class 3 cargo
 	
 	//CORVETTES (index 100 to 199)
@@ -289,7 +289,7 @@ function initialize_shipinfo() {
 	//FRIGATES (index 200 to 299)
 	
 	//CRUISERS (index 300 to 399)
-	ds_map_add_unique(si, 300, new shipinfo(0, "Kepler Oberon", s_ship_kepler_proteus, SHIPSIZE_CRUISER, [2, 2, 3, 2], [[-30, -50], [30, -50], [-40, -20], [40, -20], [0, -10], [0, 20]], [[-60, 150], [60, 150]], new ship_statistics(11000, 10, 2, 20), [], 64500, RARITY_UNCOMMON));
+	ds_map_add_unique(si, 300, new shipinfo(300, "Kepler Oberon", s_ship_kepler_oberon, SHIPSIZE_CRUISER, [2, 2, 3, 2], [[-36, -120], [36, -120], [-45, -45], [45, -45], [0, 30], [0, 105]], [[-60, 150], [60, 150]], new ship_statistics(11000, 10, 2, 20), [], 64500, RARITY_UNCOMMON));
 	
 	//BATTLECRUISERS (index 400 to 499)
 	
@@ -299,9 +299,11 @@ function initialize_shipinfo() {
 }
 
 function initialize_default_player_ship() {
-	var sh = new ship(global.shiplist[? 0]);
-	sh.class1 = [0, 100, 200, 500];
-	sh.class2 = [501];
-	sh.hardpoint_objects = [1, 100];
+	var sh = new ship(global.shiplist[? 300]);
+	sh.class1 = [500, 500];
+	sh.class2 = [501, noone];
+	sh.class3 = [205, 502, noone];
+	sh.class4 = [10, 110];
+	sh.hardpoint_objects = [1, 100, 0, 0, 0, 0];
 	return sh;
 }

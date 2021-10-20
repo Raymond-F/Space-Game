@@ -208,3 +208,14 @@ function draw_tooltip_item(_x, _y) {
 	draw_text(sx + twidth + 2, sy + border - 2, value_string);
 	draw_sprite(s_icon_pix, 0, sx + twidth - vwidth - sprite_get_width(s_icon_pix) + 6, sy + border - 2);
 }
+
+function draw_rectangle_feathered(x1, y1, x2, y2, base_alpha, amount) {
+	var pa = draw_get_alpha();
+	var a = base_alpha;
+	for (var i = 0; i < amount; i++) {
+		draw_set_alpha(a);
+		draw_rectangle(x1 + i, y1 + i, x2 - i, y2 - i, true);
+		a -= base_alpha/amount;
+	}
+	draw_set_alpha(pa);
+}

@@ -67,10 +67,36 @@ function inventory_find_item_index_by_id(list, item_id) {
 
 function inventory_add_item(list, struct, quantity) {
 	var index = inventory_find_item_index_by_id(list, struct.list_id);
-	if (index < 0 || (variable_struct_exists(struct, "stackable") && !struct.stackable)) {
+	// If this is a shipinfo struct, add a new ship struct of that type.
+	// Otherwise, just copy the struct.
+	if (struct.struct_t == struct_type.ship && variable_struct_exists(struct, "class1")) {
+		var sh = new ship(struct);
+		ds_list_add(list, sh);
+	} else if (struct.struct_t == struct_type.ship || index < 0 || (variable_struct_exists(struct, "stackable") && !struct.stackable)) {
 		var cpy = struct_copy(struct, new item());
 		cpy.quantity = quantity;
 		ds_list_add(list, cpy);
+	} else {
+		list[|index].quantity += quantity;
+	}
+	update_item_display();
+}
+
+// As above, but insert the item into the specific position within the list `pos` iff
+// the added item is not already present somewhere in the inventory.
+function inventory_add_item_insert(list, struct, quantity, pos) {
+	if (pos < 0 || pos >= ds_list_size(list)) {
+		return inventory_add_item(list, struct, quantity);
+	}
+	var index = inventory_find_item_index_by_id(list, struct.list_id);
+	if (struct.struct_t == struct_type.ship && variable_struct_exists(struct, "class1")) {
+		var sh = new ship(struct);
+		ds_list_insert(list, pos, sh);
+	} else if (struct.struct_t == struct_type.ship || index < 0 ||
+			(variable_struct_exists(struct, "stackable") && !struct.stackable)) {
+		var cpy = struct_copy(struct, new item());
+		cpy.quantity = quantity;
+		ds_list_insert(list, pos, cpy);
 	} else {
 		list[|index].quantity += quantity;
 	}
@@ -98,9 +124,11 @@ function inventory_remove_item(list, name_or_id, quantity) {
 function inventory_transfer_item(source, dest, index, quantity) {
 	var it = source[|index];
 	quantity = min(quantity, it.quantity);
-	if(!it.stackable) {
+	if(!it.stackable || it.struct_t == struct_type.ship) {
 		ds_list_add(dest, it);
 		ds_list_delete(source, index);
+		update_item_display();
+		return;
 	}
 	var dest_index = inventory_find_item_index_by_id(dest, it.list_id);
 	var new_item = struct_copy(it.list[? it.list_id], new item());

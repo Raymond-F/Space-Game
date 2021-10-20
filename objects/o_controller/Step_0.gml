@@ -12,11 +12,15 @@ if(PRESSED(ord("1"))){
 	db_terminal();
 } else if(PRESSED(vk_f1)){
 	var input = get_string("DIALOGUE DEBUGGER: Enter the filename, including .txt, of the dialogue file you want to debug.", "");
-	dsys_initialize_window(input);
+	if (input != "") {
+		dsys_initialize_window(input);
+	}
 } else if(PRESSED(vk_f2)){
 	var input = get_string("FLAG SETTER: Enter the name of a flag to set the value of, a space, and then the value to set it to.", "");
 	var tokens = string_tokenize(input);
-	flag_set(tokens[0], int64(tokens[1]));
+	if (array_length(tokens) > 1) {
+		flag_set(tokens[0], int64(tokens[1]));
+	}
 } else if(PRESSED(vk_f3)){
 	var input = get_string("FLAG CHECKER: Enter the name of a flag and the value of that flag will be printed to the debug window.", "");
 	show_debug_message("Value of flag '" + input + "': " + string(flag_get(input)));

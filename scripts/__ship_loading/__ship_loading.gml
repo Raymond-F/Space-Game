@@ -3,8 +3,9 @@
 
 //Construct a ship from a shipinfo struct
 function ship(info) constructor {
-	info_id = info.list_id;
+	list_id = info.list_id;
 	name = info.name;
+	struct_t = struct_type.ship;
 	sprite = info.sprite;
 	class1 = array_create(info.mod_slots[0], noone);
 	class2 = array_create(info.mod_slots[1], noone);
@@ -181,7 +182,7 @@ function player_ship_save() {
 		hardpoint objects
 	*/
 	//the ship is always saved in this order. Be sure to update this comment as new ship stuff is added.
-	file_text_write_string(file, string(sh.info_id));
+	file_text_write_string(file, string(sh.list_id));
 	file_text_writeln(file);
 	file_text_write_string(file, stringify_array(sh.class1));
 	file_text_writeln(file);
