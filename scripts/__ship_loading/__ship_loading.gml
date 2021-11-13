@@ -3,7 +3,10 @@
 
 //Construct a ship from a shipinfo struct
 function ship(info) constructor {
+	list = info.list;
 	list_id = info.list_id;
+	quantity = 1;
+	stackable = false;
 	name = info.name;
 	struct_t = struct_type.ship;
 	sprite = info.sprite;
@@ -17,6 +20,7 @@ function ship(info) constructor {
 	hardpoint_objects = array_create(array_length(hardpoints), noone); //weapon objects stored in each hardpoint
 	engines = info.engines;
 	statistics = info.statistics;
+	nickname = "";
 }
 
 //Load a random ship entry from the given file

@@ -1,7 +1,7 @@
 {
   "spriteId": {
-    "name": "s_shipframe",
-    "path": "sprites/s_shipframe/s_shipframe.yy",
+    "name": "s_prompt_generic",
+    "path": "sprites/s_prompt_generic/s_prompt_generic.yy",
   },
   "solid": false,
   "visible": true,
@@ -24,18 +24,17 @@
     {"isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
     {"isDnD":false,"eventNum":0,"eventType":8,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
     {"isDnD":false,"eventNum":64,"eventType":8,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
-    {"isDnD":false,"eventNum":0,"eventType":3,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
-    {"isDnD":false,"eventNum":75,"eventType":8,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
     {"isDnD":false,"eventNum":0,"eventType":1,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+    {"isDnD":false,"eventNum":1,"eventType":3,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "settlement",
-    "path": "folders/Objects/zone map/settlement.yy",
+    "name": "abstract",
+    "path": "folders/Objects/abstract.yy",
   },
   "resourceVersion": "1.0",
-  "name": "o_shipcard",
+  "name": "o_textprompt",
   "tags": [],
   "resourceType": "GMObject",
 }

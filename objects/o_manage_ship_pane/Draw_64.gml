@@ -40,6 +40,9 @@ if (tab == open_tab.module) {
 	draw_set_valign(fa_bottom);
 	draw_set_color(C_DIALOGUE);
 	draw_text(x + 800, y + sprite_height - 10, sh.name);
+	if(sh.nickname != "") {
+		draw_text(x + 800, y + sprite_height - 50, "\"" + sh.nickname + "\"");
+	}
 	draw_set_valign(fa_top);
 	draw_text(x + 800, y + 60, "CURRENT SHIP");
 }

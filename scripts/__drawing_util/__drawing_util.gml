@@ -201,7 +201,7 @@ function draw_tooltip_item(_x, _y) {
 	draw_set_halign(fa_right);
 	var value = item_get_true_value(struct);
 	var value_string = string(value);
-	if (struct.has_tag("trade")) {
+	if (variable_struct_exists(struct, "tags") && struct.has_tag("trade")) {
 		value_string += "(T)";
 	}
 	var vwidth = string_width(value_string);

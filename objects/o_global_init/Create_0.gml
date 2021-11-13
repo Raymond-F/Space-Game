@@ -25,6 +25,7 @@ global.active_shop = noone; // Actively open shop.
 global.dragged_module = noone; // Module being dragged in the management screen.
 global.dragged_weapon = noone; // Weapon being dragged in the management screen.
 global.editing_ship = noone; // The ship being edited currently. Merged with the player ship on exit of management screen.
+global.ui_layer = 0;
 //resources
 global.pix = 0;
 global.crew = 0;
