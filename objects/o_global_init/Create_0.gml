@@ -7,6 +7,8 @@ room_goto(room_next(room));
 randomize();
 global.sprite_map = initialize_sprite_map();
 draw_set_circle_precision(64);
+cursor_sprite = s_cursor;
+window_set_cursor(cr_none);
 //bookkeeping
 global.zone_width = 100;
 global.zone_height = 50;
@@ -17,7 +19,6 @@ global.player = noone;
 global.player_x = irandom_range(30, 70)
 global.player_y = irandom_range(20, 30)
 global.camera_constraints = [0, 0, 99999, 99999];
-global.sensor_range = 5;
 global.event_current_object = noone; // the object pertaining to the event currently happening.
 global.settlement_list = ds_list_create(); // tracks all settlement structs.
 global.pressed_button = noone; // Tracking for the last button pressed. Needed because GMS is weird about variable functions.
@@ -66,6 +67,40 @@ enum context {
 }
 global.context = context.zone_map;
 global.previous_context = context.sector_map;
+
+// faction stuff
+enum factions {
+	player,
+	empire,
+	rebel,
+	kfed,
+	pirate,
+	civilian
+}
+enum faction_relation_level {
+	reviled = 0,
+	hostile = 1,
+	unwelcome = 2,
+	neutral = 3,
+	liked = 4,
+	trusted = 5,
+	allied = 6
+}
+// The player has the relation of the highest threshold they meet with a faction.
+global.faction_relation_thresholds = [-100, -80, -50, -20, 20, 50, 80];
+
+global.faction_enemies = ds_map_create();
+ds_map_add(global.faction_enemies, factions.empire, [factions.rebel, factions.pirate]);
+ds_map_add(global.faction_enemies, factions.rebel, [factions.empire, factions.kfed, factions.pirate]);
+ds_map_add(global.faction_enemies, factions.kfed, [factions.rebel, factions.pirate]);
+ds_map_add(global.faction_enemies, factions.pirate, [factions.empire, factions.kfed, factions.rebel, factions.pirate, factions.civilian]);
+ds_map_add(global.faction_enemies, factions.civilian, [factions.pirate]);
+global.player_relations = ds_map_create();
+ds_map_add(global.player_relations, factions.empire, 0);
+ds_map_add(global.player_relations, factions.rebel, 0);
+ds_map_add(global.player_relations, factions.kfed, 10);
+ds_map_add(global.player_relations, factions.pirate, -80);
+ds_map_add(global.player_relations, factions.civilian, 0);
 
 /*
 //code for testing the recursive evaluation function

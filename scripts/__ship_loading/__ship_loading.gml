@@ -10,6 +10,7 @@ function ship(info) constructor {
 	name = info.name;
 	struct_t = struct_type.ship;
 	sprite = info.sprite;
+	class = info.class;
 	class1 = array_create(info.mod_slots[0], noone);
 	class2 = array_create(info.mod_slots[1], noone);
 	class3 = array_create(info.mod_slots[2], noone);
@@ -21,6 +22,10 @@ function ship(info) constructor {
 	engines = info.engines;
 	statistics = info.statistics;
 	nickname = "";
+}
+
+function check_battlefile_exists(fname) {
+	return file_exists("battles\\" + fname);
 }
 
 //Load a random ship entry from the given file

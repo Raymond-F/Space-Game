@@ -304,7 +304,8 @@ function zone_create(z) {
 	var cont = instance_create(0, 0, o_controller_zonemap);
 	var hex = cont.hex_array[global.player_x][global.player_y];
 	global.player = instance_create(hex.x, hex.y, o_player);
-	update_vision(hex, global.sensor_range);
+	update_vision(hex, global.player.sensor_range, global.player);
+	global.player.pathable_hexes = get_pathable_hexes(hex, global.player.jump_range, global.player);
 	//instance_create(0, 0, o_zone_hex_renderer);
 	instance_create(0, 0, o_zonemap_bgrenderer);
 	instance_create(0, 0, o_camera);
@@ -435,25 +436,84 @@ function apply_terrain_floodfill_hex(type, start, spread_chance, max_size) {
 	ds_list_destroy(closed);
 }
 
-function vision_recur(hex, range_rem, start_hex) {
-	hex.vision = true;
-	hex.explored = true;
-	if(hex.type == hex_type.dust && hex != start_hex) {
-		range_rem -= 2;
+// If the player is the one doing this vision check, mark those hexes as in vision and explored.
+// Otherwise, add them do a vision list and return it.
+function vision_recur(hex, range_rem, start_hex, seen, player_vision = true, vlist = []) {
+	if (player_vision) {
+		hex.vision = true;
+		hex.explored = true;
 	}
+	array_push(vlist, hex);
+	if(hex.vision_cost > 1 && hex != start_hex) {
+		range_rem -= hex.vision_cost - 1;
+	}
+	ds_map_add(seen, hex, range_rem);
 	if (range_rem > 0) {
 		var adj = hex_get_adjacent(hex);
 		for (var i = 0; i < array_length(adj); i++) {
-			vision_recur(adj[i], range_rem-1, start_hex);
+			var next_hex = adj[i];
+			if (!ds_map_exists(seen, next_hex)) {
+				vision_recur(adj[i], range_rem-1, start_hex, seen, player_vision, vlist);
+			} else {
+				if (seen[? next_hex] < range_rem-1) {
+					seen[? next_hex] = range_rem-1;
+					vision_recur(adj[i], range_rem-1, start_hex, seen, player_vision, vlist);
+				}
+			}
+		}
+	}
+	// This will run very last in the recurrence
+	if (hex == start_hex) {
+		if(player_vision) {
+			global.player.visible_hexes = vlist;
+		} else {
+			return vlist;
 		}
 	}
 }
 
-function update_vision(start, range) {
-	with(o_zonemap_hex) {
-		vision = false;
+function update_vision(start, range, sh) {
+	var seen = ds_map_create();
+	if (sh.object_index == o_player) {
+		with(o_zonemap_hex) {
+			vision = false;
+		}
+		sh.visible_hexes = [];
+		vision_recur(start, range, start, seen, true, []);
+	} else {
+		sh.visible_hexes = [];
+		sh.visible_hexes = vision_recur(start, range, start, seen, false, []);
 	}
-	vision_recur(start, range, start);
+	ds_map_destroy(seen);
+}
+
+function path_recur(hex, range_rem, start_hex, seen, sh, plist = []) {
+	if(hex.movement_cost >= 0 && !ds_map_exists(seen, hex) && array_find(sh.visible_hexes, hex) >= 0) {
+		array_push(plist, hex);
+		ds_map_add(seen, hex, "");
+	}
+	if(hex.movement_cost > 1 && hex != start_hex) {
+		range_rem -= hex.movement_cost - 1;
+	}
+	if (range_rem > 0) {
+		var adj = hex_get_adjacent(hex);
+		for (var i = 0; i < array_length(adj); i++) {
+			path_recur(adj[i], range_rem-1, start_hex, seen, sh, plist);
+		}
+	}
+	// This will run very last in the recurrence
+	if (hex == start_hex) {
+		return plist;
+	}
+}
+
+// Returns a ds_list of hexes which are pathable and in a certain travel distance of the target.
+// This should always be called after updated vision is established. A ship can never travel past
+function get_pathable_hexes(start, range, sh) {
+	var seen = ds_map_create();
+	var hexes = path_recur(start, range, start, seen, sh);
+	ds_map_destroy(seen);
+	return hexes;
 }
 
 // These two functions activate and deactivate all zonemap objects, respectively. Useful for going to different contexts.
@@ -478,4 +538,8 @@ function zonemap_deactivate_objects() {
 	}
 	instance_deactivate_object(o_controller_zonemap);
 	instance_deactivate_object(o_zonemap_bgrenderer);
+}
+
+function hex_is_pathable(sh, hex) {
+	return (array_find(sh.pathable_hexes, hex) >= 0);
 }

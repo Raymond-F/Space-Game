@@ -20,3 +20,12 @@ if (location_prompt_text != "" && !instance_exists(par_interface) && global.cont
 	location_prompt_y = GUIH;
 	location_prompt_button.y = GUIH;
 }
+
+if(turn_index != 0) {
+	wait_indicator_alpha = min(1, wait_indicator_alpha + 0.1);
+} else {
+	wait_indicator_alpha = max(0, wait_indicator_alpha - 0.1);
+}
+draw_set_alpha(wait_indicator_alpha);
+draw_sprite(s_icon_wait, 0, GUIW/2, GUIH*3/4);
+draw_set_alpha(1);

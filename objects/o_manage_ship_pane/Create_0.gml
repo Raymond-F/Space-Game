@@ -240,7 +240,7 @@ create_weaponcards = function() {
 create_shipcards = function() {
 	var row = 0;
 	var col = 0;
-	var border_width = 4;
+	var border_width = 3;
 	var border_height = 51;
 	var card_width = sprite_get_width(s_shipframe);
 	var card_height = sprite_get_height(s_shipframe);
@@ -370,6 +370,11 @@ weapon_button.depth = depth + 1;
 weapon_button.image_index = 1;
 weapon_button.par = id;
 weapon_button.on_press = function() {
+	if (tab == open_tab.module && !ship_has_drive(global.editing_ship)) {
+		tooltip_make_generic("Your ship must have a drive module.");
+		audio_play_sound(snd_interface_deadclick, 30, false);
+		return;
+	}
 	if (tab != open_tab.weapon) {
 		create_weaponmanager();
 		audio_play_sound(snd_interface_pressbutton1, 30, false);
@@ -386,6 +391,11 @@ ship_button.depth = depth + 1;
 ship_button.image_index = 1;
 ship_button.par = id;
 ship_button.on_press = function() {
+	if (tab == open_tab.module && !ship_has_drive(global.editing_ship)) {
+		tooltip_make_generic("Your ship must have a drive module.");
+		audio_play_sound(snd_interface_deadclick, 30, false);
+		return;
+	}
 	if (tab != open_tab.ship) {
 		create_shipmanager();
 		audio_play_sound(snd_interface_pressbutton1, 30, false);

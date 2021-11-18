@@ -1,5 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
+depth = -50;
 var z = global.sector_map[? global.current_zone];
 
 location_prompt_refresh = function() {
@@ -24,6 +25,20 @@ location_prompt_setinfo = function(loc) {
 	}
 }
 
+set_ship_dest = function(sh, hex) {
+	sh.tx = hex.x;
+	sh.ty = hex.y;
+	sh.hex = hex;
+	sh.exit_burst = false;
+	if (hex.vision) {
+		var burst = instance_create(sh.x, sh.y, o_zonemap_impulse_burst_fx);
+		burst.depth = sh.depth-1;
+		sh.image_index = 1;
+	}
+	update_vision(hex, sh.sensor_range, sh);
+	sh.pathable_hexes = get_pathable_hexes(hex, sh.jump_range, sh);
+}
+
 set_player_dest = function() {
 	global.player.tx = targeted_hex.x;
 	global.player.ty = targeted_hex.y;
@@ -33,7 +48,8 @@ set_player_dest = function() {
 	global.camera.target = global.player;
 	global.player.hex = targeted_hex;
 	player_hex = global.player.hex;
-	update_vision(targeted_hex, global.sensor_range);
+	update_vision(targeted_hex, global.player.sensor_range, global.player);
+	global.player.pathable_hexes = get_pathable_hexes(targeted_hex, global.player.jump_range, global.player);
 	global.current_turn++;
 	pcontrol = false;
 	pcontrol_timer = 30;
@@ -56,6 +72,13 @@ for (var i = 0; i < global.zone_width; i++) {
 pcontrol = true;
 pcontrol_timer = -1;
 
+ship_registry = ds_list_create();
+turn_order = [factions.player, factions.empire, factions.rebel, factions.kfed, factions.pirate, factions.civilian];
+turn_index = 0;
+
+
+wait_indicator_alpha = 0;
+
 // For camera constraints
 var l = 99999, r = 0, t = 99999, b = 0;
 
@@ -76,6 +99,9 @@ for(var i = 0; i < global.zone_width; i++) {
 		hex.gx = i;
 		hex.gy = j;
 		hex.type = z.terrain[i][j];
+		switch(hex.type) {
+			case hex_type.dust : hex.vision_cost = 3; break;
+		}
 		hex_array[i][j] = hex;
 	}
 }

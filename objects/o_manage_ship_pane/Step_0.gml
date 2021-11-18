@@ -25,13 +25,22 @@ if(mouse_wheel_down()) {
 	var count = ds_list_size(list);
 	if (count > items_displayed + scroll) {
 		scroll++;
-		with(o_modulecard) {
+		var move_up = function() {
 			y -= sprite_height;
 			if(y < y_cutoff[1]) {
 				active = false;
 			} else if (y < y_cutoff[0]) {
 				active = true;
 			}
+		}
+		with(o_modulecard) {
+			move_up();
+		}
+		with(o_weaponcard) {
+			move_up();
+		}
+		with(o_shipcard) {
+			move_up();
 		}
 		scroll_cd = scroll_cd_max;
 	}
@@ -40,13 +49,22 @@ if(mouse_wheel_down()) {
 if(mouse_wheel_up()) {
 	if (scroll > 0) {
 		scroll--;
-		with(o_modulecard) {
+		var move_down = function() {
 			y += sprite_height;
 			if(y > y_cutoff[0]) {
 				active = false;
 			} else if (y > y_cutoff[1]) {
 				active = true;
 			}
+		}
+		with(o_modulecard) {
+			move_down();
+		}
+		with(o_weaponcard) {
+			move_down();
+		}
+		with(o_shipcard) {
+			move_down();
 		}
 		scroll_cd = scroll_cd_max;
 	}

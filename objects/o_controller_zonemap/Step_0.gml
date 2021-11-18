@@ -29,7 +29,8 @@ selected_hex = mouse_get_hex();
 if (!pcontrol) {
 	// Skip condition
 }
-else if (MPRESSED(mb_right) && selected_hex != noone && selected_hex.vision == true) {
+else if (MPRESSED(mb_right) && selected_hex != noone && selected_hex.vision == true &&
+		 (global.debug || hex_is_pathable(global.player, selected_hex))) {
 	targeted_hex = selected_hex;
 	set_player_dest();
 	targeted_hex = noone;

@@ -162,10 +162,12 @@ function shop_calculate_item_value(sh, it) {
 
 // Set player-side shop values. Trade goods have to use a different formula.
 function shop_calculate_player_item_value(sh, it) {
+	var loc = sh.loc;
 	if (!variable_struct_exists(it, "tags")) {
+		var m = loc.global_sellmod;
+		it.value = round(it.list[? it.list_id].value * m);
 		return;
 	}
-	var loc = sh.loc;
 	if (!it.has_tag("trade")) {
 		var m = loc.global_sellmod; // modifier
 		if (settlement_has_industry(loc, industry.mining) && it.has_tag("ore")) {

@@ -5,7 +5,11 @@ enum hex_type {
 	dust = 1
 }
 
+setup = false;
 type = hex_type.empty;
 gx = 0;
 gy = 0;
 explored = false;
+movement_cost = 1; // negative numbers denote unpathable
+vision_cost = 1; // negative numbers denote that all vision ends on that hex
+terrain_spr = noone;

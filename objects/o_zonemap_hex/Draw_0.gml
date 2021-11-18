@@ -3,10 +3,16 @@
 if (!explored && !global.debug) {
 	exit;
 }
-draw_self();
-if(type == hex_type.dust) {
-	draw_sprite(s_zonemap_hexdust, 0, x, y);
+
+var terrain_spr = noone;
+switch(type) {
+	case hex_type.dust : terrain_spr = s_zonemap_hexdust; break;
+	default: terrain_spr = noone;
 }
+if (terrain_spr != noone) {
+	draw_sprite(terrain_spr, 0, x, y);
+}
+draw_self();
 
 if(!vision) {
 	draw_set_alpha(0.2);
