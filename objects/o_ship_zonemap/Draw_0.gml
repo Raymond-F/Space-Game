@@ -11,4 +11,32 @@ if (!draw_setup) {
 	}
 	image_speed = 0;
 }
-draw_self();
+var current_hex = hex;
+if (x != tx || y != ty) {
+	var current_hex = instance_place(x, y, o_zonemap_hex);
+}
+if (!active) {
+	inactive_fade_delay--;
+}
+if (current_hex.vision && inactive_fade_delay > 0) {
+	image_alpha = min(1, image_alpha+0.05);
+} else {
+	image_alpha = max(0, image_alpha-0.1);
+}
+if (!active && inactive_fade_delay <= 0 && image_alpha == 0) {
+	instance_destroy();
+}
+if (global.debug) {
+	if (target != noone) {
+		draw_set_color(c_green);
+		draw_line(x, y, target.x, target.y);
+		draw_circle(target.x, target.y, 5, false);
+		draw_set_color(c_white);
+	}
+	var pa = image_alpha;
+	image_alpha = 1;
+	draw_self_ship();
+	image_alpha = pa;
+} else {
+	draw_self_ship();
+}

@@ -55,3 +55,12 @@ if(PRESSED(ord("1"))){
 if (PRESSED(vk_backspace)) {
 	global.debug = !global.debug;
 }
+
+if (PRESSED(ord("O"))) {
+	instance_create(mouse_x, mouse_y, o_zonemap_interaction_icon);
+}
+
+if (PRESSED(ord("P"))) {
+	var hex = get_hex(mouse_x, mouse_y);
+	ai_create_ship_patrol(factions.pirate, hex, 5);
+}

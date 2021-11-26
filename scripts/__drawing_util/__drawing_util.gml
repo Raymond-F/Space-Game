@@ -219,3 +219,42 @@ function draw_rectangle_feathered(x1, y1, x2, y2, base_alpha, amount) {
 	}
 	draw_set_alpha(pa);
 }
+
+function draw_outline(spr, img_index, xx, yy, xscale, yscale, rot, alpha, col_array = [0, 0, 0]) {
+	var tex = sprite_get_texture(spr, img_index);
+	var pW = texture_get_texel_width(tex);
+	var pH = texture_get_texel_height(tex);
+	shader_set(sh_outline_only);
+	var u_pW = shader_get_uniform(sh_outline_only, "pixelW");
+	var u_pH = shader_get_uniform(sh_outline_only, "pixelH");
+	var u_alpha = shader_get_uniform(sh_outline_only, "draw_alpha");
+	var u_col = shader_get_uniform(sh_outline_only, "colors");
+	shader_set_uniform_f(u_pW, pW);
+	shader_set_uniform_f(u_pH, pH);
+	shader_set_uniform_f(u_alpha, alpha);
+	shader_set_uniform_f_array(u_col, col_array);
+	draw_sprite_ext(spr, img_index, xx, yy, xscale, yscale, rot, c_white, alpha);
+	shader_reset();
+}
+
+function draw_outline_surface(surf, xx, yy, alpha, col_array = [0, 0, 0]) {
+	var tex = surface_get_texture(surf);
+	var pW = texture_get_texel_width(tex);
+	var pH = texture_get_texel_height(tex);
+	shader_set(sh_outline_only);
+	var u_pW = shader_get_uniform(sh_outline_only, "pixelW");
+	var u_pH = shader_get_uniform(sh_outline_only, "pixelH");
+	var u_alpha = shader_get_uniform(sh_outline_only, "draw_alpha");
+	var u_col = shader_get_uniform(sh_outline_only, "colors");
+	shader_set_uniform_f(u_pW, pW);
+	shader_set_uniform_f(u_pH, pH);
+	shader_set_uniform_f(u_alpha, alpha);
+	shader_set_uniform_f_array(u_col, col_array);
+	draw_surface(surf, xx, yy);
+	shader_reset();
+}
+
+function draw_with_outline(spr, img_index, xx, yy, xscale, yscale, rot, alpha, col_array = [0, 0, 0]) {
+	draw_sprite_ext(spr, img_index, xx, yy, xscale, yscale, rot, c_white, alpha);
+	draw_outline(spr, img_index, xx, yy, xscale, yscale, rot, alpha, col_array);
+}

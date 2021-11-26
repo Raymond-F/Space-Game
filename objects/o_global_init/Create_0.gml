@@ -10,6 +10,7 @@ draw_set_circle_precision(64);
 cursor_sprite = s_cursor;
 window_set_cursor(cr_none);
 //bookkeeping
+global.player_name = "Player";
 global.zone_width = 100;
 global.zone_height = 50;
 global.current_turn = 0; // global current turn value. Increments 1 per player turn.
@@ -27,6 +28,10 @@ global.dragged_module = noone; // Module being dragged in the management screen.
 global.dragged_weapon = noone; // Weapon being dragged in the management screen.
 global.editing_ship = noone; // The ship being edited currently. Merged with the player ship on exit of management screen.
 global.ui_layer = 0;
+global.last_player_scan = -50;
+global.player_scan_cooldown = 50;
+global.ship_registry = ds_list_create(); // Registry of local non-player ship objects
+global.local_ship = noone; // Local ship object for things like patrols to be fought.
 //resources
 global.pix = 0;
 global.crew = 0;
@@ -59,6 +64,8 @@ player_ship_load();
 global.battle_file = "testbattle.txt";
 global.postbattle_file = "";
 global.loot_file = "testloot.txt";
+global.loot_rolls = 0;
+global.player_victory = true;
 
 enum context {
 	zone_map,
@@ -77,6 +84,7 @@ enum factions {
 	pirate,
 	civilian
 }
+global.faction_priority = [factions.empire, factions.rebel, factions.kfed, factions.pirate, factions.civilian];
 enum faction_relation_level {
 	reviled = 0,
 	hostile = 1,

@@ -10,10 +10,10 @@
   "bbox_left": 13,
   "bbox_right": 51,
   "bbox_top": 24,
-  "bbox_bottom": 40,
+  "bbox_bottom": 39,
   "HTile": false,
   "VTile": false,
-  "For3D": false,
+  "For3D": true,
   "width": 64,
   "height": 64,
   "textureGroupId": {

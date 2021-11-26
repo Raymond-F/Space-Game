@@ -51,4 +51,4 @@ if (follow && instance_exists(target)) {
 x = clamp(x, global.camera_constraints[0], global.camera_constraints[2]);
 y = clamp(y, global.camera_constraints[1], global.camera_constraints[3]);
 
-camera_set_view_pos(CAM, x - VIEW_WIDTH/2, y - VIEW_HEIGHT/2);
+camera_set_view_pos(CAM, round(x - VIEW_WIDTH/2), round(y - VIEW_HEIGHT/2));

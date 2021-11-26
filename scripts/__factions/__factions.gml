@@ -24,8 +24,8 @@ function factions_are_enemies(faction1, faction2) {
 		faction2 = temp;
 	}
 	if (faction1 == factions.player) {
-		return (faction_get_relation(faction2) < global.faction_relation_thresholds[faction_relation_level.hostile]);
+		return (faction_get_relation(faction2) < global.faction_relation_thresholds[faction_relation_level.unwelcome]);
 	} else {
-		return (array_find(global.faction_enemies[? faction1], faction2) < 0);
+		return (array_contains(global.faction_enemies[? faction1], faction2));
 	}
 }

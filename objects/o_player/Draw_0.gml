@@ -1,7 +1,8 @@
 /// @description Insert description here
 // You can write your code in this editor
-event_inherited();
-
+if(!surface_exists(path_surf)) {
+	path_surf = surface_create(VIEW_WIDTH, VIEW_HEIGHT);
+}
 surface_set_target(path_surf);
 var xscale = VIEW_WIDTH/GUIW;
 var yscale = VIEW_HEIGHT/GUIH;
@@ -30,4 +31,4 @@ shader_reset();
 surface_clear(path_surf);
 draw_set_alpha(1);
 
-draw_self();
+draw_self_ship();

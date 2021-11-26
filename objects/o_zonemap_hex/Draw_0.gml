@@ -19,3 +19,11 @@ if(!vision) {
 	draw_sprite(s_zonemap_oov_hex, 0, x, y);
 	draw_set_alpha(1);
 }
+
+// Debug display for whether this hex contains a ship
+if(global.debug && contained_ship != noone) {
+	draw_set_alpha(0.4);
+	draw_set_color(c_white);
+	draw_circle(x, y, 16, false);
+	draw_set_alpha(1);
+}

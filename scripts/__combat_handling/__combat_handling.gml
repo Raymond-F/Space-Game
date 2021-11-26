@@ -22,37 +22,37 @@ function combat_create_ship(info, is_player) {
 		//go down the module list from highest class to lowest class
 		for(var i = 0; i < array_length(_info.class6); i++) {
 			var m = global.itemlist_modules[? _info.class6[i]];
-			if(m.type == type) {
+			if(!is_undefined(m) && m.type == type) {
 				return m;
 			}
 		}
 		for(var i = 0; i < array_length(_info.class5); i++) {
 			var m = global.itemlist_modules[? _info.class5[i]];
-			if(m.type == type) {
+			if(!is_undefined(m) && m.type == type) {
 				return m;
 			}
 		}
 		for(var i = 0; i < array_length(_info.class4); i++) {
 			var m = global.itemlist_modules[? _info.class4[i]];
-			if(m.type == type) {
+			if(!is_undefined(m) && m.type == type) {
 				return m;
 			}
 		}
 		for(var i = 0; i < array_length(_info.class3); i++) {
 			var m = global.itemlist_modules[? _info.class3[i]];
-			if(m.type == type) {
+			if(!is_undefined(m) && m.type == type) {
 				return m;
 			}
 		}
 		for(var i = 0; i < array_length(_info.class2); i++) {
 			var m = global.itemlist_modules[? _info.class2[i]];
-			if(m.type == type) {
+			if(!is_undefined(m) && m.type == type) {
 				return m;
 			}
 		}
 		for(var i = 0; i < array_length(_info.class1); i++) {
 			var m = global.itemlist_modules[? _info.class1[i]];
-			if(m.type == type) {
+			if(!is_undefined(m) && m.type == type) {
 				return m;
 			}
 		}
@@ -172,4 +172,30 @@ function damage_shield(proj, shield) {
 function damage_hull(proj, target) {
 	var damage_to_hull = proj.damage * proj.hull_damage_multiplier - target.base_armor;
 	target.hull_current = max(target.hull_current - damage_to_hull, 0);
+}
+
+// Bookkeeping for end of combat
+function combat_end() {
+	// Enable zone map objects again
+	zonemap_activate_objects();
+	
+	if(global.player_victory) {
+		if (global.local_ship != noone) {
+			ship_destroy_zonemap(global.local_ship);
+			global.local_ship = noone;
+		}
+	} else {
+		// TODO: On retreat, player jumps to a random hex 10-15 hexes away. Otherwise game over.
+	}
+	
+	with(o_ship) instance_destroy();
+	with(par_weapon) instance_destroy();
+	with(o_engineburn) instance_destroy();
+	with(par_projectile) instance_destroy();
+	with(o_shield) instance_destroy();
+	with(o_moveline) instance_destroy();
+	with(o_weapon_hud) instance_destroy();
+	// Clear combat audio
+	audio_stop_all();
+	start_ambience();
 }

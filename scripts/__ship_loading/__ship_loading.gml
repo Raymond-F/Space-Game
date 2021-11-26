@@ -28,6 +28,13 @@ function check_battlefile_exists(fname) {
 	return file_exists("battles\\" + fname);
 }
 
+// Loads a default ship in case loading fails
+function load_default_ship() {
+	var sh = new ship(global.shiplist[? 0])
+	sh.class1[0] = 0;
+	return sh;
+}
+
 //Load a random ship entry from the given file
 function load_ship_from_file(fname){
 	fname = "battles\\" + fname; //set to correct directory
@@ -179,7 +186,7 @@ function player_ship_save() {
 	}
 	var sh = global.player_ship;
 	var file = file_text_open_write(fname);
-	//ship saves like this:
+	// Ship saves like this:
 	/*
 		id
 		class1
@@ -190,7 +197,8 @@ function player_ship_save() {
 		class6
 		hardpoint objects
 	*/
-	//the ship is always saved in this order. Be sure to update this comment as new ship stuff is added.
+	// The ship is always saved in this order.
+	// TODO: Be sure to update this comment as new ship stuff is added.
 	file_text_write_string(file, string(sh.list_id));
 	file_text_writeln(file);
 	file_text_write_string(file, stringify_array(sh.class1));
@@ -241,4 +249,23 @@ function player_ship_load() {
 	sh.class6 = tokenize_to_int64(lines[6]);
 	sh.hardpoint_objects = tokenize_to_int64(lines[7]);
 	global.player_ship = sh;
+}
+
+// Get jump range from a ship struct or object
+function ship_get_jumprange(sh) {
+	var struct;
+	if (is_struct(sh)) {
+		struct = sh;
+	} else {
+		struct = sh.struct;
+	}
+	var jump_range = 0;
+	var mdls = ship_get_full_modules_list(sh);
+	for (var i = 0; i < array_length(mdls); i++) {
+		var mdl = global.itemlist_modules[? mdls[i]];
+		if (mdl.type == MODULETYPE_DRIVE) {
+			jump_range = max(mdl.stats.impulse - sh.statistics.impulse_penalty, 1);
+		}
+	}
+	return jump_range;
 }

@@ -23,6 +23,10 @@ function array_find(arr, val) {
 	return -1;
 }
 
+function array_contains(arr, val) {
+	return (array_find(arr, val) >= 0);
+}
+
 //copy the members of an array from position start to position end, inclusive
 function array_subset(arr, start, last) {
 	if(start < 0 || last > array_length(arr)-1) {
@@ -187,4 +191,8 @@ function start_ambience() {
 	global.ambience_id = audio_play_sound(ambience, 50, true);
 	audio_sound_gain(global.ambience_id, 0, 0);
 	audio_sound_gain(global.ambience_id, 1, 1000);
+}
+
+function dif(val1, val2) {
+	return abs(val1 - val2);
 }

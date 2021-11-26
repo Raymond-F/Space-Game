@@ -95,6 +95,7 @@ function location(_gx, _gy, _type) constructor {
 	}
 	resources = 1; // Percentage of max resources remaining. Depletes as it's looted. Used in comets/derelicts
 	zone_id = noone; // Id of the zone this is in.
+	faction = noone;
 }
 
 function location_create(loc, zone_cont) {
@@ -106,10 +107,40 @@ function location_create(loc, zone_cont) {
 		image_index = loc.img_index;
 		size = loc.size;
 		hex = _hex;
+		_hex.loc = id;
 		resources = loc.resources;
 		struct = loc;
+		faction = noone;
+		if (loc.type == location_type.settlement) {
+			var z = zone_get_current();
+			faction = z.controlling_faction;
+			loc.faction = faction;
+			var num_patrols;
+			switch (z.security) {
+				case zone_security.high : num_patrols = 3; break;
+				case zone_security.moderate : num_patrols = 2; break;
+				case zone_security.sparse : num_patrols = choose(1, 1, 2); break;
+				case zone_security.little : num_patrols = 1; break;
+				case zone_security.lawless : num_patrols = 0; break;
+			}
+			repeat (num_patrols) {
+				var _gx, _gy;
+				do {
+					_gx = gx + irandom_range(-5, 5);
+					_gy = gy + irandom_range(-5, 5);
+				} until (hex_exists(_gx, _gy));
+				array_push(patrols, ai_create_ship_patrol(faction, zone_cont.hex_array[_gx][_gy], 10));
+			}
+		} else if (loc.type == location_type.pirate_base) {
+			faction = factions.pirate;
+			loc.faction = factions.pirate;
+		}
 		return id;
 	}
+}
+
+function hex_exists(gx, gy) {
+	return (gx >= 0 && gx < global.zone_width && gy >= 0 && gy < global.zone_height);
 }
 
 function distance_nearest_location(xx, yy, z) {
@@ -304,6 +335,9 @@ function zone_create(z) {
 	var cont = instance_create(0, 0, o_controller_zonemap);
 	var hex = cont.hex_array[global.player_x][global.player_y];
 	global.player = instance_create(hex.x, hex.y, o_player);
+	global.player.struct = global.player_ship;
+	global.player.combat_power = ai_local_calculate_power(global.player);
+	global.player.jump_range = ship_get_jumprange(global.player_ship);
 	update_vision(hex, global.player.sensor_range, global.player);
 	global.player.pathable_hexes = get_pathable_hexes(hex, global.player.jump_range, global.player);
 	//instance_create(0, 0, o_zone_hex_renderer);
@@ -516,10 +550,15 @@ function get_pathable_hexes(start, range, sh) {
 	return hexes;
 }
 
+function ship_update(sh) {
+	update_vision(sh.hex, sh.sensor_range, sh);
+	sh.pathable_hexes = get_pathable_hexes(sh.hex, sh.jump_range, sh);
+}
+
 // These two functions activate and deactivate all zonemap objects, respectively. Useful for going to different contexts.
 function zonemap_activate_objects() {
 	instance_activate_object(o_zonemap_hex);
-	instance_activate_object(o_player);
+	instance_activate_object(par_ship_zonemap);
 	instance_activate_object(o_zonemap_location);
 	instance_activate_object(o_controller_zonemap);
 	instance_activate_object(o_zonemap_bgrenderer);
@@ -530,7 +569,7 @@ function zonemap_activate_objects() {
 
 function zonemap_deactivate_objects() {
 	instance_deactivate_object(o_zonemap_hex);
-	instance_deactivate_object(o_player);
+	instance_deactivate_object(par_ship_zonemap);
 	instance_deactivate_object(o_zonemap_location);
 	with (o_controller_zonemap) {
 		location_prompt_button.y = GUIH;
@@ -542,4 +581,74 @@ function zonemap_deactivate_objects() {
 
 function hex_is_pathable(sh, hex) {
 	return (array_find(sh.pathable_hexes, hex) >= 0);
+}
+
+function ship_get_cooccupant(sh) {
+	with (par_ship_zonemap) {
+		if (id != sh && sh.hex = hex) {
+			return id;
+		}
+	}
+	return noone;
+}
+
+function draw_self_ship() {
+	var sz = 64;
+	var surf = surface_create(sz*2, sz*2)
+	surface_clear(surf);
+	surface_set_target(surf);
+	// gpu_set_tex_filter(true);
+	var col = [0.8, 0.8, 0.8];
+	if (faction == factions.player) {
+		col = [1, 1, 1];
+	} else if (factions_are_enemies(factions.player, faction)) {
+		col = [0.8, 0, 0];
+	} else {
+		col = [0.8, 0.8, 0.1];
+	}
+	shader_set(sh_to_color);
+	var u_col = shader_get_uniform(sh_to_color, "colors");
+	var u_alpha = shader_get_uniform(sh_to_color, "draw_alpha");
+	shader_set_uniform_f_array(u_col, col);
+	shader_set_uniform_f(u_alpha, image_alpha);
+	var occ = noone;
+	if (dif(x, tx) < 32 && dif(y, ty) < 32) {
+		occ = ship_get_cooccupant(id);
+		if (occ != noone && (dif(occ.x, occ.tx) >= 32 || dif(occ.y, occ.ty) >= 32)) {
+			occ = noone;
+		}
+	}
+	if (occ == noone) {
+		x_display = x;
+		y_display = y;
+		draw_sprite_ext(sprite_index, image_index, sz, sz, image_xscale, image_yscale, image_angle, c_white, image_alpha);
+	} else { // If we share a space, draw the sprite orbiting the other ship.
+		var angle = ((360 * get_timer()) / (6 * 1000000)) % 360;
+		if (id > occ.id) {
+			angle += 180;
+			angle %= 360;
+		}
+		var xpos = sz + lengthdir_x(sz/3, angle);
+		var ypos = sz + lengthdir_y(sz/3, angle);
+		x_display = x - sz + xpos;
+		y_display = y - sz + ypos;
+		draw_sprite_ext(sprite_index, image_index, xpos, ypos, image_xscale, image_yscale, angle + 90, c_white, image_alpha);
+	}
+	shader_reset();
+	surface_reset_target();
+	draw_outline_surface(surf, x-sz, y-sz, image_alpha);
+	draw_surface(surf, x-sz, y-sz);
+	surface_free(surf);
+	// gpu_set_tex_filter(false);
+}
+
+function ship_destroy_zonemap(sh) {
+	instance_destroy(sh);
+	with (par_ship_zonemap) {
+		hex.contained_ship = id;
+		if (id != global.player && target == sh) {
+			ai_ship_behavior_default(id);
+			target = noone;
+		}
+	}
 }
