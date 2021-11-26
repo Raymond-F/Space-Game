@@ -74,6 +74,13 @@ set_player_dest = function() {
 	global.player.image_index = 1;
 }
 
+turn_end = function() {
+	turn_init = false;
+	ai_turn = false;
+	pcontrol = true;
+	zone_update(zone_get_current());
+}
+
 hex_array = array_create(global.zone_width);
 selected_hex = noone;
 targeted_hex = noone;

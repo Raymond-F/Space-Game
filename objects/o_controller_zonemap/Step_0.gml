@@ -199,8 +199,6 @@ if (ai_turn) {
 		ai_delay = max(0, ai_delay-1);
 	}
 	if (ai_turn && ai_delay == 0 && turn_index >= array_length(turn_order)) {
-		turn_init = false;
-		ai_turn = false;
-		pcontrol = true;
+		turn_end();
 	}
 }

@@ -96,6 +96,22 @@ function location(_gx, _gy, _type) constructor {
 	resources = 1; // Percentage of max resources remaining. Depletes as it's looted. Used in comets/derelicts
 	zone_id = noone; // Id of the zone this is in.
 	faction = noone;
+	patrols = []; // Patrolling NPCs, be they KFED, pirates, or rogue AI. Needs to be cleared at zone transition.
+}
+
+function location_replenish_patrol(loc) {
+	for (var i = 0; i < array_length(loc.patrols); i++) {
+		if (loc.patrols[i] == noone) {
+			var _gx, _gy;
+			do {
+				_gx = gx + irandom_range(-8, 8);
+				_gy = gy + irandom_range(-8, 8);
+			} until (hex_exists(_gx, _gy));
+			var hex = get_hex_coord(_gx, _gy);
+			patrols[i] = ai_create_ship_patrol(faction, hex, 12);
+			return patrols[i];
+		}
+	}
 }
 
 function location_create(loc, zone_cont) {
@@ -115,25 +131,12 @@ function location_create(loc, zone_cont) {
 			var z = zone_get_current();
 			faction = z.controlling_faction;
 			loc.faction = faction;
-			var num_patrols;
-			switch (z.security) {
-				case zone_security.high : num_patrols = 3; break;
-				case zone_security.moderate : num_patrols = 2; break;
-				case zone_security.sparse : num_patrols = choose(1, 1, 2); break;
-				case zone_security.little : num_patrols = 1; break;
-				case zone_security.lawless : num_patrols = 0; break;
-			}
-			repeat (num_patrols) {
-				var _gx, _gy;
-				do {
-					_gx = gx + irandom_range(-5, 5);
-					_gy = gy + irandom_range(-5, 5);
-				} until (hex_exists(_gx, _gy));
-				array_push(patrols, ai_create_ship_patrol(faction, zone_cont.hex_array[_gx][_gy], 10));
-			}
 		} else if (loc.type == location_type.pirate_base) {
 			faction = factions.pirate;
 			loc.faction = factions.pirate;
+		}
+		repeat(array_length(loc.patrols)) {
+			location_replenish_patrol(loc);
 		}
 		return id;
 	}
@@ -188,6 +191,20 @@ function place_settlement(z) {
 	set.size = array_choose(size_weighting);
 	set.img_index = irandom(sprite_get_number(s_zonemap_pirate_base_small));
 	set.zone_id = z;
+	var num_patrols;
+	switch (z.security) {
+		case zone_security.high : num_patrols = 2; break;
+		case zone_security.moderate : num_patrols = 2; break;
+		case zone_security.sparse : num_patrols = choose(1, 1, 2); break;
+		case zone_security.little : num_patrols = 1; break;
+		case zone_security.lawless : num_patrols = 0; break;
+	}
+	if (set.size == location_size.large) {
+		num_patrols += 2;
+	} else if (set.size == location_size.medium) {
+		num_patrols++;
+	}
+	set.patrols = array_create(num_patrols, noone);
 	// Set up settlement-specific things
 	settlement_init(set);
 	ds_list_add(z.locations, set);
@@ -214,6 +231,14 @@ function place_pirate_base(z) {
 		default: size_weighting = [location_size.small]; break;
 	}
 	base.size = array_choose(size_weighting);
+	var num_patrols;
+	switch(base.size) {
+		case location_size.small: num_patrols = choose(1, 2, 2); break;
+		case location_size.medium: num_patrols = 2; break;
+		case location_size.large: num_patrols = 3; break;
+		default: num_patrols = 1; break;
+	}
+	base.patrols = array_create(num_patrols, noone);
 	base.img_index = irandom(sprite_get_number(s_zonemap_settlement_small));
 	base.zone_id = z;
 	ds_list_add(z.locations, base);
@@ -643,6 +668,7 @@ function draw_self_ship() {
 }
 
 function ship_destroy_zonemap(sh) {
+	delete sh.ship_struct;
 	instance_destroy(sh);
 	with (par_ship_zonemap) {
 		hex.contained_ship = id;
@@ -651,4 +677,30 @@ function ship_destroy_zonemap(sh) {
 			target = noone;
 		}
 	}
+}
+
+// Get a hex by its hex grid coordinates
+function get_hex_coord(gx, gy) {
+	with(o_controller_zonemap) {
+		if (gx >= 0 && gx < global.zone_width && gy >= 0 && gy < global.zone_height) {
+			return hex_array[gx][gy];
+		}
+	}
+	return noone;
+}
+
+function zone_get_locations_of_type(type) {
+	var arr = [];
+	for (var i = 0; i < ds_list_size(z.locations); i++) {
+		var loc = z.locations[|i];
+		if (loc.type = type) {
+			array_push(arr, loc);
+		}
+	}
+	return arr;
+}
+
+// Returns true if there is at least one settlement in an area, otherwise false
+function settlement_exists(z = zone_get_current()) {
+	return array_length(zone_get_locations_of_type(location_type.settlement)) > 0;
 }

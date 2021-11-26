@@ -24,6 +24,7 @@ if (arrival_action_delay == 0) {
 			int.sprite_index = s_zonemap_icon_comms;
 			on_arrival = dsys_initialize_window;
 			arrival_execution_timer = 45;
+			global.last_player_scan = global.current_turn;
 		}
 	} else { // AI ships fight
 		var int = instance_create(hex.x, hex.y, o_zonemap_interaction_icon);

@@ -1,7 +1,7 @@
 {
   "spriteId": {
-    "name": "s_projectile_ballistic_default",
-    "path": "sprites/s_projectile_ballistic_default/s_projectile_ballistic_default.yy",
+    "name": "spr_smp_projectile_plain",
+    "path": "sprites/spr_smp_projectile_plain/spr_smp_projectile_plain.yy",
   },
   "solid": false,
   "visible": true,
