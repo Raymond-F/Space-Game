@@ -69,8 +69,9 @@ function inventory_add_item(list, struct, quantity) {
 	var index = inventory_find_item_index_by_id(list, struct.list_id);
 	// If this is a shipinfo struct, add a new ship struct of that type.
 	// Otherwise, just copy the struct.
-	if (struct.struct_t == struct_type.ship && variable_struct_exists(struct, "class1")) {
+	if (struct.struct_t == struct_type.ship && !variable_struct_exists(struct, "class1")) {
 		var sh = new ship(struct);
+		sh.class1[0] = 0;
 		ds_list_add(list, sh);
 	} else if (struct.struct_t == struct_type.ship || index < 0 || (variable_struct_exists(struct, "stackable") && !struct.stackable)) {
 		var cpy = struct_copy(struct, new item());
@@ -131,7 +132,12 @@ function inventory_transfer_item(source, dest, index, quantity) {
 		return;
 	}
 	var dest_index = inventory_find_item_index_by_id(dest, it.list_id);
-	var new_item = struct_copy(it.list[? it.list_id], new item());
+	var new_item;
+	if (it.list == global.player_ship_inventory) {
+		new_item = struct_copy(it, new item());
+	} else {
+		new_item = struct_copy(it.list[? it.list_id], new item());
+	}
 	if (dest_index < 0) {
 		new_item.quantity = quantity;
 		ds_list_add(dest, new_item);

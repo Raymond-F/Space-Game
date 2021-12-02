@@ -49,6 +49,7 @@ create_shipmanager = function() {
 	tab = open_tab.ship;
 	clear_objects();
 	create_shipcards();
+	create_buttons_shipmanager();
 	top_text = "CHANGE SHIP";
 	image_index = 2;
 }
@@ -83,6 +84,41 @@ create_buttons_weaponmanager = function() {
 	sort_button.depth = depth-1;
 	sort_button.press_sound = snd_interface_pressbutton1;
 	ds_list_add(buttons, sort_button);
+}
+
+create_buttons_shipmanager = function() {
+	var spr = s_button_small;
+	var sort_button = instance_create(x + 103 - sprite_get_width(spr)/2, y + 25 - sprite_get_height(spr)/2, o_button);
+	sort_button.sprite_index = spr;
+	sort_button.sprite = s_icon_sort;
+	sort_button.on_press = function() {
+		sort_itemlist(global.player_ship_inventory);
+		with (o_manage_ship_pane) {
+			refresh();
+		}
+	}
+	sort_button.depth = depth-1;
+	sort_button.press_sound = snd_interface_pressbutton1;
+	ds_list_add(buttons, sort_button);
+	
+	var spr = s_button_small;
+	var name_button = instance_create(x + sprite_width - 10 - sprite_get_width(spr), y + 58, o_button);
+	name_button.sprite_index = spr;
+	name_button.sprite = s_icon_nameship;
+	name_button.on_press = function() {
+		prompt = instance_create(GUIW/2 - sprite_get_width(s_prompt_generic)/2, GUIH/2 - sprite_get_height(s_prompt_generic)/2, o_textprompt);
+		prompt.top_text = "NAME SHIP";
+		prompt.tip_text = "Enter the desired nickname for this ship below.";
+		prompt.on_close = function() {
+			if(prompt.confirmed && prompt.contents != "") {
+				global.editing_ship.nickname = prompt.contents;
+			}
+			prompt = noone;
+		}
+	}
+	name_button.depth = depth-1;
+	name_button.press_sound = snd_interface_pressbutton1;
+	ds_list_add(buttons, name_button);
 }
 
 create_modulesockets = function() {
@@ -204,7 +240,7 @@ create_weaponcards = function() {
 create_shipcards = function() {
 	var row = 0;
 	var col = 0;
-	var border_width = 4;
+	var border_width = 3;
 	var border_height = 51;
 	var card_width = sprite_get_width(s_shipframe);
 	var card_height = sprite_get_height(s_shipframe);
@@ -256,6 +292,20 @@ refresh = function() {
 			}
 			create_weaponcards();
 			with (o_weaponcard) {
+				y -= sprite_height*other.scroll;
+				if (y > y_cutoff[0] || y < y_cutoff[1]) {
+					active = false;
+				} else {
+					active = true;
+				}
+			}
+			break;
+		case open_tab.ship :
+			with (o_shipcard) {
+				instance_destroy();
+			}
+			create_shipcards();
+			with (o_shipcard) {
 				y -= sprite_height*other.scroll;
 				if (y > y_cutoff[0] || y < y_cutoff[1]) {
 					active = false;
@@ -320,6 +370,11 @@ weapon_button.depth = depth + 1;
 weapon_button.image_index = 1;
 weapon_button.par = id;
 weapon_button.on_press = function() {
+	if (tab == open_tab.module && !ship_has_drive(global.editing_ship)) {
+		tooltip_make_generic("Your ship must have a drive module.");
+		audio_play_sound(snd_interface_deadclick, 30, false);
+		return;
+	}
 	if (tab != open_tab.weapon) {
 		create_weaponmanager();
 		audio_play_sound(snd_interface_pressbutton1, 30, false);
@@ -336,6 +391,11 @@ ship_button.depth = depth + 1;
 ship_button.image_index = 1;
 ship_button.par = id;
 ship_button.on_press = function() {
+	if (tab == open_tab.module && !ship_has_drive(global.editing_ship)) {
+		tooltip_make_generic("Your ship must have a drive module.");
+		audio_play_sound(snd_interface_deadclick, 30, false);
+		return;
+	}
 	if (tab != open_tab.ship) {
 		create_shipmanager();
 		audio_play_sound(snd_interface_pressbutton1, 30, false);
@@ -354,4 +414,5 @@ close_button.on_press = function() {
 	leave();
 }
 
+prompt = noone;
 audio_play_sound(snd_interface_open, 30, false);

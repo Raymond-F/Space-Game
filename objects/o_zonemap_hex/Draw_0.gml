@@ -3,13 +3,27 @@
 if (!explored && !global.debug) {
 	exit;
 }
-draw_self();
-if(type == hex_type.dust) {
-	draw_sprite(s_zonemap_hexdust, 0, x, y);
+
+var terrain_spr = noone;
+switch(type) {
+	case hex_type.dust : terrain_spr = s_zonemap_hexdust; break;
+	default: terrain_spr = noone;
 }
+if (terrain_spr != noone) {
+	draw_sprite(terrain_spr, 0, x, y);
+}
+draw_self();
 
 if(!vision) {
 	draw_set_alpha(0.2);
 	draw_sprite(s_zonemap_oov_hex, 0, x, y);
+	draw_set_alpha(1);
+}
+
+// Debug display for whether this hex contains a ship
+if(global.debug && contained_ship != noone) {
+	draw_set_alpha(0.4);
+	draw_set_color(c_white);
+	draw_circle(x, y, 16, false);
 	draw_set_alpha(1);
 }

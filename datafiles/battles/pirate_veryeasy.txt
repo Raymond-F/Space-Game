@@ -1,0 +1,9 @@
+id 0
+mods 0 100 200 500 501
+wep 1 1
+loot testloot.txt 5
+
+id 0
+mods 0 100 200 500 501
+wep 0 100
+loot testloot.txt 5

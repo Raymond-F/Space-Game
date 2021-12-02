@@ -4,6 +4,7 @@ draw_set_font(fnt_gui);
 draw_set_color(c_white);
 draw_align_reset();
 draw_set_valign(fa_middle);
+draw_set_alpha(1);
 if(global.context == context.zone_map || global.context == context.sector_map) {
 	var offset = 0;
 	var offset_inc = 30;

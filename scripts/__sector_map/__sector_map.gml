@@ -36,6 +36,7 @@ function zone(_s, _e, _outer, _inner, _cx, _cy) constructor {
 	}
 	explored = array_2d_create(global.zone_width, global.zone_height, false);
 	zone_place_terrain(self, 10);
+	controlling_faction = factions.kfed;
 	
 	destroy = function() {
 		ds_list_destroy(locations);

@@ -7,7 +7,10 @@ room_goto(room_next(room));
 randomize();
 global.sprite_map = initialize_sprite_map();
 draw_set_circle_precision(64);
+cursor_sprite = s_cursor;
+window_set_cursor(cr_none);
 //bookkeeping
+global.player_name = "Player";
 global.zone_width = 100;
 global.zone_height = 50;
 global.current_turn = 0; // global current turn value. Increments 1 per player turn.
@@ -17,7 +20,6 @@ global.player = noone;
 global.player_x = irandom_range(30, 70)
 global.player_y = irandom_range(20, 30)
 global.camera_constraints = [0, 0, 99999, 99999];
-global.sensor_range = 5;
 global.event_current_object = noone; // the object pertaining to the event currently happening.
 global.settlement_list = ds_list_create(); // tracks all settlement structs.
 global.pressed_button = noone; // Tracking for the last button pressed. Needed because GMS is weird about variable functions.
@@ -25,6 +27,11 @@ global.active_shop = noone; // Actively open shop.
 global.dragged_module = noone; // Module being dragged in the management screen.
 global.dragged_weapon = noone; // Weapon being dragged in the management screen.
 global.editing_ship = noone; // The ship being edited currently. Merged with the player ship on exit of management screen.
+global.ui_layer = 0;
+global.last_player_scan = -50;
+global.player_scan_cooldown = 50;
+global.ship_registry = ds_list_create(); // Registry of local non-player ship objects
+global.local_ship = noone; // Local ship object for things like patrols to be fought.
 //resources
 global.pix = 0;
 global.crew = 0;
@@ -57,6 +64,8 @@ player_ship_load();
 global.battle_file = "testbattle.txt";
 global.postbattle_file = "";
 global.loot_file = "testloot.txt";
+global.loot_rolls = 0;
+global.player_victory = true;
 
 enum context {
 	zone_map,
@@ -65,6 +74,41 @@ enum context {
 }
 global.context = context.zone_map;
 global.previous_context = context.sector_map;
+
+// faction stuff
+enum factions {
+	player,
+	empire,
+	rebel,
+	kfed,
+	pirate,
+	civilian
+}
+global.faction_priority = [factions.empire, factions.rebel, factions.kfed, factions.pirate, factions.civilian];
+enum faction_relation_level {
+	reviled = 0,
+	hostile = 1,
+	unwelcome = 2,
+	neutral = 3,
+	liked = 4,
+	trusted = 5,
+	allied = 6
+}
+// The player has the relation of the highest threshold they meet with a faction.
+global.faction_relation_thresholds = [-100, -80, -50, -20, 20, 50, 80];
+
+global.faction_enemies = ds_map_create();
+ds_map_add(global.faction_enemies, factions.empire, [factions.rebel, factions.pirate]);
+ds_map_add(global.faction_enemies, factions.rebel, [factions.empire, factions.kfed, factions.pirate]);
+ds_map_add(global.faction_enemies, factions.kfed, [factions.rebel, factions.pirate]);
+ds_map_add(global.faction_enemies, factions.pirate, [factions.empire, factions.kfed, factions.rebel, factions.pirate, factions.civilian]);
+ds_map_add(global.faction_enemies, factions.civilian, [factions.pirate]);
+global.player_relations = ds_map_create();
+ds_map_add(global.player_relations, factions.empire, 0);
+ds_map_add(global.player_relations, factions.rebel, 0);
+ds_map_add(global.player_relations, factions.kfed, 10);
+ds_map_add(global.player_relations, factions.pirate, -80);
+ds_map_add(global.player_relations, factions.civilian, 0);
 
 /*
 //code for testing the recursive evaluation function

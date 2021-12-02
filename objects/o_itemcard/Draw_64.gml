@@ -27,6 +27,9 @@ draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 draw_set_color(c_white);
 draw_text(x + sprite_width/2, y + sprite_height - 16, name);
+if (variable_struct_exists(struct, "nickname") && struct.nickname != "") {
+	draw_text(x + sprite_width/2, y + sprite_height - 32, "\"" + struct.nickname + "\"")
+}
 if (struct.struct_t != struct_type.ship) {
 	draw_set_halign(fa_right);
 	draw_text(x + sprite_width - 4, y + 12, string(quantity));

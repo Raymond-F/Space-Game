@@ -76,6 +76,18 @@ function modify_resource(str, amount) {
 	}
 }
 
+function str_to_faction(str) {
+	switch (str) {
+		case "kfed" : return factions.kfed; break;
+		case "player" : return factions.player; break;
+		case "rebel" : return factions.rebel; break;
+		case "empire" : return factions.empire; break;
+		case "pirate" : return factions.pirate; break;
+		case "civilian" : return factions.civilian; break;
+		default: return noone; break;
+	}
+}
+
 function flag_get(flag_name) {
 	if(!ds_map_exists(global.flags, flag_name)){
 		show_debug_message("WARNING: Attempted to access nonexistent flag: " + flag_name + " [This can be ignored if this flag is local]");

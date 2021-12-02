@@ -1,6 +1,18 @@
 /// @description Insert description here
 // You can write your code in this editor
+depth = -50;
 var z = global.sector_map[? global.current_zone];
+ai_turn = false;
+turn_init = false;
+ai_delay = 0;
+turn_order = [];
+turn_index = 0;
+enum ai_states {
+	scan = 0,
+	move = 1,
+}
+state = ai_states.scan;
+
 
 location_prompt_refresh = function() {
 	var loc_at_hex = noone;
@@ -24,6 +36,22 @@ location_prompt_setinfo = function(loc) {
 	}
 }
 
+set_ship_dest = function(sh, hex) {
+	sh.tx = hex.x;
+	sh.ty = hex.y;
+	sh.hex.contained_ship = noone;
+	sh.hex = hex;
+	hex.contained_ship = sh;
+	sh.exit_burst = false;
+	if (hex.vision) {
+		var burst = instance_create(sh.x, sh.y, o_zonemap_impulse_burst_fx);
+		burst.depth = sh.depth-1;
+		sh.image_index = 1;
+	}
+	update_vision(hex, sh.sensor_range, sh);
+	sh.pathable_hexes = get_pathable_hexes(hex, sh.jump_range, sh);
+}
+
 set_player_dest = function() {
 	global.player.tx = targeted_hex.x;
 	global.player.ty = targeted_hex.y;
@@ -31,12 +59,12 @@ set_player_dest = function() {
 	global.player_y = global.player.ty;
 	global.camera.follow = true;
 	global.camera.target = global.player;
+	global.player.hex.contained_ship = noone;
 	global.player.hex = targeted_hex;
 	player_hex = global.player.hex;
-	update_vision(targeted_hex, global.sensor_range);
-	global.current_turn++;
-	pcontrol = false;
-	pcontrol_timer = 30;
+	global.player.hex.contained_ship = global.player;
+	update_vision(targeted_hex, global.player.sensor_range, global.player);
+	global.player.pathable_hexes = get_pathable_hexes(targeted_hex, global.player.jump_range, global.player);
 	location_prompt_y = GUIH;
 	location_prompt_refresh();
 	// Player fx
@@ -44,6 +72,13 @@ set_player_dest = function() {
 	var burst = instance_create(global.player.x, global.player.y, o_zonemap_impulse_burst_fx);
 	burst.depth = global.player.depth-1;
 	global.player.image_index = 1;
+}
+
+turn_end = function() {
+	turn_init = false;
+	ai_turn = false;
+	pcontrol = true;
+	zone_update(zone_get_current());
 }
 
 hex_array = array_create(global.zone_width);
@@ -55,6 +90,13 @@ for (var i = 0; i < global.zone_width; i++) {
 }
 pcontrol = true;
 pcontrol_timer = -1;
+
+ship_registry = ds_list_create();
+turn_order = [];
+turn_index = 0;
+
+
+wait_indicator_alpha = 0;
 
 // For camera constraints
 var l = 99999, r = 0, t = 99999, b = 0;
@@ -76,6 +118,9 @@ for(var i = 0; i < global.zone_width; i++) {
 		hex.gx = i;
 		hex.gy = j;
 		hex.type = z.terrain[i][j];
+		switch(hex.type) {
+			case hex_type.dust : hex.vision_cost = 3; break;
+		}
 		hex_array[i][j] = hex;
 	}
 }

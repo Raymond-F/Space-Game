@@ -1,0 +1,48 @@
+START
+As you drift slowly through the void waiting for your drive to cycle for another jump, you're hailed by an approaching ship. After a short delay you bring their comms officer on screen. #"Attention unidentified vessel! Present your credentials and submit to a cargo scan immediately, or you will be fired upon." The officer giving the declaration does not even meet your eyes, although you know they can see you on their side of the comms panel.
+OPTION
+[Submit to the scan]
+$SCAN
+OPTION
+Why do you need to scan me?
+SHOWIFFLAG flag_local_asked EQ 0
+$ASK
+OPTION
+I'd like to see you try.
+%RESIST 1
+%ATTACK 1
+
+SCAN
+You quickly order the bridge crew to send over any pertinent credentials and drift in silence as the soft chirp of some device somewhere lets you know they've begun their scan...
+OPTION
+[Wait]
+$END
+
+ASK
+The officer rolls their eyes ever-so-subtly. #"Federation Statue KF-921.92 states that all vessels within Federation space are subject to checks, scans, and searches at the discretion of any acting naval officer. You are currently within Federation space. Now send the credentials. Captain." #He waits expectantly.
+OPTION
+I see.
+$START
+
+RESIST
+The man on screen frowns and he seems to listen to someone offscreen give a command. #"This is your final warning. Submit to a scan or you will be fired upon."
+REP kfed -10
+OPTION
+Okay, fine. [Submit to the scan]
+$SCAN
+OPTION
+Suck vacuum, jackass!
+$ATTACK
+
+ATTACK
+The comms officer's face sours and he flips off the communication. After a moment, one of the bridge crew reports that the ship has begun cycling their weapons online. You nod and give the order to do the same.
+REP kfed -50
+OPTION
+To arms!
+FIGHT LOCAL
+
+END
+"All clear. You're free to go, Captain @PLAYERNAME@." #The officer disconnects from the channel.
+OPTION
+Let's go.
+EXIT

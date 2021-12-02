@@ -137,23 +137,25 @@ function shop_restock(_shop) {
 function shop_calculate_item_value(sh, it) {
 	var loc = sh.loc;
 	var m = loc.global_buymod; // modifier
-	if (settlement_has_industry(loc, industry.mining) && it.has_tag("ore")) {
-		m *= 0.8;
-	}
-	if (settlement_has_industry(loc, industry.refining) && it.has_tag("refined")) {
-		m *= 0.85;
-	}
-	if (settlement_has_industry(loc, industry.icecutting) && it.has_tag("ice")) {
-		m *= 0.6;
-	}
-	if (settlement_has_industry(loc, industry.agriculture) && it.has_tag("organic")) {
-		m *= 0.85;
-	}
-	if (settlement_has_industry(loc, industry.hardware) && it.has_tag("manufactured")) {
-		m *= 0.9;
-	}
-	if (settlement_has_industry(loc, industry.luxury) && it.has_tag("luxury")) {
-		m *= 0.9;
+	if (variable_struct_exists(it, "tags")) {
+		if (settlement_has_industry(loc, industry.mining) && it.has_tag("ore")) {
+			m *= 0.8;
+		}
+		if (settlement_has_industry(loc, industry.refining) && it.has_tag("refined")) {
+			m *= 0.85;
+		}
+		if (settlement_has_industry(loc, industry.icecutting) && it.has_tag("ice")) {
+			m *= 0.6;
+		}
+		if (settlement_has_industry(loc, industry.agriculture) && it.has_tag("organic")) {
+			m *= 0.85;
+		}
+		if (settlement_has_industry(loc, industry.hardware) && it.has_tag("manufactured")) {
+			m *= 0.9;
+		}
+		if (settlement_has_industry(loc, industry.luxury) && it.has_tag("luxury")) {
+			m *= 0.9;
+		}
 	}
 	it.value = round(it.list[? it.list_id].value * m);
 }
@@ -161,6 +163,11 @@ function shop_calculate_item_value(sh, it) {
 // Set player-side shop values. Trade goods have to use a different formula.
 function shop_calculate_player_item_value(sh, it) {
 	var loc = sh.loc;
+	if (!variable_struct_exists(it, "tags")) {
+		var m = loc.global_sellmod;
+		it.value = round(it.list[? it.list_id].value * m);
+		return;
+	}
 	if (!it.has_tag("trade")) {
 		var m = loc.global_sellmod; // modifier
 		if (settlement_has_industry(loc, industry.mining) && it.has_tag("ore")) {

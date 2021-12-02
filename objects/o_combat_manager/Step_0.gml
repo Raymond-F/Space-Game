@@ -14,18 +14,7 @@ if(!faded_in || fading_out) {
 			global.previous_context = context.battle;
 			final_fade = true;
 			fading_out = false;
-			with(o_ship) instance_destroy();
-			with(par_weapon) instance_destroy();
-			with(o_engineburn) instance_destroy();
-			with(par_projectile) instance_destroy();
-			with(o_shield) instance_destroy();
-			with(o_moveline) instance_destroy();
-			with(o_weapon_hud) instance_destroy();
-			// Enable zone map objects again
-			zonemap_activate_objects();
-			// Clear combat audio
-			audio_stop_all();
-			start_ambience();
+			combat_end();
 		}
 	}
 } else {

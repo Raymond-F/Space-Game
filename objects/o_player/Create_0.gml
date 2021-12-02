@@ -1,8 +1,8 @@
 /// @description Insert description here
 // You can write your code in this editor
-tx = x;
-ty = y;
-hex = get_hex(x, y);
-depth = -20;
+event_inherited();
+faction = factions.player;
+image_xscale = 0.125;
+image_yscale = 0.125;
 
-exit_burst = true;
+path_surf = surface_create(VIEW_WIDTH, VIEW_HEIGHT);

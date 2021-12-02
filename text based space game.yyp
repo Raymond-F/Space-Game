@@ -361,6 +361,8 @@
     {"CopyToMask":-1,"filePath":"datafiles/dialogue","resourceVersion":"1.0","name":"dlg_event_find_derelict_withcrew.txt","resourceType":"GMIncludedFile",},
     {"CopyToMask":-1,"filePath":"datafiles/data","resourceVersion":"1.0","name":"settlement_names.txt","resourceType":"GMIncludedFile",},
     {"CopyToMask":-1,"filePath":"datafiles/dialogue","resourceVersion":"1.0","name":"test_avatar.txt","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles/dialogue","resourceVersion":"1.0","name":"dlg_event_scan_kfed.txt","resourceType":"GMIncludedFile",},
+    {"CopyToMask":-1,"filePath":"datafiles/battles","resourceVersion":"1.0","name":"pirate_veryeasy.txt","resourceType":"GMIncludedFile",},
   ],
   "MetaData": {
     "IDEVersion": "2.3.7.603",

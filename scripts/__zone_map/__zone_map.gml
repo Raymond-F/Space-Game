@@ -95,6 +95,23 @@ function location(_gx, _gy, _type) constructor {
 	}
 	resources = 1; // Percentage of max resources remaining. Depletes as it's looted. Used in comets/derelicts
 	zone_id = noone; // Id of the zone this is in.
+	faction = noone;
+	patrols = []; // Patrolling NPCs, be they KFED, pirates, or rogue AI. Needs to be cleared at zone transition.
+}
+
+function location_replenish_patrol(loc) {
+	for (var i = 0; i < array_length(loc.patrols); i++) {
+		if (loc.patrols[i] == noone) {
+			var _gx, _gy;
+			do {
+				_gx = gx + irandom_range(-8, 8);
+				_gy = gy + irandom_range(-8, 8);
+			} until (hex_exists(_gx, _gy));
+			var hex = get_hex_coord(_gx, _gy);
+			patrols[i] = ai_create_ship_patrol(faction, hex, 12);
+			return patrols[i];
+		}
+	}
 }
 
 function location_create(loc, zone_cont) {
@@ -106,10 +123,27 @@ function location_create(loc, zone_cont) {
 		image_index = loc.img_index;
 		size = loc.size;
 		hex = _hex;
+		_hex.loc = id;
 		resources = loc.resources;
 		struct = loc;
+		faction = noone;
+		if (loc.type == location_type.settlement) {
+			var z = zone_get_current();
+			faction = z.controlling_faction;
+			loc.faction = faction;
+		} else if (loc.type == location_type.pirate_base) {
+			faction = factions.pirate;
+			loc.faction = factions.pirate;
+		}
+		repeat(array_length(loc.patrols)) {
+			location_replenish_patrol(loc);
+		}
 		return id;
 	}
+}
+
+function hex_exists(gx, gy) {
+	return (gx >= 0 && gx < global.zone_width && gy >= 0 && gy < global.zone_height);
 }
 
 function distance_nearest_location(xx, yy, z) {
@@ -157,6 +191,20 @@ function place_settlement(z) {
 	set.size = array_choose(size_weighting);
 	set.img_index = irandom(sprite_get_number(s_zonemap_pirate_base_small));
 	set.zone_id = z;
+	var num_patrols;
+	switch (z.security) {
+		case zone_security.high : num_patrols = 2; break;
+		case zone_security.moderate : num_patrols = 2; break;
+		case zone_security.sparse : num_patrols = choose(1, 1, 2); break;
+		case zone_security.little : num_patrols = 1; break;
+		case zone_security.lawless : num_patrols = 0; break;
+	}
+	if (set.size == location_size.large) {
+		num_patrols += 2;
+	} else if (set.size == location_size.medium) {
+		num_patrols++;
+	}
+	set.patrols = array_create(num_patrols, noone);
 	// Set up settlement-specific things
 	settlement_init(set);
 	ds_list_add(z.locations, set);
@@ -183,6 +231,14 @@ function place_pirate_base(z) {
 		default: size_weighting = [location_size.small]; break;
 	}
 	base.size = array_choose(size_weighting);
+	var num_patrols;
+	switch(base.size) {
+		case location_size.small: num_patrols = choose(1, 2, 2); break;
+		case location_size.medium: num_patrols = 2; break;
+		case location_size.large: num_patrols = 3; break;
+		default: num_patrols = 1; break;
+	}
+	base.patrols = array_create(num_patrols, noone);
 	base.img_index = irandom(sprite_get_number(s_zonemap_settlement_small));
 	base.zone_id = z;
 	ds_list_add(z.locations, base);
@@ -304,7 +360,11 @@ function zone_create(z) {
 	var cont = instance_create(0, 0, o_controller_zonemap);
 	var hex = cont.hex_array[global.player_x][global.player_y];
 	global.player = instance_create(hex.x, hex.y, o_player);
-	update_vision(hex, global.sensor_range);
+	global.player.struct = global.player_ship;
+	global.player.combat_power = ai_local_calculate_power(global.player);
+	global.player.jump_range = ship_get_jumprange(global.player_ship);
+	update_vision(hex, global.player.sensor_range, global.player);
+	global.player.pathable_hexes = get_pathable_hexes(hex, global.player.jump_range, global.player);
 	//instance_create(0, 0, o_zone_hex_renderer);
 	instance_create(0, 0, o_zonemap_bgrenderer);
 	instance_create(0, 0, o_camera);
@@ -435,31 +495,95 @@ function apply_terrain_floodfill_hex(type, start, spread_chance, max_size) {
 	ds_list_destroy(closed);
 }
 
-function vision_recur(hex, range_rem, start_hex) {
-	hex.vision = true;
-	hex.explored = true;
-	if(hex.type == hex_type.dust && hex != start_hex) {
-		range_rem -= 2;
+// If the player is the one doing this vision check, mark those hexes as in vision and explored.
+// Otherwise, add them do a vision list and return it.
+function vision_recur(hex, range_rem, start_hex, seen, player_vision = true, vlist = []) {
+	if (player_vision) {
+		hex.vision = true;
+		hex.explored = true;
 	}
+	array_push(vlist, hex);
+	if(hex.vision_cost > 1 && hex != start_hex) {
+		range_rem -= hex.vision_cost - 1;
+	}
+	ds_map_add(seen, hex, range_rem);
 	if (range_rem > 0) {
 		var adj = hex_get_adjacent(hex);
 		for (var i = 0; i < array_length(adj); i++) {
-			vision_recur(adj[i], range_rem-1, start_hex);
+			var next_hex = adj[i];
+			if (!ds_map_exists(seen, next_hex)) {
+				vision_recur(adj[i], range_rem-1, start_hex, seen, player_vision, vlist);
+			} else {
+				if (seen[? next_hex] < range_rem-1) {
+					seen[? next_hex] = range_rem-1;
+					vision_recur(adj[i], range_rem-1, start_hex, seen, player_vision, vlist);
+				}
+			}
+		}
+	}
+	// This will run very last in the recurrence
+	if (hex == start_hex) {
+		if(player_vision) {
+			global.player.visible_hexes = vlist;
+		} else {
+			return vlist;
 		}
 	}
 }
 
-function update_vision(start, range) {
-	with(o_zonemap_hex) {
-		vision = false;
+function update_vision(start, range, sh) {
+	var seen = ds_map_create();
+	if (sh.object_index == o_player) {
+		with(o_zonemap_hex) {
+			vision = false;
+		}
+		sh.visible_hexes = [];
+		vision_recur(start, range, start, seen, true, []);
+	} else {
+		sh.visible_hexes = [];
+		sh.visible_hexes = vision_recur(start, range, start, seen, false, []);
 	}
-	vision_recur(start, range, start);
+	ds_map_destroy(seen);
+}
+
+function path_recur(hex, range_rem, start_hex, seen, sh, plist = []) {
+	if(hex.movement_cost >= 0 && !ds_map_exists(seen, hex) && array_find(sh.visible_hexes, hex) >= 0) {
+		array_push(plist, hex);
+		ds_map_add(seen, hex, "");
+	}
+	if(hex.movement_cost > 1 && hex != start_hex) {
+		range_rem -= hex.movement_cost - 1;
+	}
+	if (range_rem > 0) {
+		var adj = hex_get_adjacent(hex);
+		for (var i = 0; i < array_length(adj); i++) {
+			path_recur(adj[i], range_rem-1, start_hex, seen, sh, plist);
+		}
+	}
+	// This will run very last in the recurrence
+	if (hex == start_hex) {
+		return plist;
+	}
+}
+
+// Returns a ds_list of hexes which are pathable and in a certain travel distance of the target.
+// This should always be called after updated vision is established. A ship can never travel past
+function get_pathable_hexes(start, range, sh) {
+	var seen = ds_map_create();
+	var hexes = path_recur(start, range, start, seen, sh);
+	ds_map_destroy(seen);
+	return hexes;
+}
+
+function ship_update(sh) {
+	update_vision(sh.hex, sh.sensor_range, sh);
+	sh.pathable_hexes = get_pathable_hexes(sh.hex, sh.jump_range, sh);
 }
 
 // These two functions activate and deactivate all zonemap objects, respectively. Useful for going to different contexts.
 function zonemap_activate_objects() {
 	instance_activate_object(o_zonemap_hex);
-	instance_activate_object(o_player);
+	instance_activate_object(par_ship_zonemap);
 	instance_activate_object(o_zonemap_location);
 	instance_activate_object(o_controller_zonemap);
 	instance_activate_object(o_zonemap_bgrenderer);
@@ -470,7 +594,7 @@ function zonemap_activate_objects() {
 
 function zonemap_deactivate_objects() {
 	instance_deactivate_object(o_zonemap_hex);
-	instance_deactivate_object(o_player);
+	instance_deactivate_object(par_ship_zonemap);
 	instance_deactivate_object(o_zonemap_location);
 	with (o_controller_zonemap) {
 		location_prompt_button.y = GUIH;
@@ -478,4 +602,105 @@ function zonemap_deactivate_objects() {
 	}
 	instance_deactivate_object(o_controller_zonemap);
 	instance_deactivate_object(o_zonemap_bgrenderer);
+}
+
+function hex_is_pathable(sh, hex) {
+	return (array_find(sh.pathable_hexes, hex) >= 0);
+}
+
+function ship_get_cooccupant(sh) {
+	with (par_ship_zonemap) {
+		if (id != sh && sh.hex = hex) {
+			return id;
+		}
+	}
+	return noone;
+}
+
+function draw_self_ship() {
+	var sz = 64;
+	var surf = surface_create(sz*2, sz*2)
+	surface_clear(surf);
+	surface_set_target(surf);
+	// gpu_set_tex_filter(true);
+	var col = [0.8, 0.8, 0.8];
+	if (faction == factions.player) {
+		col = [1, 1, 1];
+	} else if (factions_are_enemies(factions.player, faction)) {
+		col = [0.8, 0, 0];
+	} else {
+		col = [0.8, 0.8, 0.1];
+	}
+	shader_set(sh_to_color);
+	var u_col = shader_get_uniform(sh_to_color, "colors");
+	var u_alpha = shader_get_uniform(sh_to_color, "draw_alpha");
+	shader_set_uniform_f_array(u_col, col);
+	shader_set_uniform_f(u_alpha, image_alpha);
+	var occ = noone;
+	if (dif(x, tx) < 32 && dif(y, ty) < 32) {
+		occ = ship_get_cooccupant(id);
+		if (occ != noone && (dif(occ.x, occ.tx) >= 32 || dif(occ.y, occ.ty) >= 32)) {
+			occ = noone;
+		}
+	}
+	if (occ == noone) {
+		x_display = x;
+		y_display = y;
+		draw_sprite_ext(sprite_index, image_index, sz, sz, image_xscale, image_yscale, image_angle, c_white, image_alpha);
+	} else { // If we share a space, draw the sprite orbiting the other ship.
+		var angle = ((360 * get_timer()) / (6 * 1000000)) % 360;
+		if (id > occ.id) {
+			angle += 180;
+			angle %= 360;
+		}
+		var xpos = sz + lengthdir_x(sz/3, angle);
+		var ypos = sz + lengthdir_y(sz/3, angle);
+		x_display = x - sz + xpos;
+		y_display = y - sz + ypos;
+		draw_sprite_ext(sprite_index, image_index, xpos, ypos, image_xscale, image_yscale, angle + 90, c_white, image_alpha);
+	}
+	shader_reset();
+	surface_reset_target();
+	draw_outline_surface(surf, x-sz, y-sz, image_alpha);
+	draw_surface(surf, x-sz, y-sz);
+	surface_free(surf);
+	// gpu_set_tex_filter(false);
+}
+
+function ship_destroy_zonemap(sh) {
+	delete sh.ship_struct;
+	instance_destroy(sh);
+	with (par_ship_zonemap) {
+		hex.contained_ship = id;
+		if (id != global.player && target == sh) {
+			ai_ship_behavior_default(id);
+			target = noone;
+		}
+	}
+}
+
+// Get a hex by its hex grid coordinates
+function get_hex_coord(gx, gy) {
+	with(o_controller_zonemap) {
+		if (gx >= 0 && gx < global.zone_width && gy >= 0 && gy < global.zone_height) {
+			return hex_array[gx][gy];
+		}
+	}
+	return noone;
+}
+
+function zone_get_locations_of_type(type) {
+	var arr = [];
+	for (var i = 0; i < ds_list_size(z.locations); i++) {
+		var loc = z.locations[|i];
+		if (loc.type = type) {
+			array_push(arr, loc);
+		}
+	}
+	return arr;
+}
+
+// Returns true if there is at least one settlement in an area, otherwise false
+function settlement_exists(z = zone_get_current()) {
+	return array_length(zone_get_locations_of_type(location_type.settlement)) > 0;
 }

@@ -104,9 +104,9 @@
   "gridY": 0,
   "frames": [
     {"compositeImage":{"FrameId":{"name":"4735d2bf-1697-4bc9-9a84-8f9883100719","path":"sprites/s_cargo_alloys/s_cargo_alloys.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"4735d2bf-1697-4bc9-9a84-8f9883100719","path":"sprites/s_cargo_alloys/s_cargo_alloys.yy",},"LayerId":{"name":"5ca2f7cd-8445-49fa-8540-73fbd7847b39","path":"sprites/s_cargo_alloys/s_cargo_alloys.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
         {"FrameId":{"name":"4735d2bf-1697-4bc9-9a84-8f9883100719","path":"sprites/s_cargo_alloys/s_cargo_alloys.yy",},"LayerId":{"name":"1855b9c1-ed3f-4e12-a5f3-4aa43a760189","path":"sprites/s_cargo_alloys/s_cargo_alloys.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
         {"FrameId":{"name":"4735d2bf-1697-4bc9-9a84-8f9883100719","path":"sprites/s_cargo_alloys/s_cargo_alloys.yy",},"LayerId":{"name":"b45025b4-7a28-43c6-bd4f-55dd3d388c5b","path":"sprites/s_cargo_alloys/s_cargo_alloys.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-        {"FrameId":{"name":"4735d2bf-1697-4bc9-9a84-8f9883100719","path":"sprites/s_cargo_alloys/s_cargo_alloys.yy",},"LayerId":{"name":"5ca2f7cd-8445-49fa-8540-73fbd7847b39","path":"sprites/s_cargo_alloys/s_cargo_alloys.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
       ],"parent":{"name":"s_cargo_alloys","path":"sprites/s_cargo_alloys/s_cargo_alloys.yy",},"resourceVersion":"1.0","name":"4735d2bf-1697-4bc9-9a84-8f9883100719","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
@@ -123,7 +123,7 @@
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
             {"id":"d4154e97-50fb-4c89-99e9-1a27bc591eee","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"4735d2bf-1697-4bc9-9a84-8f9883100719","path":"sprites/s_cargo_alloys/s_cargo_alloys.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
-          ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"modifiers":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack",},
+          ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack","modifiers":[],},
     ],
     "visibleRange": null,
     "lockOrigin": false,

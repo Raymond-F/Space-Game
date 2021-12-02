@@ -25,7 +25,7 @@ function dsys_option(_text, _link, _link_type, _costs, _gains, _conds, _reqs, _r
 
 //a node of dialogue, including main text and all option objects
 //options is generally going to be an array.
-function dsys_node(_name, _text, _options, _costs, _gains, _flags, _localflags, _rcosts, _rgains) constructor {
+function dsys_node(_name, _text, _options, _costs, _gains, _flags, _localflags, _rcosts, _rgains, _relation_mod) constructor {
 	name = _name; //used to hash the node into a map
 	text = _text;
 	options = [];
@@ -36,6 +36,7 @@ function dsys_node(_name, _text, _options, _costs, _gains, _flags, _localflags, 
 	localflags = _localflags;
 	rand_costs = _rcosts;
 	rand_gains = _rgains;
+	relation_mod = _relation_mod;
 	if(is_array(_options)){
 		options = array_create(array_length(_options));
 		for(var i = 0; i < array_length(_options); i++){
@@ -112,6 +113,7 @@ function dsys_parse_node_from_array(arr){
 	var state = GET_TYPE;
 	var name = arr[0];
 	var text = arr[1]; //the first two lines are always the node name and the text
+	text = dsys_perform_substitution(text);
 	var line = 2;
 	var options = [];
 	var costs = [];
@@ -120,6 +122,7 @@ function dsys_parse_node_from_array(arr){
 	var localflags = [];
 	var rgains = [];
 	var rcosts = [];
+	var relation_mod = [];
 	while(line < array_length(arr)){
 		var s = arr[line];
 		if(state == GET_TYPE){
@@ -163,6 +166,11 @@ function dsys_parse_node_from_array(arr){
 				var tokens = string_tokenize(INPUT_TYPE);
 				var flag = [tokens[1], int64(tokens[2])];
 				localflags[array_length(localflags)] = flag;
+			}
+			else if (string_get_first_word(INPUT_TYPE) == "REP") {
+				var tokens = string_tokenize(INPUT_TYPE);
+				var fac = str_to_faction(tokens[1]);
+				relation_mod = [fac, int64(tokens[2])];
 			}
 			else if (INPUT_TYPE == "OPTION"){
 				var opt_text = s;
@@ -238,6 +246,9 @@ function dsys_parse_node_from_array(arr){
 						case "FIGHT" : {
 							opt_link_type = option_link_type.battle;
 							opt_link = tokens[1]; // Links to the battle file
+							if (opt_link == "LOCAL") { // Will fight the thing in global.local_ship
+								break;
+							}
 							if (array_length(tokens) > 2) {
 								opt_postbattle = tokens[2];
 							}
@@ -319,7 +330,7 @@ function dsys_parse_node_from_array(arr){
 			state = GET_TYPE;
 		}
 	}
-	var n = new dsys_node(name, text, options, costs, gains, flags, localflags, rcosts, rgains);
+	var n = new dsys_node(name, text, options, costs, gains, flags, localflags, rcosts, rgains, relation_mod);
 	return n;
 }
 
@@ -363,6 +374,7 @@ function dsys_set_node(window, node_name, ref) {
 	window.costs = node.costs;
 	window.flags = node.flags;
 	window.localflags = node.localflags;
+	window.relation_mod = node.relation_mod;
 	var referred_costs = [];
 	var referred_gains = [];
 	//refer randomized costs from button
@@ -389,6 +401,9 @@ function dsys_set_node(window, node_name, ref) {
 	window.gain_string = format_gains_window(window.gains);
 	dsys_modify_resources(window.costs, window.gains);
 	dsys_set_flags(window, window.flags, window.localflags);
+	if (array_length(window.relation_mod) > 0) {
+		faction_modify_relation(window.relation_mod[0], window.relation_mod[1]);
+	}
 	with(o_dialogue_optionbutton){
 		instance_destroy();
 	}
@@ -833,4 +848,12 @@ function string_get_between(str, sub1, sub2) {
 	var sub1end = sub1pos+string_length(sub1);
 	var between = string_copy(str, sub1end, sub2pos - sub1end);
 	return between;
+}
+
+// Perform replacements in node text for things like locations, names, etc.
+function dsys_perform_substitution(str) {
+	str = string_replace_all(str, "#", "\n\n");
+	str = string_replace_all(str, "@PLAYERNAME@", global.player_name);
+	
+	return str;
 }

@@ -11,3 +11,4 @@ shield_damage_multiplier = 1;
 hull_damage_multiplier = 1;
 armor_penetration = 1;
 type = weapon_type.projectile;
+color = noone;

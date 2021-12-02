@@ -6,6 +6,8 @@ gy = 0;
 type = location_type.settlement;
 hex = noone;
 struct = noone;
+faction = noone;
+patrols = [];
 
 tooltip_delay = 60;
 tooltip_timer = tooltip_delay;
