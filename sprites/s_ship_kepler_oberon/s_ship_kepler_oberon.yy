@@ -15,7 +15,7 @@
   "VTile": false,
   "For3D": false,
   "width": 304,
-  "height": 400,
+  "height": 430,
   "textureGroupId": {
     "name": "Default",
     "path": "texturegroups/Default",
@@ -55,7 +55,7 @@
     "backdropXOffset": 0.0,
     "backdropYOffset": 0.0,
     "xorigin": 150,
-    "yorigin": 200,
+    "yorigin": 215,
     "eventToFunction": {},
     "eventStubScript": null,
     "parent": {"name":"s_ship_kepler_oberon","path":"sprites/s_ship_kepler_oberon/s_ship_kepler_oberon.yy",},

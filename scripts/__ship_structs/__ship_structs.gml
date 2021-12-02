@@ -281,15 +281,15 @@ function initialize_shipinfo() {
 	
 	//SKIFFS (index 0 to 99)
 	
-	ds_map_add_unique(si, 0, new shipinfo(0, "Kepler Proteus", s_ship_kepler_proteus, SHIPSIZE_SKIFF, [4, 1], [[40, -45], [-40, -20]], [[-35, 75], [35, 75]], new ship_statistics(2500, 3, 0, 0), [], 5000, RARITY_COMMON));
-	ds_map_add_unique(si, 1, new shipinfo(1, "Mercanto Packmule", s_ship_mercanto_packmule, SHIPSIZE_SKIFF, [3, 1], [[0,-40]], [[0, 100]], new ship_statistics(1350, 0, 0, 10), [502], 6750, RARITY_COMMON));//built in class 3 cargo
+	ds_map_add_unique(si, 0, new shipinfo(0, "Kepler Proteus", s_ship_kepler_proteus, SHIPSIZE_SKIFF, [4, 1], [[40, -45], [-40, -20]], [[-35, 75, 1], [35, 75, 1]], new ship_statistics(2500, 3, 0, 0), [], 5000, RARITY_COMMON));
+	ds_map_add_unique(si, 1, new shipinfo(1, "Mercanto Packmule", s_ship_mercanto_packmule, SHIPSIZE_SKIFF, [3, 1], [[0,-40]], [[0, 100, 1]], new ship_statistics(1350, 0, 0, 10), [502], 6750, RARITY_COMMON));//built in class 3 cargo
 	
 	//CORVETTES (index 100 to 199)
 	
 	//FRIGATES (index 200 to 299)
 	
 	//CRUISERS (index 300 to 399)
-	ds_map_add_unique(si, 300, new shipinfo(300, "Kepler Oberon", s_ship_kepler_oberon, SHIPSIZE_CRUISER, [2, 2, 3, 2], [[-36, -120], [36, -120], [-45, -45], [45, -45], [0, 30], [0, 105]], [[-60, 150], [60, 150]], new ship_statistics(11000, 10, 2, 20), [], 64500, RARITY_UNCOMMON));
+	ds_map_add_unique(si, 300, new shipinfo(300, "Kepler Oberon", s_ship_kepler_oberon, SHIPSIZE_CRUISER, [2, 2, 3, 2], [[-36, -120], [36, -120], [-45, -45], [45, -45], [0, 30], [0, 105]], [[-60, 150, 2], [60, 150, 2]], new ship_statistics(11000, 10, 2, 20), [], 64500, RARITY_UNCOMMON));
 	
 	//BATTLECRUISERS (index 400 to 499)
 	

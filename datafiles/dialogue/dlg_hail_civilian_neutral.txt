@@ -1,0 +1,37 @@
+START
+You hail the civilian ship. #"Good afternoon, sir. Did you need something?"
+OPTION
+Just passing by.
+EXIT
+OPTION
+I'm gonna need you to hand over your PIX. Now.
+%RESIST 1
+%EXTORT 3
+OPTION
+
+RESIST
+The civilian captain scratches his head for a moment, eyes darting nervously from side to side. Eventually he seems to realize that you're being serious. #"I don't have much, sir, I can't feed me or my crew without it."
+REP controller -5
+OPTION
+Fine. You didn't have to grovel about it. Get out of here.
+EXIT
+OPTION
+Fine, I'll pick it out of your wreckage.
+$FIGHT
+
+EXTORT
+The civilian captain scratches his head for a moment, eyes darting nervously from side to side. Eventually he seems to realize that you're being serious. #"Fine... fine... Please just let me go." #He quickly wires some pix through the comms channel.
+REP controller -10
+GAINRANDOM pix 1250 3000
+OPTION
+Pleasure doing business with you.
+EXIT
+OPTION
+On second thought, I think your scrap looks valuable too!
+$FIGHT
+
+FIGHT
+The captain of the vessel looks through the comms with a hollow expression. You can't help but picture a noose around his neck. Nevertheless, he solemnly cuts the channel off and your sensors report that his meager weapon systems are powering up. Though, for the record, so is his pulse drive.
+OPTION
+Get him before he gets away!
+FIGHT LOCAL

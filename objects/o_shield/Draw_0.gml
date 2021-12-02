@@ -62,6 +62,6 @@ for (var i = 0; i < ds_list_size(hit_flares); i++) {
 	}
 }
 
-image_xscale = xscale - 0.05;
-image_yscale = yscale - 0.05;
+image_xscale = xscale;
+image_yscale = yscale;
 shader_reset();

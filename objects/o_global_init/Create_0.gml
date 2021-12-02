@@ -11,6 +11,7 @@ cursor_sprite = s_cursor;
 window_set_cursor(cr_none);
 //bookkeeping
 global.player_name = "Player";
+global.num_sector_rings = 5;
 global.zone_width = 100;
 global.zone_height = 50;
 global.current_turn = 0; // global current turn value. Increments 1 per player turn.
@@ -23,6 +24,7 @@ global.camera_constraints = [0, 0, 99999, 99999];
 global.event_current_object = noone; // the object pertaining to the event currently happening.
 global.settlement_list = ds_list_create(); // tracks all settlement structs.
 global.pressed_button = noone; // Tracking for the last button pressed. Needed because GMS is weird about variable functions.
+global.active_settlement = noone;
 global.active_shop = noone; // Actively open shop.
 global.dragged_module = noone; // Module being dragged in the management screen.
 global.dragged_weapon = noone; // Weapon being dragged in the management screen.
@@ -32,6 +34,8 @@ global.last_player_scan = -50;
 global.player_scan_cooldown = 50;
 global.ship_registry = ds_list_create(); // Registry of local non-player ship objects
 global.local_ship = noone; // Local ship object for things like patrols to be fought.
+global.target_zone = global.current_zone;
+global.zone_transition_coords = [0, 0];
 //resources
 global.pix = 0;
 global.crew = 0;

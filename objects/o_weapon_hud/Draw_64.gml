@@ -1,9 +1,11 @@
 /// @description Insert description here
 // You can write your code in this editor
 draw_self();
+draw_set_valign(fa_bottom)
+draw_set_halign(fa_left);
+draw_set_color(c_white);
 if(instance_exists(wep)){
 	draw_progress_bar(x+12, y+6, x+sprite_width-32, y+20, 3, c_white, c_white, wep.charge, wep.charge_max);
-	draw_set_valign(fa_bottom)
 	draw_text(x+12,y+sprite_height-4,wep.name);
 	var fire_sprite;
 	if (wep.autofire) {

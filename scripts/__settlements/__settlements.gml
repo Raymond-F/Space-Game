@@ -152,6 +152,7 @@ function open_settlement_window(loc){
 	var win = instance_create(0, 0, o_settlement_pane);
 	win.loc = loc;
 	win.title = loc.struct.name;
+	global.active_settlement = loc;
 }
 
 // Deactivate settlement pane and all associated objects. Used for opening stacked interfaces like shops and

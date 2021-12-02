@@ -21,3 +21,9 @@ with (o_controller_zonemap) {
 
 audio_sound_gain(global.ambience_id, 1, 300);
 audio_play_sound(snd_interface_close, 30, false);
+
+// NOTE: This must load after the combat manager when combat is procced by dialogue,
+// or this will bug out.
+if (!instance_exists(o_combat_manager)) {
+	global.local_ship = noone;
+}

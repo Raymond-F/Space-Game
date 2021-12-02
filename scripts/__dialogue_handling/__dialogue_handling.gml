@@ -170,6 +170,11 @@ function dsys_parse_node_from_array(arr){
 			else if (string_get_first_word(INPUT_TYPE) == "REP") {
 				var tokens = string_tokenize(INPUT_TYPE);
 				var fac = str_to_faction(tokens[1]);
+				if (fac == noone) {
+					// This denotes that the hit is applied to the controlling faction
+					// of this zone. Mostly used when civilians are involved.
+					fac = zone_get_current().controlling_faction;
+				}
 				relation_mod = [fac, int64(tokens[2])];
 			}
 			else if (INPUT_TYPE == "OPTION"){
@@ -854,6 +859,11 @@ function string_get_between(str, sub1, sub2) {
 function dsys_perform_substitution(str) {
 	str = string_replace_all(str, "#", "\n\n");
 	str = string_replace_all(str, "@PLAYERNAME@", global.player_name);
+	str = string_replace_all(str, "@PLAYERSHIPNAME@", ship_get_nickname(global.player_ship));
+	str = string_replace_all(str, "@LOCALSHIPNAME@", ship_get_nickname(global.local_ship.ship_struct));
+	if (global.active_settlement != noone) {
+		str = string_replace_all(str, "@LOCALSETTLEMENTNAME@", global.active_settlement.name);
+	}
 	
 	return str;
 }

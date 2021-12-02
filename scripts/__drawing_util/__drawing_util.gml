@@ -258,3 +258,25 @@ function draw_with_outline(spr, img_index, xx, yy, xscale, yscale, rot, alpha, c
 	draw_sprite_ext(spr, img_index, xx, yy, xscale, yscale, rot, c_white, alpha);
 	draw_outline(spr, img_index, xx, yy, xscale, yscale, rot, alpha, col_array);
 }
+
+function draw_flare(xx, yy, radius, color = c_white, buffer_factor = 1) {
+	var surf = surface_create(radius*2 + 1, radius*2 + 1);
+	surface_set_target(surf);
+	surface_clear(surf);
+	draw_set_color(color);
+	draw_circle(radius, radius, radius, false);
+	surface_reset_target();
+	
+	var tex = surface_get_texture(surf);
+	var pW = texture_get_texel_width(tex);
+	var pH = texture_get_texel_height(tex);
+	shader_set(sh_fade_from_point_buffer);
+	var texW = texture_get_width(tex);
+	var texH = texture_get_height(tex);
+	shader_set_uniform_f_array(shader_get_uniform(sh_fade_from_point_buffer, "point"), [texW/2, texH/2]);
+	shader_set_uniform_f(shader_get_uniform(sh_fade_from_point_buffer, "factor"), 2);
+	shader_set_uniform_f(shader_get_uniform(sh_fade_from_point_buffer, "buffer"), buffer_factor*texW/16);
+	draw_surface(surf, xx - radius, yy - radius);
+	surface_free(surf);
+	shader_reset();
+}

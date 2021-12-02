@@ -23,3 +23,7 @@ if (instance_exists(par.opponent) && par.opponent.shield_current > 0 && shield !
 	audio_play_sound(snd_combat_shieldhit, 10, false);
 	instance_destroy();
 }
+depth_timer--;
+if (depth_timer == 0) {
+	depth -= 5;
+}

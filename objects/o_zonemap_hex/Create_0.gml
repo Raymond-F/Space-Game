@@ -16,3 +16,5 @@ contained_ship = noone; // What ship is here. Only one ship can be permanently o
 // If more than one ship is on a tile, one of them will either die, despawn, or leave after
 // whatever action brings it there.
 loc = noone;
+connection = noone;
+on_edge = false;

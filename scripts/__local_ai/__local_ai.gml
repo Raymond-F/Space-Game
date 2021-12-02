@@ -3,6 +3,26 @@
 
 // Most functions here are assumed to be run from the zonemap controller.
 
+function ship_generate_name(faction) {
+	var fn_prefix = "data\\ship_prefixes.txt";
+	var fn_suffix = "data\\ship_suffixes.txt";
+	var fn_fullname = "data\\ship_fullnames.txt";
+	var name = "";
+	if (random(1) < 0.2) {
+		name = file_get_random_line(fn_fullname);
+	} else {
+		name = file_get_random_line(fn_prefix) + " " + file_get_random_line(fn_suffix);
+	}
+	var prefix = "";
+	switch (faction) {
+		case factions.kfed : prefix = "KFV"; break;
+		case factions.empire : prefix = "TS"; break;
+		case factions.rebel : prefix = "RKS"; break;
+		default: prefix = "The"; break;
+	}
+	return prefix + " " + name;
+}
+
 // Generate a ship appropriate to the area.
 function ai_generate_ship(_x, _y, faction) {
 	var threat_level = 0; // Scales inversely with security for pirates, and directly for non-civilians
@@ -24,9 +44,7 @@ function ai_generate_ship(_x, _y, faction) {
 		case 3: suffix = "hard"; break;
 		case 4: suffix = "veryhard"; break;
 	}
-	switch (faction) {
-		default: prefix = "pirate"; break;
-	}
+	prefix = faction_get_prefix(faction);
 	var fn = prefix + "_" + suffix;
 	
 	var struct = load_ship_from_file(fn);
@@ -39,6 +57,8 @@ function ai_generate_ship(_x, _y, faction) {
 	new_ship.faction = faction;
 	new_ship.jump_range = ship_get_jumprange(struct);
 	new_ship.combat_power = ai_local_calculate_power(new_ship);
+	new_ship.name = ship_generate_name(faction);
+	new_ship.ship_struct.nickname = new_ship.name;
 	
 	return new_ship;
 }

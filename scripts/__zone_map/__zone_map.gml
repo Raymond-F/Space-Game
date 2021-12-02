@@ -356,10 +356,38 @@ function zone_init(z) {
 }
 
 // Create a zone from a stored zone struct
-function zone_create(z) {
+// If is_loaded is true, this is from a loaded file or initial game start. Else, set the coordinates as destination coords.
+function zone_create(z, is_loaded = true) {
 	var cont = instance_create(0, 0, o_controller_zonemap);
-	var hex = cont.hex_array[global.player_x][global.player_y];
+	//generate zone connections
+	var connections = zone_get_connections(z);
+	for (var i = 0; i < array_length(connections); i++) {
+		var cnx = connections[i];
+		var coords = zone_get_connection_coordinates(z, cnx);
+		for (var j = 0; j < array_length(coords); j++) {
+			get_hex_coord(coords[j][0], coords[j][1]).connection = cnx[0];
+		}
+	}
+	var hex;
+	var dir = DIR_NORTH;
+	if (is_loaded) {
+		hex = cont.hex_array[global.player_x][global.player_y];
+	} else {
+		global.player_x = global.zone_transition_coords[0];
+		global.player_y = global.zone_transition_coords[1];
+		hex = cont.hex_array[global.player_x][global.player_y];
+		dir = o_sr_zone_transition.dir;
+	}
 	global.player = instance_create(hex.x, hex.y, o_player);
+	if (!is_loaded) {
+		var d = direction_get_angle(dir);
+		global.player.image_angle = d;
+		var dist = 2500;
+		global.player.x -= lengthdir_x(dist, d);
+		global.player.y -= lengthdir_y(dist, d);
+		global.player.exit_burst = false;
+		global.player.image_index = 1;
+	}
 	global.player.struct = global.player_ship;
 	global.player.combat_power = ai_local_calculate_power(global.player);
 	global.player.jump_range = ship_get_jumprange(global.player_ship);
@@ -367,11 +395,32 @@ function zone_create(z) {
 	global.player.pathable_hexes = get_pathable_hexes(hex, global.player.jump_range, global.player);
 	//instance_create(0, 0, o_zone_hex_renderer);
 	instance_create(0, 0, o_zonemap_bgrenderer);
-	instance_create(0, 0, o_camera);
+	if (!instance_exists(o_camera)) {
+		instance_create(0, 0, o_camera);
+	} else {
+		global.camera.x = global.player.tx;
+		global.camera.y = global.player.ty;
+	}
 	for (var i = 0; i < ds_list_size(z.locations); i++) {
 		var loc = z.locations[|i];
 		var o = location_create(loc, cont);
 		loc.obj = o;
+	}
+	var num_travellers = 0;
+	switch (z.security) {
+		case zone_security.high: num_travellers = choose(3, 4, 4, 4, 5); break;
+		case zone_security.moderate: num_travellers = choose(3, 3, 4); break;
+		case zone_security.sparse: num_travellers = choose(1, 2, 2, 3); break;
+		case zone_security.little: num_travellers = choose(1, 1, 2); break;
+		case zone_security.lawless: num_travellers = choose(0, 0, 1); break;
+	}
+	repeat(num_travellers) {
+		generate_traveller(true);
+	}
+	
+	var fade = instance_create(0, 0, o_fx_fadein);
+	if (is_loaded) {
+		fade.color = c_black;
 	}
 }
 
@@ -670,7 +719,13 @@ function draw_self_ship() {
 function ship_destroy_zonemap(sh) {
 	delete sh.ship_struct;
 	instance_destroy(sh);
+	with (o_zonemap_hex) {
+		contained_ship = noone;// This will be reestablished later
+	}
 	with (par_ship_zonemap) {
+		if (id == sh) {
+			continue;
+		}
 		hex.contained_ship = id;
 		if (id != global.player && target == sh) {
 			ai_ship_behavior_default(id);
@@ -689,7 +744,7 @@ function get_hex_coord(gx, gy) {
 	return noone;
 }
 
-function zone_get_locations_of_type(type) {
+function zone_get_locations_of_type(type, z = zone_get_current()) {
 	var arr = [];
 	for (var i = 0; i < ds_list_size(z.locations); i++) {
 		var loc = z.locations[|i];
@@ -703,4 +758,32 @@ function zone_get_locations_of_type(type) {
 // Returns true if there is at least one settlement in an area, otherwise false
 function settlement_exists(z = zone_get_current()) {
 	return array_length(zone_get_locations_of_type(location_type.settlement)) > 0;
+}
+
+// Create a contextmenu with the given object
+function contextmenu_create(xx, yy, target) {
+	var ctxt = instance_create(mouse_x, mouse_y, o_zonemap_contextmenu);
+	ctxt.target = target;
+	return ctxt;
+}
+
+// Load the hailing dialogue for a given faction
+function zonemap_hail_ship(sh) {
+	var fname = "dlg_hail_";
+	fname += faction_get_prefix(sh.faction) + "_";
+	var rel = faction_get_relation(sh.faction);
+	if (rel < global.faction_relation_thresholds[faction_relation_level.unwelcome]) {
+		fname += "hostile";
+	} else if (rel < global.faction_relation_thresholds[faction_relation_level.neutral]) {
+		fname += "wary";
+	} else if (rel < global.faction_relation_thresholds[faction_relation_level.trusted]) {
+		fname += "neutral";
+	} else {
+		fname += "wary";
+	}
+	if (!file_exists(fname)) {
+		fname = "dlg_hail_civilian_neutral";
+	}
+	fname += ".txt";
+	dsys_initialize_window(fname);
 }

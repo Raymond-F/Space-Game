@@ -60,3 +60,8 @@ function draw_align_reset() {
 
 #macro ICON_WIDTH 16
 #macro ICON_HEIGHT 16
+
+#macro DIR_EAST 0
+#macro DIR_NORTH 1
+#macro DIR_WEST 2
+#macro DIR_SOUTH 3

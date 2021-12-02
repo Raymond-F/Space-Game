@@ -1,13 +1,16 @@
 {
   "spriteId": {
-    "name": "s_prompt_generic",
-    "path": "sprites/s_prompt_generic/s_prompt_generic.yy",
+    "name": "s_prompt_textbox",
+    "path": "sprites/s_prompt_textbox/s_prompt_textbox.yy",
   },
   "solid": false,
   "visible": true,
   "spriteMaskId": null,
   "persistent": false,
-  "parentObjectId": null,
+  "parentObjectId": {
+    "name": "par_interface",
+    "path": "objects/par_interface/par_interface.yy",
+  },
   "physicsObject": false,
   "physicsSensor": false,
   "physicsShape": 1,

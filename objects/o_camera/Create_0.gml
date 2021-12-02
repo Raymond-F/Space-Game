@@ -9,3 +9,5 @@ target = noone;
 xspd = 0;
 yspd = 0;
 maxspd = 10;
+
+locked = false;

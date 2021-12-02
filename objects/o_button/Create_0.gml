@@ -7,5 +7,6 @@ on_press = function() {
 sprite = noone;
 text = "";
 use_active_image = false;
+active = true;
 
 press_sound = noone;

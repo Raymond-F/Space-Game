@@ -13,6 +13,17 @@ function shop(_type, _loc) constructor {
 	inventory = ds_list_create();
 }
 
+// Clears the inventory of a given shop, including all cleanup associated.
+function shop_clear_inventory(_shop) {
+	for (var i = 0; i < ds_list_size(_shop.inventory); i++) {
+		var it = _shop.inventory[|i];
+		if (_shop.type = shop_type.ship) {
+			delete it.struct;
+		}
+	}
+	ds_list_clear(_shop.inventory);
+}
+
 // Restock a given shop. This differs heavily based type of shop and the zone it's in.
 //   - Low security reduces shop stock
 //   - High settlement size increases shop stock
@@ -24,6 +35,8 @@ function shop_restock(_shop) {
 	var loc = _shop.loc;
 	var t = _shop.type;
 	var total_stock;
+	
+	shop_clear_inventory(_shop);
 	switch (t) {
 		case shop_type.general: total_stock = irandom_range(20, 25); break;
 		case shop_type.weapon: total_stock = irandom_range(4, 7); break;

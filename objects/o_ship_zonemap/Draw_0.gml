@@ -19,12 +19,12 @@ if (!active) {
 	inactive_fade_delay--;
 }
 if (current_hex.vision && inactive_fade_delay > 0) {
-	image_alpha = min(1, image_alpha+0.05);
+	image_alpha = min(1, image_alpha+0.1);
 } else {
 	image_alpha = max(0, image_alpha-0.1);
 }
 if (!active && inactive_fade_delay <= 0 && image_alpha == 0) {
-	instance_destroy();
+	ship_destroy_zonemap(id);
 }
 if (global.debug) {
 	if (target != noone) {

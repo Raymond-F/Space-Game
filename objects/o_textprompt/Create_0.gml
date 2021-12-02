@@ -16,7 +16,7 @@ on_close = function() {
 	*/
 }
 
-continue_button = instance_create(x + 330, y + sprite_height - 56, o_button);
+continue_button = instance_create(x + 280, y + sprite_height - 56, o_button);
 continue_button.sprite_index = s_button_medium;
 continue_button.text = "CONFIRM";
 continue_button.on_press = function() {
@@ -29,7 +29,7 @@ continue_button.ui_layer = 1;
 continue_button.depth = depth - 1;
 continue_button.press_sound = snd_interface_pressbutton1;
 
-cancel_button = instance_create(x + 430, y + sprite_height - 56, o_button);
+cancel_button = instance_create(x + 380, y + sprite_height - 56, o_button);
 cancel_button.sprite_index = s_button_medium;
 cancel_button.text = "CANCEL";
 cancel_button.on_press = function() {

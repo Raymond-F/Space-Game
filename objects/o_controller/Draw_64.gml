@@ -13,4 +13,5 @@ if (global.debug) {
 	if (keyboard_lastkey != -1) {
 		draw_text(GUIW - 10, 70, "Last press: " + string(keyboard_lastkey));
 	}
+	draw_text(GUIW - 10, 110, "Instances: " + string(instance_number(all)));
 }

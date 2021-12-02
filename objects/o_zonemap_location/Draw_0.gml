@@ -5,4 +5,8 @@ if (hex.explored == false) {
 } else if (type == location_type.event && !hex.vision) {
 	exit;
 }
-draw_self();
+if (sprite_index > 0) {
+	draw_self();
+} else {
+	show_debug_message("Location draw event failed: no sprite");
+}

@@ -94,3 +94,11 @@ function module_replacement_valid(sh, mdl, replaced) {
 	}
 	return false;
 }
+
+function ship_get_nickname(sh_struct) {
+	var name = sh_struct.nickname;
+	if (name == "") {
+		name = "Unnamed Vessel";
+	}
+	return name;
+}

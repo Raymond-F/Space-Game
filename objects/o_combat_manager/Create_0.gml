@@ -57,10 +57,14 @@ function combat_init() {
 	for (var i = 0; i < array_length(player.engines); i++) {
 		var eng = instance_create(player.x + player.engines[i][0], player.y + player.engines[i][1], o_engineburn);
 		eng.par = player;
+		eng.image_xscale = player.engines[i][2];
+		eng.image_yscale = eng.image_xscale;
 	}
 	for (var i = 0; i < array_length(enemy.engines); i++) {
 		var eng = instance_create(enemy.x + enemy.engines[i][0], enemy.y + enemy.engines[i][1], o_engineburn);
 		eng.par = enemy;
+		eng.image_xscale = enemy.engines[i][2];
+		eng.image_yscale = eng.image_xscale;
 	}
 	
 	// Disable zone map objects temporarily

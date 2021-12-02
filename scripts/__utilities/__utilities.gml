@@ -151,6 +151,11 @@ function choose_weighted() {
 	return argument[0];
 }
 
+// Get a random line from a file. This can be used when there's a file intended to hold many randomized independent lines (e.g. names)
+function file_get_random_line(fname) {
+	return array_choose(file_parse_lines(fname));
+}
+
 // Read a file line by line and return an array of those strings
 function file_parse_lines(fname){
 	if(!file_exists(fname)){
@@ -195,4 +200,56 @@ function start_ambience() {
 
 function dif(val1, val2) {
 	return abs(val1 - val2);
+}
+
+// Destroy all instances of a certain object index.
+function instance_destroy_all(obj_index) {
+	with (obj_index) {
+		instance_destroy();
+	}
+}
+
+function direction_get_angle(dir) {
+	switch (dir) {
+		case DIR_EAST: return 0;
+		case DIR_NORTH: return 90;
+		case DIR_WEST: return 180;
+		case DIR_SOUTH: return 270;
+	}
+}
+
+function point_x_to_gui(val) {
+	var cl = VIEW_LEFT;
+    var off_x = val - cl; // x is the normal x position
+    // convert to gui
+    var off_x_percent = off_x / camera_get_view_width(view_camera[0]);
+    var gui_x = off_x_percent * display_get_gui_width();
+	
+	return gui_x;
+}
+
+function point_y_to_gui(val) {
+	var ct = VIEW_TOP;
+    var off_y = val - ct; // x is the normal x position
+    // convert to gui
+    var off_y_percent = off_y / camera_get_view_height(view_camera[0]);
+    var gui_y = off_y_percent * display_get_gui_height();
+	
+	return gui_y;
+}
+
+function gui_x_to_point(val) {
+	var off_x_percent = val / GUIW;
+	var off_x = off_x_percent * VIEW_WIDTH;
+	var cl = VIEW_LEFT;
+	
+	return cl + off_x;
+}
+
+function gui_y_to_point(val) {
+	var off_y_percent = val / GUIH;
+	var off_y = off_y_percent * VIEW_HEIGHT;
+	var ct = VIEW_TOP;
+	
+	return ct + off_y;
 }

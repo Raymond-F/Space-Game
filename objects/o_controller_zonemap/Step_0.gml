@@ -12,11 +12,15 @@ if (PRESSED(vk_f4)) {
 	with (o_zonemap_location) {
 		if (type == location_type.settlement) {
 			other.targeted_hex = hex;
-			other.set_player_dest();
+			other.set_player_dest(hex);
 			other.targeted_hex = noone;
 			break;
 		}
 	}
+}
+
+if (MPRESSED(mb_right) || MPRESSED(mb_left)) {
+	instance_destroy_all(o_zonemap_contextmenu);
 }
 
 pcontrol_timer = max(-1, pcontrol_timer-1);
@@ -30,17 +34,24 @@ if (!pcontrol || ai_turn) {
 	// Skip condition
 }
 else if (MPRESSED(mb_right) && selected_hex != noone && selected_hex.vision == true &&
-		 (global.debug || hex_is_pathable(global.player, selected_hex))) {
-	targeted_hex = selected_hex;
-	set_player_dest();
-	global.current_turn++;
-	ai_delay = 30;
-	ai_turn = true;
-	pcontrol = false;
-	pcontrol_timer = 30;
-	targeted_hex = noone;
-	var s = audio_play_sound(snd_pulsestart, 30, false);
-	audio_sound_pitch(s, random_range(0.6, 0.8));
+		 (global.debug || hex_is_pathable(global.player, selected_hex)) && !instance_exists(par_interface)) {
+	var oth = noone;
+	if (selected_hex == global.player.hex) {
+		with (o_ship_zonemap) {
+			if (hex == global.player.hex) {
+				oth = id;
+				break;
+			}
+		}
+	} else {
+		oth = selected_hex.contained_ship;
+	}
+	if (oth != noone) {
+		instance_destroy_all(o_zonemap_contextmenu);
+		contextmenu_create(x, y, oth);
+	} else {
+		player_move(selected_hex);
+	}
 } else if (PRESSED(vk_space)) {
 	global.current_turn++;
 	ai_turn = true;

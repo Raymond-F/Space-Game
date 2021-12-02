@@ -14,6 +14,12 @@
 function zone_update(z){
 	var traveller_chance = 0.04;
 	
+	z.restock_timer--;
+	if (z.restock_timer <= 0) {
+		z.restock_timer = irandom_range(150, 200);
+		shops_restock_zone(z);
+	}
+	
 	if (z.index != global.current_zone) {
 		return;
 	}
@@ -21,6 +27,16 @@ function zone_update(z){
 	// These will only run if this is the current active zone
 	if (random(1) < traveller_chance) {
 		generate_traveller();
+	}
+}
+
+function shops_restock_zone(z) {
+	var settlements = zone_get_locations_of_type(location_type.settlement, z);
+	for (var i = 0; i < array_length(settlements); i++) {
+		var set = settlements[i];
+		for (var j = 0; j < ds_list_size(set.shop_list); j++) {
+			shop_restock(set.shop_list[|j]);
+		}
 	}
 }
 
@@ -60,25 +76,28 @@ function generate_traveller(init = false, faction = factions.civilian) {
 				dest_type = 0;
 			}
 			hex = get_hex_coord(xx, yy);
-		} until (hex.contained_ship == noone);
+		} until (hex.contained_ship == noone && (!hex.on_edge || hex.connection != noone));
 		start = hex;
 	}
 	// Pick a destination hex
 	switch(dest_type) {
 		case 0 :
 			var loc = array_choose(zone_get_locations_of_type(location_type.settlement));
-			final = loc.hex;
+			final = get_hex_coord(loc.gx, loc.gy);
 			break;
 		case 1 :
-			var xx, yy;
-			if (random(1) < 0.5) {
-				xx = choose(0, global.zone_width-1);
-				yy = irandom(global.zone_height-1);
-			} else {
-				xx = irandom(global.zone_width-1);
-				yy = choose(0, global.zone_height-1);
-			}
-			final = get_hex_coord(xx, yy);
+			var xx, yy, h;
+			do {
+				if (random(1) < 0.5) {
+					xx = choose(0, global.zone_width-1);
+					yy = irandom(global.zone_height-1);
+				} else {
+					xx = irandom(global.zone_width-1);
+					yy = choose(0, global.zone_height-1);
+				}
+				var h = get_hex_coord(xx, yy);
+			} until (xx != start.gx && yy != start.gy && h.connection != noone);
+			final = h;
 			break;
 	}
 	ai_create_ship_travel(faction, start, final);

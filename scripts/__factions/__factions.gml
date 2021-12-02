@@ -13,6 +13,10 @@ function faction_modify_relation(faction, amount) {
 	global.player_relations[? faction] = clamp(cur + amount, -100, 100);
 }
 
+function faction_get_enemies(faction) {
+	return global.faction_enemies[? faction];
+}
+
 function factions_are_enemies(faction1, faction2) {
 	if (faction1 == faction2) {
 		return false;
@@ -27,5 +31,16 @@ function factions_are_enemies(faction1, faction2) {
 		return (faction_get_relation(faction2) < global.faction_relation_thresholds[faction_relation_level.unwelcome]);
 	} else {
 		return (array_contains(global.faction_enemies[? faction1], faction2));
+	}
+}
+
+function faction_get_prefix(faction) {
+	switch (faction) {
+		case factions.civilian : return "civilian";
+		case factions.empire: return "empire";
+		case factions.kfed: return "kfed";
+		case factions.pirate: return "pirate";
+		case factions.rebel: return "rebel";
+		default: return "pirate";
 	}
 }

@@ -5,3 +5,4 @@ for (var i = 0; i < array_length(buttons); i++) {
 }
 
 audio_play_sound(snd_interface_close, 30, false);
+global.active_settlement = noone;
