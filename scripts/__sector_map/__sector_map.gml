@@ -48,6 +48,10 @@ function zone(_s, _e, _outer, _inner, _cx, _cy, _total_angle, _layer) constructo
 	}
 }
 
+function zone_get(index) {
+	return global.sector_map[? index];
+}
+
 function sector_map_init() {
 	var map = ds_map_create();
 	var segments_made = 0;
@@ -262,4 +266,8 @@ function zone_transition_get_corresponding_hex(start_zone, start_hex, target_zon
 	}
 	
 	return [tx, ty];
+}
+
+function zone_get_random_adjacent(z) {
+	return zone_get(array_choose(zone_get_connections(z))[0]);
 }

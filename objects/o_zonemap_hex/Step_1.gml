@@ -9,4 +9,5 @@ if (!setup) {
 			image_index = 1;
 		}
 	}
+	depth = -y;
 }

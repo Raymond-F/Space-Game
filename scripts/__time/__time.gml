@@ -14,11 +14,12 @@
 function zone_update(z){
 	var traveller_chance = 0.04;
 	
+	/*
 	z.restock_timer--;
 	if (z.restock_timer <= 0) {
 		z.restock_timer = irandom_range(150, 200);
 		shops_restock_zone(z);
-	}
+	}*/
 	
 	if (z.index != global.current_zone) {
 		return;

@@ -143,16 +143,19 @@ if (ai_turn) {
 				} break;
 				case behaviors.chase: {
 					var move_target = sh.target;
-					var visible_ships = ai_ship_get_ships_in_vision(sh);
-					var target_is_visible = array_contains(visible_ships, sh.target);
-					if (!target_is_visible) {
-						move_target = sh.target_last_seen;
-					} else {
-						sh.target_last_seen = sh.target.hex;
+					// No need to move if we're already on the target tile, e.g. the player and they moved onto us
+					if (sh.target.hex != sh.hex) {
+						var visible_ships = ai_ship_get_ships_in_vision(sh);
+						var target_is_visible = array_contains(visible_ships, sh.target);
+						if (!target_is_visible) {
+							move_target = sh.target_last_seen;
+						} else {
+							sh.target_last_seen = sh.target.hex;
+						}
+						var nearest = ai_ship_get_nearest_hex_to_target(sh, move_target);
+						set_ship_dest(sh, nearest);
 					}
-					var nearest = ai_ship_get_nearest_hex_to_target(sh, move_target);
-					set_ship_dest(sh, nearest);
-					if (nearest == sh.target.hex) {
+					if (sh.hex == sh.target.hex || nearest == sh.target.hex) {
 						if (sh.target.hex.vision) {
 							if (sh.target == global.player) {
 								ai_delay = 90;

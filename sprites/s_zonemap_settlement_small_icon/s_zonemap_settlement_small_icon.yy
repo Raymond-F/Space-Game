@@ -7,10 +7,10 @@
   "edgeFiltering": false,
   "collisionTolerance": 0,
   "swfPrecision": 2.525,
-  "bbox_left": 3,
-  "bbox_right": 27,
+  "bbox_left": 1,
+  "bbox_right": 30,
   "bbox_top": 3,
-  "bbox_bottom": 27,
+  "bbox_bottom": 29,
   "HTile": false,
   "VTile": false,
   "For3D": false,
@@ -24,12 +24,12 @@
   "gridX": 0,
   "gridY": 0,
   "frames": [
-    {"compositeImage":{"FrameId":{"name":"1ba90ccf-9fdf-48e2-b1b4-8c98e9ff6c34","path":"sprites/s_zonemap_settlement_small/s_zonemap_settlement_small.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"1ba90ccf-9fdf-48e2-b1b4-8c98e9ff6c34","path":"sprites/s_zonemap_settlement_small/s_zonemap_settlement_small.yy",},"LayerId":{"name":"199bdf8e-43b7-48a0-9449-f49d2da8bdd9","path":"sprites/s_zonemap_settlement_small/s_zonemap_settlement_small.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"s_zonemap_settlement_small","path":"sprites/s_zonemap_settlement_small/s_zonemap_settlement_small.yy",},"resourceVersion":"1.0","name":"1ba90ccf-9fdf-48e2-b1b4-8c98e9ff6c34","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"1ba90ccf-9fdf-48e2-b1b4-8c98e9ff6c34","path":"sprites/s_zonemap_settlement_small_icon/s_zonemap_settlement_small_icon.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"1ba90ccf-9fdf-48e2-b1b4-8c98e9ff6c34","path":"sprites/s_zonemap_settlement_small_icon/s_zonemap_settlement_small_icon.yy",},"LayerId":{"name":"199bdf8e-43b7-48a0-9449-f49d2da8bdd9","path":"sprites/s_zonemap_settlement_small_icon/s_zonemap_settlement_small_icon.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"s_zonemap_settlement_small_icon","path":"sprites/s_zonemap_settlement_small_icon/s_zonemap_settlement_small_icon.yy",},"resourceVersion":"1.0","name":"1ba90ccf-9fdf-48e2-b1b4-8c98e9ff6c34","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
-    "spriteId": {"name":"s_zonemap_settlement_small","path":"sprites/s_zonemap_settlement_small/s_zonemap_settlement_small.yy",},
+    "spriteId": {"name":"s_zonemap_settlement_small_icon","path":"sprites/s_zonemap_settlement_small_icon/s_zonemap_settlement_small_icon.yy",},
     "timeUnits": 1,
     "playback": 1,
     "playbackSpeed": 0.0,
@@ -41,7 +41,7 @@
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
-            {"id":"a994b55c-5e86-493e-b220-9897431e02cd","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"1ba90ccf-9fdf-48e2-b1b4-8c98e9ff6c34","path":"sprites/s_zonemap_settlement_small/s_zonemap_settlement_small.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"a994b55c-5e86-493e-b220-9897431e02cd","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"1ba90ccf-9fdf-48e2-b1b4-8c98e9ff6c34","path":"sprites/s_zonemap_settlement_small_icon/s_zonemap_settlement_small_icon.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack","modifiers":[],},
     ],
     "visibleRange": null,
@@ -58,9 +58,9 @@
     "yorigin": 16,
     "eventToFunction": {},
     "eventStubScript": null,
-    "parent": {"name":"s_zonemap_settlement_small","path":"sprites/s_zonemap_settlement_small/s_zonemap_settlement_small.yy",},
+    "parent": {"name":"s_zonemap_settlement_small_icon","path":"sprites/s_zonemap_settlement_small_icon/s_zonemap_settlement_small_icon.yy",},
     "resourceVersion": "1.3",
-    "name": "s_zonemap_settlement_small",
+    "name": "s_zonemap_settlement_small_icon",
     "tags": [],
     "resourceType": "GMSequence",
   },
@@ -73,7 +73,7 @@
     "path": "folders/Sprites/zone_map.yy",
   },
   "resourceVersion": "1.0",
-  "name": "s_zonemap_settlement_small",
+  "name": "s_zonemap_settlement_small_icon",
   "tags": [],
   "resourceType": "GMSprite",
 }

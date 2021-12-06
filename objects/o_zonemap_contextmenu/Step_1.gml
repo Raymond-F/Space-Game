@@ -27,7 +27,7 @@ if (!setup) {
 			if (!factions_are_enemies(factions.player, target.faction)) {
 				var p = instance_create(GUIW/2 - sprite_get_width(s_prompt_generic)/2, GUIH/2 - sprite_get_height(s_prompt_generic), o_prompt);
 				p.top_text = "Really Attack?";
-				p.tip_text = "This ship belongs to a faction that is not currently hostile. They won't appreciate you attacking one of their ships, and may become hostile. Proceed?";
+				p.tip_text = "This ship belongs to a faction that you are not currently enemies with. They won't appreciate you attacking one of their ships, and may become hostile. Proceed?";
 				p.on_close = function() {
 					if (other.confirmed) {
 						global.local_ship = target;

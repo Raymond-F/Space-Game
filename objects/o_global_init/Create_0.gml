@@ -36,6 +36,7 @@ global.ship_registry = ds_list_create(); // Registry of local non-player ship ob
 global.local_ship = noone; // Local ship object for things like patrols to be fought.
 global.target_zone = global.current_zone;
 global.zone_transition_coords = [0, 0];
+global.current_contract = noone;
 //resources
 global.pix = 0;
 global.crew = 0;

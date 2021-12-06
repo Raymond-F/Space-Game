@@ -17,3 +17,5 @@ if (!exit_burst && point_distance(x, y, tx, ty) < 32) {
 		burst.depth = depth-1;
 	}
 }
+
+depth = -y - 256;

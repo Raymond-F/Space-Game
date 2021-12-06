@@ -4,7 +4,7 @@ if (!setup) {
 	setup = true;
 	switch(type) {
 		case location_type.settlement: {
-			sprite_index = s_zonemap_settlement_small;
+			sprite_index = s_zonemap_settlement_small_icon;
 		} break;
 		case location_type.pirate_base: {
 			sprite_index = s_zonemap_pirate_base_small;
@@ -19,4 +19,5 @@ if (!setup) {
 			sprite_index = s_zonemap_comet;
 		} break;
 	}
+	depth = -y - 1;
 }

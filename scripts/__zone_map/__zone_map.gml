@@ -34,7 +34,7 @@ function settlement_get_random_name() {
 	return name;
 }
 
-function location(_gx, _gy, _type) constructor {
+function location(z, _gx, _gy, _type) constructor {
 	gx = _gx;
 	gy = _gy;
 	type = _type;
@@ -42,6 +42,9 @@ function location(_gx, _gy, _type) constructor {
 	img_index = 0; // Used for locations with multiple possible sprites
 	size = location_size.small; // Used for settlements and possibly pirate bases
 	name = ""; tip_text = ""; prompt_text = "";
+	in_zone = z.index;
+	last_visited = -1;
+	restock_timer = -1;
 	switch(type) {
 		case location_type.settlement : {
 			interact = function() {
@@ -97,6 +100,7 @@ function location(_gx, _gy, _type) constructor {
 	zone_id = noone; // Id of the zone this is in.
 	faction = noone;
 	patrols = []; // Patrolling NPCs, be they KFED, pirates, or rogue AI. Needs to be cleared at zone transition.
+	contracts = ds_list_create();
 }
 
 function location_replenish_patrol(loc) {
@@ -178,7 +182,7 @@ function place_settlement(z) {
 		cx = irandom_range(minx, maxx);
 		cy = irandom_range(miny, maxy);
 	} until (distance_nearest_settlement(cx, cy, z) > 15);
-	var set = new location(cx, cy, location_type.settlement);
+	var set = new location(z, cx, cy, location_type.settlement);
 	var size_weighting;
 	switch (z.security) {
 		case zone_security.high: size_weighting = [location_size.large, location_size.large, location_size.medium, location_size.medium, location_size.small]; break;
@@ -219,7 +223,7 @@ function place_pirate_base(z) {
 		cx = irandom_range(minx, maxx);
 		cy = irandom_range(miny, maxy);
 	} until (distance_nearest_settlement(cx, cy, z) > 15);
-	var base = new location(cx, cy, location_type.settlement);
+	var base = new location(z, cx, cy, location_type.settlement);
 	var size_weighting;
 	// Pirate bases have inverse size to security
 	switch (z.security) {
@@ -239,7 +243,7 @@ function place_pirate_base(z) {
 		default: num_patrols = 1; break;
 	}
 	base.patrols = array_create(num_patrols, noone);
-	base.img_index = irandom(sprite_get_number(s_zonemap_settlement_small));
+	base.img_index = irandom(sprite_get_number(s_zonemap_settlement_small_icon));
 	base.zone_id = z;
 	ds_list_add(z.locations, base);
 	return base;
@@ -253,7 +257,7 @@ function place_event(z) {
 		cx = irandom_range(minx, maxx);
 		cy = irandom_range(miny, maxy);
 	} until (distance_nearest_location(cx, cy, z) > 5);
-	var ev = new location(cx, cy, location_type.event);
+	var ev = new location(z, cx, cy, location_type.event);
 	ev.zone_id = z;
 	ds_list_add(z.locations, ev);
 	return ev;
@@ -288,7 +292,7 @@ function place_derelict(z) {
 		cx = irandom_range(minx, maxx);
 		cy = irandom_range(miny, maxy);
 	} until (distance_nearest_location(cx, cy, z) > 5);
-	var d = new location(cx, cy, location_type.derelict);
+	var d = new location(z, cx, cy, location_type.derelict);
 	derelict_populate_stats(z, d);
 	d.zone_id = z;
 	ds_list_add(z.locations, d);
@@ -324,7 +328,7 @@ function place_comet(z) {
 		cx = irandom_range(minx, maxx);
 		cy = irandom_range(miny, maxy);
 	} until (distance_nearest_location(cx, cy, z) > 5);
-	var c = new location(cx, cy, location_type.comet);
+	var c = new location(z, cx, cy, location_type.comet);
 	comet_populate_stats(z, c);
 	c.zone_id = z;
 	ds_list_add(z.locations, c);
