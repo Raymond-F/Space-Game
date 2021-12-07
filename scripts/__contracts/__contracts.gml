@@ -30,6 +30,7 @@ function contract(initial_location, _difficulty) constructor {
 	ship_struct = noone; // Ship struct for bounty contracts
 	price = 0; // How much this contract pays out
 	stage = 0; // Stages of progress on the contract
+	last_stage = 0; // Stage on which this can be turned in
 	stage_strings = []; // Array of strings for stage-related imperatives, e.g. "Travel to Zone 2".
 }
 
@@ -128,6 +129,7 @@ function contract_generate_bounty(_contract) {
 	cnt.ship_struct = contract_generate_bounty_get_struct(cnt);
 	cnt.target_zone = zone_get_random_adjacent(zone_get(cnt.loc.in_zone));
 	contract_generate_text_bounty(cnt);
+	cnt.last_stage = 2;
 	
 	return cnt;
 }
@@ -135,4 +137,6 @@ function contract_generate_bounty(_contract) {
 // Accept a contract
 function contract_accept(cnt) {
 	global.current_contract = cnt;
+	var list = global.active_settlement.struct.contracts;
+	ds_list_delete(list, ds_list_find_index(list, cnt));
 }

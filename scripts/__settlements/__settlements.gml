@@ -155,7 +155,7 @@ function open_settlement_window(loc){
 		// Generate contracts for the settlement.
 		settlement_generate_contracts(loc.struct);
 	} else {
-		loc.struct.restock_timer -= (global.current_turn - loc.last_visited);
+		loc.struct.restock_timer -= (global.current_turn - loc.struct.last_visited);
 		if (loc.struct.restock_timer <= 0) {
 			for (var i = 0; i < array_length(loc.shops); i++) {
 				shop_restock(loc.shops[i]);

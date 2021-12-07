@@ -8,14 +8,14 @@
   "collisionTolerance": 0,
   "swfPrecision": 2.525,
   "bbox_left": 0,
-  "bbox_right": 999,
+  "bbox_right": 852,
   "bbox_top": 0,
-  "bbox_bottom": 677,
+  "bbox_bottom": 919,
   "HTile": false,
   "VTile": false,
   "For3D": false,
-  "width": 1000,
-  "height": 678,
+  "width": 853,
+  "height": 920,
   "textureGroupId": {
     "name": "Default",
     "path": "texturegroups/Default",
@@ -24,13 +24,13 @@
   "gridX": 0,
   "gridY": 0,
   "frames": [
-    {"compositeImage":{"FrameId":{"name":"bfac832d-3a39-4716-b218-8d5f9e3411d8","path":"sprites/s_shop_pane/s_shop_pane.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"bfac832d-3a39-4716-b218-8d5f9e3411d8","path":"sprites/s_shop_pane/s_shop_pane.yy",},"LayerId":{"name":"09b3a521-5ee4-49a5-ae4b-cda592efe967","path":"sprites/s_shop_pane/s_shop_pane.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-        {"FrameId":{"name":"bfac832d-3a39-4716-b218-8d5f9e3411d8","path":"sprites/s_shop_pane/s_shop_pane.yy",},"LayerId":{"name":"28cd9f85-92be-4716-b2a1-083b3b2d1f0d","path":"sprites/s_shop_pane/s_shop_pane.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"s_shop_pane","path":"sprites/s_shop_pane/s_shop_pane.yy",},"resourceVersion":"1.0","name":"bfac832d-3a39-4716-b218-8d5f9e3411d8","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"bfac832d-3a39-4716-b218-8d5f9e3411d8","path":"sprites/s_contract_pane/s_contract_pane.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"bfac832d-3a39-4716-b218-8d5f9e3411d8","path":"sprites/s_contract_pane/s_contract_pane.yy",},"LayerId":{"name":"09b3a521-5ee4-49a5-ae4b-cda592efe967","path":"sprites/s_contract_pane/s_contract_pane.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+        {"FrameId":{"name":"bfac832d-3a39-4716-b218-8d5f9e3411d8","path":"sprites/s_contract_pane/s_contract_pane.yy",},"LayerId":{"name":"28cd9f85-92be-4716-b2a1-083b3b2d1f0d","path":"sprites/s_contract_pane/s_contract_pane.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"s_contract_pane","path":"sprites/s_contract_pane/s_contract_pane.yy",},"resourceVersion":"1.0","name":"bfac832d-3a39-4716-b218-8d5f9e3411d8","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
-    "spriteId": {"name":"s_shop_pane","path":"sprites/s_shop_pane/s_shop_pane.yy",},
+    "spriteId": {"name":"s_contract_pane","path":"sprites/s_contract_pane/s_contract_pane.yy",},
     "timeUnits": 1,
     "playback": 1,
     "playbackSpeed": 30.0,
@@ -42,7 +42,7 @@
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
-            {"id":"677dd610-aa6b-4196-b76f-bf1dc6b70482","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"bfac832d-3a39-4716-b218-8d5f9e3411d8","path":"sprites/s_shop_pane/s_shop_pane.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"01754c95-9c02-40e0-80e6-63687ed628ff","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"bfac832d-3a39-4716-b218-8d5f9e3411d8","path":"sprites/s_contract_pane/s_contract_pane.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack","modifiers":[],},
     ],
     "visibleRange": null,
@@ -59,9 +59,9 @@
     "yorigin": 0,
     "eventToFunction": {},
     "eventStubScript": null,
-    "parent": {"name":"s_shop_pane","path":"sprites/s_shop_pane/s_shop_pane.yy",},
+    "parent": {"name":"s_contract_pane","path":"sprites/s_contract_pane/s_contract_pane.yy",},
     "resourceVersion": "1.3",
-    "name": "s_shop_pane",
+    "name": "s_contract_pane",
     "tags": [],
     "resourceType": "GMSequence",
   },
@@ -75,7 +75,7 @@
     "path": "folders/Sprites/ui.yy",
   },
   "resourceVersion": "1.0",
-  "name": "s_shop_pane",
+  "name": "s_contract_pane",
   "tags": [],
   "resourceType": "GMSprite",
 }

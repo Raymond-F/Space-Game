@@ -61,6 +61,7 @@ open_main = function() {
 	var bx = GUIW/2 - sprite_width/2 + 3;
 	var by = GUIH/2 - sprite_height/2 + 352;
 	var bh = sprite_get_height(s_button_settlement_pane);
+	
 	var shop_button = instance_create(bx, by, o_button);
 	shop_button.sprite_index = s_button_settlement_pane;
 	shop_button.text = "SHOP";
@@ -69,6 +70,7 @@ open_main = function() {
 	}
 	shop_button.press_sound = snd_interface_pressbutton1;
 	array_push(buttons, shop_button);
+	
 	by += bh;
 	var manage_button = instance_create(bx, by, o_button);
 	manage_button.sprite_index = s_button_settlement_pane;
@@ -79,6 +81,18 @@ open_main = function() {
 	}
 	manage_button.press_sound = snd_interface_pressbutton1;
 	array_push(buttons, manage_button);
+	
+	by += bh;
+	var contract_button = instance_create(bx, by, o_button);
+	contract_button.sprite_index = s_button_settlement_pane;
+	contract_button.text = "CONTRACTS";
+	contract_button.on_press = function() {
+		instance_create(GUIW/2 - sprite_get_width(s_contract_pane)/2, GUIH/2 - sprite_get_height(s_contract_pane)/2, o_contract_pane);
+		settlement_deactivate_pane();
+	}
+	contract_button.press_sound = snd_interface_pressbutton1;
+	array_push(buttons, contract_button);
+	
 	by += bh;
 	var exit_button = instance_create(bx, by, o_button);
 	exit_button.sprite_index = s_button_settlement_pane;
@@ -89,7 +103,6 @@ open_main = function() {
 		}
 	}
 	array_push(buttons, exit_button);
-	by += bh;
 	buttons_set_depth();
 	escape_function = instance_destroy;
 }
