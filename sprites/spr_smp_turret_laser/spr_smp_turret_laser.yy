@@ -24,9 +24,9 @@
   "gridX": 0,
   "gridY": 0,
   "frames": [
-    {"compositeImage":{"FrameId":{"name":"bddab154-2fe0-4a94-9037-639d72014d8b","path":"sprites/spr_smp_turret_laser/spr_smp_turret_laser.yy",},"LayerId":null,"resourceVersion":"1.0","name":"imported","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"bddab154-2fe0-4a94-9037-639d72014d8b","path":"sprites/spr_smp_turret_laser/spr_smp_turret_laser.yy",},"LayerId":{"name":"3b435d4c-8a45-4a04-9b4f-88b2627edb17","path":"sprites/spr_smp_turret_laser/spr_smp_turret_laser.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"spr_smp_turret_laser","path":"sprites/spr_smp_turret_laser/spr_smp_turret_laser.yy",},"resourceVersion":"1.0","name":"bddab154-2fe0-4a94-9037-639d72014d8b","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"83c52693-ba9c-4d1a-8dff-cb092db98e35","path":"sprites/spr_smp_turret_laser/spr_smp_turret_laser.yy",},"LayerId":null,"resourceVersion":"1.0","name":"imported","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"83c52693-ba9c-4d1a-8dff-cb092db98e35","path":"sprites/spr_smp_turret_laser/spr_smp_turret_laser.yy",},"LayerId":{"name":"e8bb725b-ec1f-4210-abf1-f775c4a3cf28","path":"sprites/spr_smp_turret_laser/spr_smp_turret_laser.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"spr_smp_turret_laser","path":"sprites/spr_smp_turret_laser/spr_smp_turret_laser.yy",},"resourceVersion":"1.0","name":"83c52693-ba9c-4d1a-8dff-cb092db98e35","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
     "spriteId": {"name":"spr_smp_turret_laser","path":"sprites/spr_smp_turret_laser/spr_smp_turret_laser.yy",},
@@ -41,7 +41,7 @@
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
-            {"id":"9f400053-791f-4b56-a154-9cb35685cd33","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"bddab154-2fe0-4a94-9037-639d72014d8b","path":"sprites/spr_smp_turret_laser/spr_smp_turret_laser.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"938bcdcf-dc97-49e0-9469-5cdfb3ab013c","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"83c52693-ba9c-4d1a-8dff-cb092db98e35","path":"sprites/spr_smp_turret_laser/spr_smp_turret_laser.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack","modifiers":[],},
     ],
     "visibleRange": {"x":0.0,"y":0.0,},
@@ -65,7 +65,7 @@
     "resourceType": "GMSequence",
   },
   "layers": [
-    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"3b435d4c-8a45-4a04-9b4f-88b2627edb17","tags":[],"resourceType":"GMImageLayer",},
+    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"e8bb725b-ec1f-4210-abf1-f775c4a3cf28","tags":[],"resourceType":"GMImageLayer",},
   ],
   "nineSlice": null,
   "parent": {

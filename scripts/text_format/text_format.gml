@@ -14,7 +14,7 @@ function text_format() {
 	if argument_count > 3
 		step = argument[3]
     
-	var hlgn=0, vlgn=1, elements=0, justify=1;
+	var hlgn=0, vlgn=1, elements=0;
 	a[0]=""
 
 	for(var i=0; i<ds_list_size(global.ts_flist); i+=2)

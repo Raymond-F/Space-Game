@@ -1,0 +1,22 @@
+START
+AVATAR [s_avatar_empire_colonel.yy]
+WHERE IS YOUR POWER ARMOR MAGGOT.
+OPTION
+Up your ass, colon-ol.
+$BADEND
+OPTION
+Up my ass, colonel.
+$GOODEND
+
+BADEND
+WELL IF THAT'S THE CASE, THEN GET DIGGING TILL YOU FIND IT, MAGGOT. \n   [The colonel drops trough, and bends over, subjecting you to a sight you wish you could've gone your entire life without seeing.]
+OPTION
+Kill me.
+EXIT
+
+GOODEND
+WELL THEN I GUESS I'LL HELP YOU FIND IT.   [The Colonel spends the next forty-five minutes digging through your anus, giving you intense feelings you aren't sure you entirely understand as of yet.]
+SETFLAG [playerIsGay, 1]
+OPTION
+Kill me.
+EXIT

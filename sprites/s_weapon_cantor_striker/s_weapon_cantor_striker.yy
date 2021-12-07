@@ -25,8 +25,8 @@
   "gridY": 0,
   "frames": [
     {"compositeImage":{"FrameId":{"name":"5d7f3b0c-e796-4221-a194-4480b0eada88","path":"sprites/s_weapon_cantor_striker/s_weapon_cantor_striker.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"5d7f3b0c-e796-4221-a194-4480b0eada88","path":"sprites/s_weapon_cantor_striker/s_weapon_cantor_striker.yy",},"LayerId":{"name":"f62a980b-d334-4f3d-a27d-5a99369864f7","path":"sprites/s_weapon_cantor_striker/s_weapon_cantor_striker.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
         {"FrameId":{"name":"5d7f3b0c-e796-4221-a194-4480b0eada88","path":"sprites/s_weapon_cantor_striker/s_weapon_cantor_striker.yy",},"LayerId":{"name":"9b7a5225-a210-4678-98cd-1477c297d6b3","path":"sprites/s_weapon_cantor_striker/s_weapon_cantor_striker.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+        {"FrameId":{"name":"5d7f3b0c-e796-4221-a194-4480b0eada88","path":"sprites/s_weapon_cantor_striker/s_weapon_cantor_striker.yy",},"LayerId":{"name":"f62a980b-d334-4f3d-a27d-5a99369864f7","path":"sprites/s_weapon_cantor_striker/s_weapon_cantor_striker.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
       ],"parent":{"name":"s_weapon_cantor_striker","path":"sprites/s_weapon_cantor_striker/s_weapon_cantor_striker.yy",},"resourceVersion":"1.0","name":"5d7f3b0c-e796-4221-a194-4480b0eada88","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
@@ -43,7 +43,7 @@
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
             {"id":"bf5dedc1-7067-4a6b-bbc5-f19d97dba51e","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"5d7f3b0c-e796-4221-a194-4480b0eada88","path":"sprites/s_weapon_cantor_striker/s_weapon_cantor_striker.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
-          ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"modifiers":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack",},
+          ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack","modifiers":[],},
     ],
     "visibleRange": null,
     "lockOrigin": false,

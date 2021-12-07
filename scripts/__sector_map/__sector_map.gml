@@ -269,5 +269,5 @@ function zone_transition_get_corresponding_hex(start_zone, start_hex, target_zon
 }
 
 function zone_get_random_adjacent(z) {
-	return zone_get(array_choose(zone_get_connections(z))[0]);
+	return array_choose(zone_get_connections(z))[0];
 }

@@ -2,7 +2,7 @@
   "bboxMode": 0,
   "collisionKind": 1,
   "type": 0,
-  "origin": 9,
+  "origin": 0,
   "preMultiplyAlpha": false,
   "edgeFiltering": false,
   "collisionTolerance": 0,
@@ -24,9 +24,9 @@
   "gridX": 0,
   "gridY": 0,
   "frames": [
-    {"compositeImage":{"FrameId":{"name":"93b4e5ec-efc3-471b-8277-3768063568c2","path":"sprites/s_icon_wait/s_icon_wait.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"93b4e5ec-efc3-471b-8277-3768063568c2","path":"sprites/s_icon_wait/s_icon_wait.yy",},"LayerId":{"name":"3b4edfe8-f81e-451a-87d5-7fa9885dcb3e","path":"sprites/s_icon_wait/s_icon_wait.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"s_icon_wait","path":"sprites/s_icon_wait/s_icon_wait.yy",},"resourceVersion":"1.0","name":"93b4e5ec-efc3-471b-8277-3768063568c2","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"abee1edc-4443-442a-b2cb-e297986fcefb","path":"sprites/s_icon_wait/s_icon_wait.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"abee1edc-4443-442a-b2cb-e297986fcefb","path":"sprites/s_icon_wait/s_icon_wait.yy",},"LayerId":{"name":"1148f724-b2f5-45e5-b73a-0909e47ca384","path":"sprites/s_icon_wait/s_icon_wait.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"s_icon_wait","path":"sprites/s_icon_wait/s_icon_wait.yy",},"resourceVersion":"1.0","name":"abee1edc-4443-442a-b2cb-e297986fcefb","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
     "spriteId": {"name":"s_icon_wait","path":"sprites/s_icon_wait/s_icon_wait.yy",},
@@ -41,7 +41,7 @@
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
-            {"id":"1ae06ff8-e226-416e-84e9-193d551a2b7b","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"93b4e5ec-efc3-471b-8277-3768063568c2","path":"sprites/s_icon_wait/s_icon_wait.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"18282bfc-c937-444f-9966-9cd63a3663ef","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"abee1edc-4443-442a-b2cb-e297986fcefb","path":"sprites/s_icon_wait/s_icon_wait.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack","modifiers":[],},
     ],
     "visibleRange": null,
@@ -54,8 +54,8 @@
     "backdropHeight": 768,
     "backdropXOffset": 0.0,
     "backdropYOffset": 0.0,
-    "xorigin": 31,
-    "yorigin": 32,
+    "xorigin": 0,
+    "yorigin": 0,
     "eventToFunction": {},
     "eventStubScript": null,
     "parent": {"name":"s_icon_wait","path":"sprites/s_icon_wait/s_icon_wait.yy",},
@@ -65,12 +65,12 @@
     "resourceType": "GMSequence",
   },
   "layers": [
-    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"3b4edfe8-f81e-451a-87d5-7fa9885dcb3e","tags":[],"resourceType":"GMImageLayer",},
+    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"1148f724-b2f5-45e5-b73a-0909e47ca384","tags":[],"resourceType":"GMImageLayer",},
   ],
   "nineSlice": null,
   "parent": {
-    "name": "ui_icons",
-    "path": "folders/Sprites/ui/ui_icons.yy",
+    "name": "ui",
+    "path": "folders/Sprites/ui.yy",
   },
   "resourceVersion": "1.0",
   "name": "s_icon_wait",

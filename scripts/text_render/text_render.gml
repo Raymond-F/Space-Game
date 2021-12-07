@@ -8,7 +8,7 @@ function text_render(argument0, argument1, argument2, argument3, argument4) {
 
 	var l=argument0, xx=argument1, yy=argument2, halign=argument3, valign=argument4;
 
-	var text=l[| 0], surf=text_get_surface(l);
+	var surf=text_get_surface(l);
 
 	var X=0, Y=0;
 

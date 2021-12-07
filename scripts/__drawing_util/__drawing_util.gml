@@ -268,8 +268,6 @@ function draw_flare(xx, yy, radius, color = c_white, buffer_factor = 1) {
 	surface_reset_target();
 	
 	var tex = surface_get_texture(surf);
-	var pW = texture_get_texel_width(tex);
-	var pH = texture_get_texel_height(tex);
 	shader_set(sh_fade_from_point_buffer);
 	var texW = texture_get_width(tex);
 	var texH = texture_get_height(tex);

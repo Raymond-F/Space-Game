@@ -150,21 +150,21 @@ function settlement_init(loc) {
 // Opens the settlement window for a location object
 // Also updates bookkeeping variables relevant to that settlement.
 function open_settlement_window(loc){
-	if (loc.last_visited == -1) {
-		loc.restock_timer = irandom_range(200, 250);
+	if (loc.struct.last_visited == -1) {
+		loc.struct.restock_timer = irandom_range(200, 250);
 		// Generate contracts for the settlement.
-		settlement_generate_contracts(loc);
+		settlement_generate_contracts(loc.struct);
 	} else {
-		loc.restock_timer -= (global.current_turn - loc.last_visited);
-		if (loc.restock_timer <= 0) {
+		loc.struct.restock_timer -= (global.current_turn - loc.last_visited);
+		if (loc.struct.restock_timer <= 0) {
 			for (var i = 0; i < array_length(loc.shops); i++) {
 				shop_restock(loc.shops[i]);
 			}
 			settlement_generate_contracts(loc);
-			loc.restock_timer = irandom_range(200, 250);
+			loc.struct.restock_timer = irandom_range(200, 250);
 		}
 	}
-	loc.last_visited = global.current_turn;
+	loc.struct.last_visited = global.current_turn;
 	var win = instance_create(0, 0, o_settlement_pane);
 	win.loc = loc;
 	win.title = loc.struct.name;

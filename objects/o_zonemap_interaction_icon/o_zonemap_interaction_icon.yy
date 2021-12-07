@@ -27,8 +27,8 @@
   "properties": [],
   "overriddenProperties": [],
   "parent": {
-    "name": "zone map",
-    "path": "folders/Objects/zone map.yy",
+    "name": "fx",
+    "path": "folders/Objects/zone map/fx.yy",
   },
   "resourceVersion": "1.0",
   "name": "o_zonemap_interaction_icon",

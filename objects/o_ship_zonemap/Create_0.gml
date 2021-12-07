@@ -24,6 +24,8 @@ inactive_fade_delay = 30;
 move_done = false;
 turns_since_target_seen = 0; // Tracks how long it's been since a fleeing ship has seen the fled-from target.
 image_alpha = 0;
+image_xscale = 0.1;
+image_yscale = 0.1;
 
 arrival_action_delay = -1;
 arrival_execution_timer = -1;

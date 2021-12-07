@@ -34,6 +34,7 @@ function contract(initial_location, _difficulty) constructor {
 }
 
 // Generate contracts for a settlement.
+// Uses location struct
 function settlement_generate_contracts(loc) {
 	var weight;
 	switch (loc.size) {

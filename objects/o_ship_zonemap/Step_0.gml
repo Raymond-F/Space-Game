@@ -2,8 +2,6 @@
 // You can write your code in this editor
 event_inherited();
 
-
-
 arrival_action_delay = max(arrival_action_delay-1, -1);
 if (arrival_action_delay == 0) {
 	if (target == global.player) { // Fight player if hostile, otherwise scan

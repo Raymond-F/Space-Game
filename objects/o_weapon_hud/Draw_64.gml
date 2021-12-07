@@ -22,6 +22,22 @@ if(instance_exists(wep)){
 		shader_set_uniform_f(u_alpha, 0.4);
 		draw_self();
 		shader_reset();
+		// Draw highlight line
+		draw_set_color(c_white);
+		var is_enemy = (x > wep.x);
+		var px, py;
+		px = is_enemy ? x : x + sprite_width - 2;
+		py = y + sprite_height/2;
+		draw_circle(px, py, 1.75, false);
+		var px2 = is_enemy ? px - 20 : px + 20;
+		draw_line_width(px, py, px2, py, 1);
+		draw_circle(px2, py, 0.5, false);
+		var py2 = point_y_to_gui(wep.y);
+		draw_line_width(px2, py, px2, py2, 1);
+		draw_circle(px2, py2, 0.5, false);
+		var px3 = point_x_to_gui(wep.x);
+		draw_line_width(px2, py2, px3, py2, 1);
+		draw_circle(px3, py2, 1.75, false);
 	}
 }
 else {
