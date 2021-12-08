@@ -78,6 +78,8 @@ function ai_local_calculate_power(sh){
 	pwr += array_length(struct.hardpoints)*20;
 	if (sh.faction == factions.civilian) {
 		pwr *= 0.5;
+	} else if (sh.is_bounty_target) {
+		pwr *= 10; // Bounty targets are treated as MUCH stronger so they should always win fights vs AI.
 	}
 	return pwr;
 }
@@ -206,6 +208,10 @@ function ai_ship_get_response(sh, targ, secondary = false) {
 		var power_dif = my_power - their_power;
 		var power_ratio = power_dif / my_power;
 		if (true || power_ratio > -0.1 && sh.behavior == behaviors.patrol) {
+			// Do not chase if the ship is a bounty target
+			if (targ.is_bounty_target) {
+				return;
+			}
 			sh.behavior = behaviors.chase;
 			sh.target = targ;
 			sh.target_last_seen = targ;

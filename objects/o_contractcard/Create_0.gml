@@ -23,7 +23,10 @@ init = function(_contract) {
 			button.active = false;
 		}
 		button.on_press = function() {
-			// TODO: Claim
+			contract_complete(cnt);
+			with (o_contract_pane) {
+				refresh();
+			}
 		}
 	} else {
 		button.text = "ACCEPT";

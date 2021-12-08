@@ -1,6 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
-depth = -100;
+depth = -y - 500;
 timer = 180;
 start_timer = timer;
 dir = DIR_NORTH;

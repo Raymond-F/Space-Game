@@ -1,7 +1,7 @@
 {
   "spriteId": {
-    "name": "s_projectile_ballistic_zonemap",
-    "path": "sprites/s_projectile_ballistic_zonemap/s_projectile_ballistic_zonemap.yy",
+    "name": "s_zonemap_fightbullet_hitfx",
+    "path": "sprites/s_zonemap_fightbullet_hitfx/s_zonemap_fightbullet_hitfx.yy",
   },
   "solid": false,
   "visible": true,
@@ -21,8 +21,8 @@
   "physicsKinematic": false,
   "physicsShapePoints": [],
   "eventList": [
+    {"isDnD":false,"eventNum":7,"eventType":7,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
     {"isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
-    {"isDnD":false,"eventNum":0,"eventType":3,"collisionObjectId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
   "overriddenProperties": [],
@@ -31,7 +31,7 @@
     "path": "folders/Objects/zone map/fx.yy",
   },
   "resourceVersion": "1.0",
-  "name": "o_zonemap_fightbullet",
+  "name": "o_zonemap_fightbullet_hit",
   "tags": [],
   "resourceType": "GMObject",
 }

@@ -22,12 +22,17 @@ function contract(initial_location, _difficulty) constructor {
 	difficulty = _difficulty
 	name = "";
 	description = "";
+	type = contract_type.bounty;
 	target_zone = 0;
 	loc = initial_location; // Where this contract was accepted from
 	end_loc = loc; // Possibly update this later for certain types of contract.
-	target_zone = 0; // Zone of the target location or enemy(ies)
+	target_zone = noone; // Zone of the target location or enemy(ies).
 	target_faction = noone; // Target faction for bounty or hunting contracts
 	ship_struct = noone; // Ship struct for bounty contracts
+	target_hex = [0, 0]; // Coordinates of patrol center for bounty contracts
+	item_id = noone; // Item id for fulfillment/delivery contracts
+	current_number = 0; // Current number for fulfillment/delivery/hunting contracts
+	target_number = 1; // Target number for fulfillment/delivery/hunting contracts
 	price = 0; // How much this contract pays out
 	stage = 0; // Stages of progress on the contract
 	last_stage = 0; // Stage on which this can be turned in
@@ -74,6 +79,7 @@ function contract_generate(loc) {
 		} break;
 		default: break;
 	}
+	new_contract.type = type;
 	ds_list_add(loc.contracts, new_contract);
 }
 
@@ -127,6 +133,7 @@ function contract_generate_bounty(_contract) {
 	var cnt = _contract;
 	cnt.target_faction = contract_generate_bounty_get_factiontarget(cnt);
 	cnt.ship_struct = contract_generate_bounty_get_struct(cnt);
+	cnt.target_hex = [irandom_range(10, global.zone_width - 10), irandom_range(10, global.zone_height - 10)];
 	cnt.target_zone = zone_get_random_adjacent(zone_get(cnt.loc.in_zone));
 	contract_generate_text_bounty(cnt);
 	cnt.last_stage = 2;
@@ -140,3 +147,19 @@ function contract_accept(cnt) {
 	var list = global.active_settlement.struct.contracts;
 	ds_list_delete(list, ds_list_find_index(list, cnt));
 }
+
+// Finish a contract
+function contract_complete(cnt) {
+	global.pix += cnt.price;
+	faction_modify_relation(global.active_settlement.faction, irandom_range(1, 3) + round(cnt.difficulty/2));
+	delete cnt;
+	global.current_contract = noone;
+}
+
+// Abandon a contract
+function contract_cancel(cnt) {
+	faction_modify_relation(cnt.loc.faction, -5);
+	delete cnt;
+	global.current_contract = noone;
+}
+

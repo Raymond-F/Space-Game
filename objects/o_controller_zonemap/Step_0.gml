@@ -32,8 +32,9 @@ selected_hex = mouse_get_hex();
 
 if (!pcontrol || ai_turn) {
 	// Skip condition
-}
-else if (MPRESSED(mb_right) && selected_hex != noone && selected_hex.vision == true &&
+} else if (MPRESSED(mb_right) && global.debug && mouse_get_hex() != noone && !mouse_get_hex().vision) {
+		player_move(mouse_get_hex());
+} else if (MPRESSED(mb_right) && selected_hex != noone && selected_hex.vision == true &&
 		 (global.debug || hex_is_pathable(global.player, selected_hex)) && !instance_exists(par_interface)) {
 	var oth = noone;
 	if (selected_hex == global.player.hex) {

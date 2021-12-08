@@ -40,3 +40,6 @@ if (global.debug) {
 } else {
 	draw_self_ship();
 }
+if (is_bounty_target && hex.vision) {
+	draw_sprite_ext(s_icon_targetcrosshair, 0, x_display, y_display, 0.25, 0.25, get_timer() / 50000, c_white, image_alpha);
+}
