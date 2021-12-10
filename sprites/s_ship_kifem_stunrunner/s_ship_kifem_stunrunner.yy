@@ -7,10 +7,10 @@
   "edgeFiltering": false,
   "collisionTolerance": 0,
   "swfPrecision": 2.525,
-  "bbox_left": 18,
-  "bbox_right": 173,
-  "bbox_top": 5,
-  "bbox_bottom": 243,
+  "bbox_left": 0,
+  "bbox_right": 189,
+  "bbox_top": 21,
+  "bbox_bottom": 228,
   "HTile": false,
   "VTile": false,
   "For3D": false,
@@ -24,12 +24,12 @@
   "gridX": 0,
   "gridY": 0,
   "frames": [
-    {"compositeImage":{"FrameId":{"name":"37b70851-5c8f-4d02-a9b8-e6548047790d","path":"sprites/s_ship_mercanto_slugger/s_ship_mercanto_slugger.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"37b70851-5c8f-4d02-a9b8-e6548047790d","path":"sprites/s_ship_mercanto_slugger/s_ship_mercanto_slugger.yy",},"LayerId":{"name":"151ec262-3cc1-472c-b74d-0444fa1bfdd0","path":"sprites/s_ship_mercanto_slugger/s_ship_mercanto_slugger.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"s_ship_mercanto_slugger","path":"sprites/s_ship_mercanto_slugger/s_ship_mercanto_slugger.yy",},"resourceVersion":"1.0","name":"37b70851-5c8f-4d02-a9b8-e6548047790d","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"fa51713e-c5cb-4f1f-9d7c-28d90ecedc92","path":"sprites/s_ship_kifem_stunrunner/s_ship_kifem_stunrunner.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"fa51713e-c5cb-4f1f-9d7c-28d90ecedc92","path":"sprites/s_ship_kifem_stunrunner/s_ship_kifem_stunrunner.yy",},"LayerId":{"name":"2a3214db-c8eb-4bb6-a5fd-6061489b74e0","path":"sprites/s_ship_kifem_stunrunner/s_ship_kifem_stunrunner.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"s_ship_kifem_stunrunner","path":"sprites/s_ship_kifem_stunrunner/s_ship_kifem_stunrunner.yy",},"resourceVersion":"1.0","name":"fa51713e-c5cb-4f1f-9d7c-28d90ecedc92","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
-    "spriteId": {"name":"s_ship_mercanto_slugger","path":"sprites/s_ship_mercanto_slugger/s_ship_mercanto_slugger.yy",},
+    "spriteId": {"name":"s_ship_kifem_stunrunner","path":"sprites/s_ship_kifem_stunrunner/s_ship_kifem_stunrunner.yy",},
     "timeUnits": 1,
     "playback": 1,
     "playbackSpeed": 30.0,
@@ -41,7 +41,7 @@
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
-            {"id":"1750ac44-910b-4fbe-9f87-62b8960dad1e","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"37b70851-5c8f-4d02-a9b8-e6548047790d","path":"sprites/s_ship_mercanto_slugger/s_ship_mercanto_slugger.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"5c8f9cdb-41b8-4638-984d-ab068259e737","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"fa51713e-c5cb-4f1f-9d7c-28d90ecedc92","path":"sprites/s_ship_kifem_stunrunner/s_ship_kifem_stunrunner.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack","modifiers":[],},
     ],
     "visibleRange": null,
@@ -58,14 +58,14 @@
     "yorigin": 125,
     "eventToFunction": {},
     "eventStubScript": null,
-    "parent": {"name":"s_ship_mercanto_slugger","path":"sprites/s_ship_mercanto_slugger/s_ship_mercanto_slugger.yy",},
+    "parent": {"name":"s_ship_kifem_stunrunner","path":"sprites/s_ship_kifem_stunrunner/s_ship_kifem_stunrunner.yy",},
     "resourceVersion": "1.3",
-    "name": "s_ship_mercanto_slugger",
+    "name": "s_ship_kifem_stunrunner",
     "tags": [],
     "resourceType": "GMSequence",
   },
   "layers": [
-    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"151ec262-3cc1-472c-b74d-0444fa1bfdd0","tags":[],"resourceType":"GMImageLayer",},
+    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"2a3214db-c8eb-4bb6-a5fd-6061489b74e0","tags":[],"resourceType":"GMImageLayer",},
   ],
   "nineSlice": null,
   "parent": {
@@ -73,7 +73,7 @@
     "path": "folders/Sprites/ships.yy",
   },
   "resourceVersion": "1.0",
-  "name": "s_ship_mercanto_slugger",
+  "name": "s_ship_kifem_stunrunner",
   "tags": [],
   "resourceType": "GMSprite",
 }

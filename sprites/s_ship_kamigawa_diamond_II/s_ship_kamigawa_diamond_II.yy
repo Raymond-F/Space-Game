@@ -1,5 +1,5 @@
 {
-  "bboxMode": 2,
+  "bboxMode": 0,
   "collisionKind": 1,
   "type": 0,
   "origin": 4,
@@ -7,10 +7,10 @@
   "edgeFiltering": false,
   "collisionTolerance": 0,
   "swfPrecision": 2.525,
-  "bbox_left": 39,
-  "bbox_right": 146,
-  "bbox_top": 74,
-  "bbox_bottom": 194,
+  "bbox_left": 38,
+  "bbox_right": 153,
+  "bbox_top": 10,
+  "bbox_bottom": 243,
   "HTile": false,
   "VTile": false,
   "For3D": false,
@@ -24,13 +24,9 @@
   "gridX": 0,
   "gridY": 0,
   "frames": [
-    {"compositeImage":{"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"LayerId":{"name":"5747c398-4c6e-42a1-8017-8370c1a7a19d","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-        {"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"LayerId":{"name":"40594b68-5f6e-4b96-a783-2e0dcc7f12c6","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-        {"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"LayerId":{"name":"c254a33b-f72a-44a2-89d0-bcf542d78a3a","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-        {"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"LayerId":{"name":"475b4c59-9199-4c9e-85ce-e64511244026","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-        {"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"LayerId":{"name":"e66cfc0e-dfdb-4262-a811-afe9d03a926f","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"s_ship_kamigawa_diamond_II","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"resourceVersion":"1.0","name":"b9091df1-a138-4328-a673-c0e1bec03c50","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"d77d4824-9264-49d2-925a-56a212b1b41c","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"d77d4824-9264-49d2-925a-56a212b1b41c","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"LayerId":{"name":"427fd678-a0a3-4b13-af56-241d64e8acaa","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"s_ship_kamigawa_diamond_II","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"resourceVersion":"1.0","name":"d77d4824-9264-49d2-925a-56a212b1b41c","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
     "spriteId": {"name":"s_ship_kamigawa_diamond_II","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},
@@ -45,7 +41,7 @@
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
-            {"id":"e48ddb9c-63bb-4a35-9dd3-495b7e488d87","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"a5b6867a-f772-4c54-8b86-9df233de86e0","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"d77d4824-9264-49d2-925a-56a212b1b41c","path":"sprites/s_ship_kamigawa_diamond_II/s_ship_kamigawa_diamond_II.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack","modifiers":[],},
     ],
     "visibleRange": null,
@@ -69,11 +65,7 @@
     "resourceType": "GMSequence",
   },
   "layers": [
-    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"Layer 4","resourceVersion":"1.0","name":"475b4c59-9199-4c9e-85ce-e64511244026","tags":[],"resourceType":"GMImageLayer",},
-    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"Layer 3","resourceVersion":"1.0","name":"c254a33b-f72a-44a2-89d0-bcf542d78a3a","tags":[],"resourceType":"GMImageLayer",},
-    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"Layer 5","resourceVersion":"1.0","name":"e66cfc0e-dfdb-4262-a811-afe9d03a926f","tags":[],"resourceType":"GMImageLayer",},
-    {"visible":false,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"Layer 2","resourceVersion":"1.0","name":"5747c398-4c6e-42a1-8017-8370c1a7a19d","tags":[],"resourceType":"GMImageLayer",},
-    {"visible":false,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"Layer 1","resourceVersion":"1.0","name":"40594b68-5f6e-4b96-a783-2e0dcc7f12c6","tags":[],"resourceType":"GMImageLayer",},
+    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"427fd678-a0a3-4b13-af56-241d64e8acaa","tags":[],"resourceType":"GMImageLayer",},
   ],
   "nineSlice": null,
   "parent": {

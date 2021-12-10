@@ -24,9 +24,9 @@
   "gridX": 0,
   "gridY": 0,
   "frames": [
-    {"compositeImage":{"FrameId":{"name":"c8865314-3c99-47bf-8b51-47bafdbf7517","path":"sprites/s_icon_contract_delivery/s_icon_contract_delivery.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"c8865314-3c99-47bf-8b51-47bafdbf7517","path":"sprites/s_icon_contract_delivery/s_icon_contract_delivery.yy",},"LayerId":{"name":"51196e73-1df8-44e8-8244-3200516a9998","path":"sprites/s_icon_contract_delivery/s_icon_contract_delivery.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"s_icon_contract_delivery","path":"sprites/s_icon_contract_delivery/s_icon_contract_delivery.yy",},"resourceVersion":"1.0","name":"c8865314-3c99-47bf-8b51-47bafdbf7517","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"eeb8cdb6-f2c3-4481-8eec-5986ff7f7a39","path":"sprites/s_icon_contract_delivery/s_icon_contract_delivery.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"eeb8cdb6-f2c3-4481-8eec-5986ff7f7a39","path":"sprites/s_icon_contract_delivery/s_icon_contract_delivery.yy",},"LayerId":{"name":"ec1337d9-5896-4c41-b61d-5ff5ca364b3a","path":"sprites/s_icon_contract_delivery/s_icon_contract_delivery.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"s_icon_contract_delivery","path":"sprites/s_icon_contract_delivery/s_icon_contract_delivery.yy",},"resourceVersion":"1.0","name":"eeb8cdb6-f2c3-4481-8eec-5986ff7f7a39","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
     "spriteId": {"name":"s_icon_contract_delivery","path":"sprites/s_icon_contract_delivery/s_icon_contract_delivery.yy",},
@@ -41,7 +41,7 @@
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
-            {"id":"3b8100e4-da09-40c7-916a-bed849d8a496","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"c8865314-3c99-47bf-8b51-47bafdbf7517","path":"sprites/s_icon_contract_delivery/s_icon_contract_delivery.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"7463ba3c-4c6e-4593-9c02-f45a6e677285","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"eeb8cdb6-f2c3-4481-8eec-5986ff7f7a39","path":"sprites/s_icon_contract_delivery/s_icon_contract_delivery.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack","modifiers":[],},
     ],
     "visibleRange": null,
@@ -65,7 +65,7 @@
     "resourceType": "GMSequence",
   },
   "layers": [
-    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"Layer 1 (2)","resourceVersion":"1.0","name":"51196e73-1df8-44e8-8244-3200516a9998","tags":[],"resourceType":"GMImageLayer",},
+    {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"ec1337d9-5896-4c41-b61d-5ff5ca364b3a","tags":[],"resourceType":"GMImageLayer",},
   ],
   "nineSlice": null,
   "parent": {
