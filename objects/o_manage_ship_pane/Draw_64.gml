@@ -20,6 +20,12 @@ if (tab == open_tab.module) {
 	draw_text(x + 216, yy + gap*count, "CLASS 4"); count++;
 	draw_text(x + 216, yy + gap*count, "CLASS 5"); count++;
 	draw_text(x + 216, yy + gap*count, "CLASS 6");
+	
+	// Weight display
+	var wy = y + 26;
+	var wx = x + sprite_width*5/6
+	draw_weight_display(wx, wy);
+	
 } else if (tab == open_tab.weapon) {
 	// Draw ship sprite
 	var sh = global.editing_ship;
@@ -30,6 +36,7 @@ if (tab == open_tab.module) {
 	draw_set_valign(fa_bottom);
 	draw_set_color(C_DIALOGUE);
 	draw_text(x + 566, y + sprite_height - 10, sh.name);
+	
 } else if (tab == open_tab.ship) {
 	// Draw ship sprite
 	var sh = global.editing_ship;

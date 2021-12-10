@@ -6,13 +6,10 @@ draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 draw_set_color(c_white);
 draw_text(x + sprite_width/2, y + 26, top_text);
-
-draw_set_font(fnt_gui_big);
 draw_text(x + sprite_width/2, y + 76, "CURRENT:");
 draw_text(x + sprite_width/2, y + 305, "AVAILABLE:");
 
 if (global.current_contract == noone) {
-	draw_set_font(fnt_dialogue);
 	draw_text(x + sprite_width/2, y + 186, "Once you accept a contract it will appear here.");
 }
 

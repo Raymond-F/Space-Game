@@ -59,7 +59,7 @@ sort_button.on_press = function() {
 	sort_itemlist(active_list);
 	loot_pane_refresh();
 }
-sort_button.text = "SORT";
+sort_button.sprite = s_icon_sort;
 sort_button.depth = depth - 1;
 sort_button.sprite_index = s_button_tab;
 ds_list_add(buttons, sort_button);

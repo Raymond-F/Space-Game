@@ -33,7 +33,7 @@ function contract(initial_location, _difficulty) constructor {
 	item_id = noone; // Item id for fulfillment/delivery contracts
 	current_number = 0; // Current number for fulfillment/delivery/hunting contracts
 	target_number = 1; // Target number for fulfillment/delivery/hunting contracts
-	price = 0; // How much this contract pays out
+	price = 1000; // How much this contract pays out
 	stage = 0; // Stages of progress on the contract
 	last_stage = 0; // Stage on which this can be turned in
 	stage_strings = []; // Array of strings for stage-related imperatives, e.g. "Travel to Zone 2".

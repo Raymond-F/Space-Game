@@ -10,7 +10,7 @@ draw_text(x + 165, y + 8, name);
 
 draw_set_halign(fa_left);
 draw_set_font(fnt_dialogue);
-draw_text_ext(x + 50, y + 70, desc, -1, 500);
+draw_text_ext(x + 50, y + 60, desc, -1, 500);
 
 if (icon >= 0) {
 	draw_sprite_stretched(icon, 0, x + 600, y + 30, 100, 100);
@@ -28,5 +28,12 @@ repeat (difficulty + 1) {
 // Price
 draw_set_valign(fa_bottom);
 draw_set_font(fnt_gui_big);
-draw_sprite(s_icon_pix_medium, 0, x + 16, y  + sprite_height - 38);
-draw_text(x + 40, y + sprite_height - 4, string(price));
+draw_sprite(s_icon_pix_medium, 0, x + 12, y  + sprite_height - 38);
+draw_set_halign(fa_right);
+draw_text(x + 140, y + sprite_height - 4, string(price));
+
+// Draw error message if any
+draw_set_color(C_SKILLTEST_FAILURE);
+draw_set_font(fnt_dialogue);
+draw_set_halign(fa_center);
+draw_text (x + sprite_width/2, y - 4, error_message);

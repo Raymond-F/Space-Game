@@ -278,3 +278,20 @@ function draw_flare(xx, yy, radius, color = c_white, buffer_factor = 1) {
 	surface_free(surf);
 	shader_reset();
 }
+
+function draw_weight_display(wx, wy) {
+	draw_set_font(fnt_gui_big);
+	draw_set_color(c_white);
+	draw_set_halign(fa_center);
+	draw_set_valign(fa_middle);
+	draw_text(wx, wy, "/");
+	draw_set_halign(fa_right);
+	var str_cur = string(ceil(global.cargo_current));
+	var str_cur_w = string_width(str_cur);
+	var sw = sprite_get_width(s_icon_cargocount);
+	var sh = sprite_get_height(s_icon_cargocount);
+	draw_sprite(s_icon_cargocount, 0, wx - 16 - str_cur_w - sw, wy - sh/2);
+	draw_text(wx - 8, wy, str_cur);
+	draw_set_halign(fa_left);
+	draw_text(wx + 8, wy, string(global.cargo_max));
+}

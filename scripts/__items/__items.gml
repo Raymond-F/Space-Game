@@ -125,6 +125,11 @@ function inventory_remove_item(list, name_or_id, quantity) {
 function inventory_transfer_item(source, dest, index, quantity) {
 	var it = source[|index];
 	quantity = min(quantity, it.quantity);
+	if (source == global.player_inventory) {
+		global.cargo_current -= quantity * it.weight;
+	} else if (dest == global.player_inventory) {
+		global.cargo_current += quantity * it.weight;
+	}
 	if(!it.stackable || it.struct_t == struct_type.ship) {
 		ds_list_add(dest, it);
 		ds_list_delete(source, index);
@@ -332,4 +337,26 @@ function item_get_true_value(it) {
 
 function item_get_base_struct(it) {
 	return it.list[? it.list_id];
+}
+
+function cargo_get_current_weight() {
+	var list = global.player_inventory;
+	var w = 0;
+	for (var i = 0; i < ds_list_size(list); i++) {
+		var it = list[| i];
+		w += it.quantity * it.weight;
+	}
+	return w;
+}
+
+// Set the value of player's current cargo weight and max cargo weight.
+// This is a general catchall that can be run to ensure everything is up to date.
+function cargo_set_weight_values(ship_struct = global.player_ship) {
+	global.cargo_current = cargo_get_current_weight();
+	global.cargo_max = ship_get_cargo_space(ship_struct);
+}
+
+function cargo_get_available_space() {
+	var w = global.cargo_max - global.cargo_current;
+	return w;
 }

@@ -253,3 +253,10 @@ function gui_y_to_point(val) {
 	
 	return ct + off_y;
 }
+
+function string_remove_trailing_zeroes(str) {
+	while (string_length(str) > 1 && string_char_at(str, string_length(str)) == "0") {
+		str = string_delete(str, string_length(str), 1);
+	}
+	return str;
+}

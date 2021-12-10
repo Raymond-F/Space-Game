@@ -52,18 +52,19 @@ sort_button.on_press = function() {
 	sort_inventory();
 	inventory_pane_refresh();
 }
-sort_button.text = "SORT";
+sort_button.sprite = s_icon_sort;
 sort_button.depth = depth - 1;
 sort_button.sprite_index = s_button_tab;
 sort_button.press_sound = snd_interface_pressbutton1;
 ds_list_add(buttons, sort_button);
-var close_button = instance_create(x + sprite_width - sprite_get_width(s_button_tab) - 52, y + 13, o_button);
+
+var close_button = instance_create(x + sprite_width/2 - sprite_get_width(s_button_large)/2, y + sprite_height - sprite_get_height(s_button_large), o_button);
 close_button.on_press = function() {
 	close_inventory();
 }
 close_button.text = "CLOSE";
 close_button.depth = depth - 1;
-close_button.sprite_index = s_button_tab;
+close_button.sprite_index = s_button_large;
 ds_list_add(buttons, close_button);
 
 audio_play_sound(snd_interface_open, 30, false);
