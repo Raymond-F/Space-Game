@@ -24,13 +24,13 @@
   "gridX": 0,
   "gridY": 0,
   "frames": [
-    {"compositeImage":{"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_stun_runner_II/s_ship_stun_runner_II.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
-        {"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_stun_runner_II/s_ship_stun_runner_II.yy",},"LayerId":{"name":"5747c398-4c6e-42a1-8017-8370c1a7a19d","path":"sprites/s_ship_stun_runner_II/s_ship_stun_runner_II.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-        {"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_stun_runner_II/s_ship_stun_runner_II.yy",},"LayerId":{"name":"40594b68-5f6e-4b96-a783-2e0dcc7f12c6","path":"sprites/s_ship_stun_runner_II/s_ship_stun_runner_II.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
-      ],"parent":{"name":"s_ship_stun_runner_II","path":"sprites/s_ship_stun_runner_II/s_ship_stun_runner_II.yy",},"resourceVersion":"1.0","name":"b9091df1-a138-4328-a673-c0e1bec03c50","tags":[],"resourceType":"GMSpriteFrame",},
+    {"compositeImage":{"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_kifem_stunner/s_ship_kifem_stunner.yy",},"LayerId":null,"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},"images":[
+        {"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_kifem_stunner/s_ship_kifem_stunner.yy",},"LayerId":{"name":"5747c398-4c6e-42a1-8017-8370c1a7a19d","path":"sprites/s_ship_kifem_stunner/s_ship_kifem_stunner.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+        {"FrameId":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_kifem_stunner/s_ship_kifem_stunner.yy",},"LayerId":{"name":"40594b68-5f6e-4b96-a783-2e0dcc7f12c6","path":"sprites/s_ship_kifem_stunner/s_ship_kifem_stunner.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMSpriteBitmap",},
+      ],"parent":{"name":"s_ship_kifem_stunner","path":"sprites/s_ship_kifem_stunner/s_ship_kifem_stunner.yy",},"resourceVersion":"1.0","name":"b9091df1-a138-4328-a673-c0e1bec03c50","tags":[],"resourceType":"GMSpriteFrame",},
   ],
   "sequence": {
-    "spriteId": {"name":"s_ship_stun_runner_II","path":"sprites/s_ship_stun_runner_II/s_ship_stun_runner_II.yy",},
+    "spriteId": {"name":"s_ship_kifem_stunner","path":"sprites/s_ship_kifem_stunner/s_ship_kifem_stunner.yy",},
     "timeUnits": 1,
     "playback": 1,
     "playbackSpeed": 30.0,
@@ -42,7 +42,7 @@
     "moments": {"Keyframes":[],"resourceVersion":"1.0","resourceType":"KeyframeStore<MomentsEventKeyframe>",},
     "tracks": [
       {"name":"frames","spriteId":null,"keyframes":{"Keyframes":[
-            {"id":"bccd0871-7b3b-418a-9f41-5da7bf4c6938","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_stun_runner_II/s_ship_stun_runner_II.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
+            {"id":"bccd0871-7b3b-418a-9f41-5da7bf4c6938","Key":0.0,"Length":1.0,"Stretch":false,"Disabled":false,"IsCreationKey":false,"Channels":{"0":{"Id":{"name":"b9091df1-a138-4328-a673-c0e1bec03c50","path":"sprites/s_ship_kifem_stunner/s_ship_kifem_stunner.yy",},"resourceVersion":"1.0","resourceType":"SpriteFrameKeyframe",},},"resourceVersion":"1.0","resourceType":"Keyframe<SpriteFrameKeyframe>",},
           ],"resourceVersion":"1.0","resourceType":"KeyframeStore<SpriteFrameKeyframe>",},"trackColour":0,"inheritsTrackColour":true,"builtinName":0,"traits":0,"interpolation":1,"tracks":[],"events":[],"isCreationTrack":false,"resourceVersion":"1.0","tags":[],"resourceType":"GMSpriteFramesTrack","modifiers":[],},
     ],
     "visibleRange": null,
@@ -59,9 +59,9 @@
     "yorigin": 125,
     "eventToFunction": {},
     "eventStubScript": null,
-    "parent": {"name":"s_ship_stun_runner_II","path":"sprites/s_ship_stun_runner_II/s_ship_stun_runner_II.yy",},
+    "parent": {"name":"s_ship_kifem_stunner","path":"sprites/s_ship_kifem_stunner/s_ship_kifem_stunner.yy",},
     "resourceVersion": "1.3",
-    "name": "s_ship_stun_runner_II",
+    "name": "s_ship_kifem_stunner",
     "tags": [],
     "resourceType": "GMSequence",
   },
@@ -75,7 +75,7 @@
     "path": "folders/Sprites/ships.yy",
   },
   "resourceVersion": "1.0",
-  "name": "s_ship_stun_runner_II",
+  "name": "s_ship_kifem_stunner",
   "tags": [],
   "resourceType": "GMSprite",
 }
