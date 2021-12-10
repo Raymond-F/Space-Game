@@ -321,6 +321,9 @@ leave = function() {
 	if (tab == open_tab.module && !ship_has_drive(global.editing_ship)) {
 		tooltip_make_generic("Your ship must have a drive module.");
 		audio_play_sound(snd_interface_deadclick, 30, false);
+	} else if (global.cargo_current > global.cargo_max) {
+		tooltip_make_generic("Not enough cargo space.");
+		audio_play_sound(snd_interface_deadclick, 30, false);
 	} else {
 		settlement_reactivate_pane();
 		instance_destroy();

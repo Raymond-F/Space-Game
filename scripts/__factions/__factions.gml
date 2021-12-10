@@ -34,6 +34,23 @@ function factions_are_enemies(faction1, faction2) {
 	}
 }
 
+function factions_are_allies(faction1, faction2) {
+	if (faction1 == faction2) {
+		return false;
+	}
+	// Ensure the player is always faction 1
+	if(faction2 == factions.player) {
+		var temp = faction1;
+		faction1 = faction2;
+		faction2 = temp;
+	}
+	if (faction1 == factions.player) {
+		return (faction_get_relation(faction2) >= global.faction_relation_thresholds[faction_relation_level.trusted]);
+	} else {
+		return false; // For now, no factions are allies
+	}
+}
+
 function faction_get_prefix(faction) {
 	switch (faction) {
 		case factions.civilian : return "civilian";

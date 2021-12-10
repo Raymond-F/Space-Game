@@ -13,6 +13,7 @@ pathable_hexes = [];
 visible_hexes = [];
 combat_power = 0;
 active = true;
+is_bounty_target = false;
 
 exit_burst = true;
 

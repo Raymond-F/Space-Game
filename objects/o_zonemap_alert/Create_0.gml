@@ -3,3 +3,4 @@
 image_angle = -120;
 scale = 0;
 timer = 30;
+depth = -y - 500;

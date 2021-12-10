@@ -34,6 +34,7 @@ if (struct.struct_t != struct_type.ship) {
 	draw_set_halign(fa_right);
 	draw_text(x + sprite_width - 4, y + 12, string(quantity));
 }
+var yoffset = 0;
 if (buying || selling) {
 	var val_string = string(value);
 	draw_set_halign(fa_left);
@@ -44,6 +45,30 @@ if (buying || selling) {
 	}
 	draw_text(x + sprite_get_width(s_icon_pix_medium), y + 12, val_string);
 	draw_sprite(s_icon_pix, 0, x + 4, y + 4);
+	yoffset += 20;
+}
+if (struct.struct_t == struct_type.cargo) {
+	var weight_string = string(struct.weight);
+	// If this is a decimal, remove trailing zeroes
+	if (struct.weight % 1 != 0) {
+		weight_string = string_remove_trailing_zeroes(weight_string);
+	}
+	// If this is not in a shop inventory, show the total weight
+	if (!buying && struct.quantity > 1) {
+		var total_weight = struct.weight * struct.quantity;
+		var total_weight_string = string(total_weight);
+		if (total_weight % 1 != 0) {
+			total_weight_string = string_remove_trailing_zeroes(total_weight_string);
+		}
+		weight_string = total_weight_string + " (" + weight_string + ")";
+	}
+	draw_set_halign(fa_left);
+	draw_set_color(c_white);
+	if (transfer_target == global.player_inventory && struct.weight > cargo_get_available_space()) {
+		draw_set_color(C_SKILLTEST_FAILURE);
+	}
+	draw_text(x + sprite_get_width(s_icon_itemweight) + 8, y + 12 + yoffset, weight_string);
+	draw_sprite(s_icon_itemweight, 0, x + 4, y + 4 + yoffset);
 }
 
 if (struct.struct_t == struct_type.module) {

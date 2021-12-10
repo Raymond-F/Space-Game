@@ -361,6 +361,7 @@ function zone_init(z) {
 
 // Create a zone from a stored zone struct
 // If is_loaded is true, this is from a loaded file or initial game start. Else, set the coordinates as destination coords.
+// This also performs some bookkeeping like updating contract stages.
 function zone_create(z, is_loaded = true) {
 	var cont = instance_create(0, 0, o_controller_zonemap);
 	//generate zone connections
@@ -420,6 +421,33 @@ function zone_create(z, is_loaded = true) {
 	}
 	repeat(num_travellers) {
 		generate_traveller(true);
+	}
+	
+	if (global.current_contract != noone) {
+		var cnt = global.current_contract;
+		// Entering a new zone means on any contract with a stage to travel there will update.
+		// If a zone is already the target zone, leaving will always revert the contract stage.
+		if (cnt.target_zone == z.index && ((cnt.type == contract_type.bounty && cnt.stage == 0) ||
+		      (cnt.type == contract_type.delivery && cnt.stage == 0) ||
+			  (cnt.type == contract_type.courier && cnt.stage == 0) ||
+			  (cnt.type == contract_type.hunting && cnt.stage == 0) ||
+			  (cnt.type == contract_type.fulfillment && cnt.stage == 1))) {
+			cnt.stage++;
+		} else if ((cnt.type == contract_type.bounty && cnt.stage == 1) ||
+		      (cnt.type == contract_type.delivery && cnt.stage == 1) ||
+			  (cnt.type == contract_type.courier && cnt.stage == 1) ||
+			  (cnt.type == contract_type.hunting && cnt.stage == 1) ||
+			  (cnt.type == contract_type.fulfillment && cnt.stage == 2)) {
+			cnt.stage--;
+		}
+		
+		// If this is a bounty contract in this zone, generate the bounty ship
+		if (cnt.type == contract_type.bounty && cnt.stage == 1) {
+			var bounty = ai_create_ship_patrol(cnt.target_faction, get_hex_coord(cnt.target_hex[0], cnt.target_hex[1]), 10);
+			bounty.is_bounty_target = true;
+			delete bounty.ship_struct;
+			bounty.ship_struct = cnt.ship_struct;
+		}
 	}
 	
 	var fade = instance_create(0, 0, o_fx_fadein);
@@ -681,8 +709,10 @@ function draw_self_ship() {
 		col = [1, 1, 1];
 	} else if (factions_are_enemies(factions.player, faction)) {
 		col = [0.8, 0, 0];
-	} else {
-		col = [0.8, 0.8, 0.1];
+	} else if (factions_are_allies(factions.player, faction)) {
+		col = [0, 0.8, 0];
+	}else {
+		col = [0.5, 0.5, 0.5];
 	}
 	shader_set(sh_to_color);
 	var u_col = shader_get_uniform(sh_to_color, "colors");
@@ -721,6 +751,18 @@ function draw_self_ship() {
 }
 
 function ship_destroy_zonemap(sh) {
+	// Check if this is a bounty target or of the faction of a hunting contract and update stage appropriately
+	var cnt = global.current_contract;
+	if (cnt.type == contract_type.bounty && sh.is_bounty_target) {
+		cnt.stage++;
+	} else if (cnt.type == contract_type.hunting && sh.faction == cnt.target_faction && 
+	           cnt.current_number < cnt.target_number && (cnt.target_zone == noone || cnt.target_zone == global.current_zone)) {
+		cnt.current_number++;
+		if (cnt.current_number == cnt.target_number) {
+			cnt.stage++;
+		}
+	}
+	
 	delete sh.ship_struct;
 	instance_destroy(sh);
 	with (o_zonemap_hex) {

@@ -37,6 +37,8 @@ global.local_ship = noone; // Local ship object for things like patrols to be fo
 global.target_zone = global.current_zone;
 global.zone_transition_coords = [0, 0];
 global.current_contract = noone;
+global.cargo_current = 0; // Current occupied hold space in weight units
+global.cargo_max = 0; // Maximum hold space in weight units
 //resources
 global.pix = 0;
 global.crew = 0;
@@ -62,6 +64,7 @@ global.event_list = initialize_event_list();
 global.player_ship = initialize_default_player_ship();
 global.item_tooltips = initialize_item_tooltips();
 initialize_default_player_inventory();
+cargo_set_weight_values();
 global.sector_map = sector_map_init();
 player_ship_save();
 player_ship_load();

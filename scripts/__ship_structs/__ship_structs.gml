@@ -307,3 +307,8 @@ function initialize_default_player_ship() {
 	sh.hardpoint_objects = [1, 100, 0, 0, 0, 0];
 	return sh;
 }
+
+// Get a given module struct from the module list
+function get_module(index) {
+	return global.itemlist_modules[? index];
+}

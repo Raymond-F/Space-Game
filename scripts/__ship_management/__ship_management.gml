@@ -102,3 +102,16 @@ function ship_get_nickname(sh_struct) {
 	}
 	return name;
 }
+
+// Return the given ship struct's cargo capacity
+function ship_get_cargo_space(struct) {
+	var mods = ship_get_full_modules_list(struct);
+	var space = 0;
+	for (var i = 0; i < array_length(mods); i++) {
+		var m = get_module(mods[i]);
+		if (m.stats.get_type() == "cargo") {
+			space += m.stats.space;
+		}
+	}
+	return space;
+}

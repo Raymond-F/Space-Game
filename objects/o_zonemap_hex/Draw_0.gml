@@ -20,7 +20,7 @@ if(!vision) {
 	draw_set_alpha(1);
 }
 
-if(vision && loc != noone && loc.type == location_type.settlement) {
+if(explored && loc != noone && loc.type == location_type.settlement) {
 	var spr = s_zonemap_settlement;
 	draw_sprite(spr, 0, x, y);
 }
